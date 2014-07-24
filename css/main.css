@@ -84,6 +84,7 @@ p {
   height: 40px;
   width: 50px;
   position: absolute;
+  z-index: 20;
 }
 
 .p1 {
@@ -96,6 +97,14 @@ p {
   bottom: 20px;
   right: 10px;
   background-position: -50px;
+}
+
+.bul {
+  width: 10px;
+  height: 2px;
+  position: absolute;
+  background-color: #fff;
+  top: 40px;  
 }
 
 .l1 {
