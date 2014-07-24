@@ -41,24 +41,22 @@ PLANES JSON
 
 **/
 
-var michaelbot = function(e, p, b, r1, r2, r3, r4, r5, r6, r7) {
-  return 'CHARGE'
+test = {0 : {
+    p1: 0,
+    p2: 4,
+    b1: 0,
+    b2: 0,
+    bullets: {}
+  }
 }
 
-var victorbot = function(e, p, b, r1, r2, r3, r4, r5, r6, r7) {
-  return 'CHARGE'
-}
-
-var boardState = {
-  p1: 3,
-  p2: 4,
-  b1: 1,
-  b2: 1,
-  bullets: {}
-}
-
-var gameStep = function() {
-  
-}
-
-var gameTimer = setInterval(gameStep, 500);
+$(document).ready(function(){
+  var k = 20;
+  var gameStep = function() {
+    $('.p1').css({'top':k});
+    $('.p2').css({'bottom':k});
+    k += 80;
+    k = k % 400;
+  }
+  var gameTimer = setInterval(gameStep, 164);
+});

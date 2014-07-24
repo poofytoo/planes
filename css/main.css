@@ -1,0 +1,115 @@
+body {
+  background-color: #001c34;
+  font-family: 'Lato', sans-serif;
+}
+
+h1 {
+  font-family: 'Lobster', sans-serif;
+  font-size: 70px;
+  text-align: center;
+  color: #fff;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 100;
+  color: #fff;
+  text-align: center;
+}
+
+h3 {
+ font-size: 20px;
+ margin-bottom: 5px; 
+}
+
+.green {
+  color: #43ca00;
+}
+
+.orange {
+  color: #fdbb3c;
+}
+
+.container {
+  margin: 20px 0 0 0;
+}
+
+.playing-field {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  margin: 30px auto;
+  background-color: #001628;
+}
+
+.score-field {
+  width: 800px;
+  margin: 10px auto;
+}
+
+.score-field-left {
+  float: left;
+  text-align: left;
+}
+
+.score-field-right{
+  float: right;
+  text-align: right;
+}
+
+.sf {
+  background-color: #001628;
+  border-top: 2px solid #fff;
+  width: 360px;
+  padding: 10px;
+  color: #fff;
+}
+
+p {
+  font-weight: 100;
+  font-size: 14px;
+}
+
+.line {
+  height: 1px;
+  background-color: #072843;
+  width: 100%;
+  position: absolute;
+}
+
+.plane {
+  background-image: url('../assets/planes.png');
+  background-size: 100px;
+  background-repeat: no-repeat;
+  height: 40px;
+  width: 50px;
+  position: absolute;
+}
+
+.p1 {
+  top: 20px;
+  left: 10px;
+  background-position: 0;
+}
+
+.p2 {
+  bottom: 20px;
+  right: 10px;
+  background-position: -50px;
+}
+
+.l1 {
+  top: 80px;
+}
+
+.l2 {
+  top: 160px;
+}
+
+.l3 {
+  top: 240px;
+}
+
+.l4 {
+  top: 320px;
+}
