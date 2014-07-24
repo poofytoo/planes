@@ -17,6 +17,28 @@ OUTPUT:
 action
 // UP, DOWN, CHARGE, FIRE
 
+
+PLANES JSON
+
+{
+
+  [Frame Id] : {
+    p1: [plane 1 location or EXPLODE],
+    p2: [plane 2 location or EXPLODE],
+    b1: [plane 1 no. bullets],
+    b2: [plane 2 no. bullets],
+    bullets: {
+      [bullet id]: {
+          x: [x value between 0 and 800],
+          direction: [1 or -1]
+        }
+      ...
+    }
+  }
+  ...
+
+}
+
 **/
 
 var michaelbot = function(e, p, b, r1, r2, r3, r4, r5, r6, r7) {
