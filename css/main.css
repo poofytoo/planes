@@ -63,6 +63,7 @@ h3 {
   width: 360px;
   padding: 10px;
   color: #fff;
+  position: relative;
 }
 
 p {
@@ -79,7 +80,7 @@ p {
 
 .plane {
   background-image: url('../assets/planes.png');
-  background-size: 100px;
+  background-size: 260px;
   background-repeat: no-repeat;
   height: 40px;
   width: 50px;
@@ -107,6 +108,10 @@ p {
   top: 40px;  
 }
 
+.bullets {
+  font-weight: 600;
+}
+
 .l1 {
   top: 80px;
 }
@@ -121,4 +126,43 @@ p {
 
 .l4 {
   top: 320px;
+}
+.action {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  vertical-align: middle;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  position: absolute;
+  font-size: 12px;
+  top: 8px;
+  right: 8px;
+  opacity: 0.4;
+  background-image: url('../assets/planes.png');
+  background-size: 260px;
+  background-repeat: no-repeat;
+}
+
+.action-right {
+  right: auto;
+  left: 8px;
+}
+
+.charge {
+  background-position: -100px 0;
+}
+
+.up {
+  background-position: -140px 0;
+}
+
+.down {
+  background-position: -180px 0;
+}
+
+.fire {
+  background-position: -220px 0;
 }

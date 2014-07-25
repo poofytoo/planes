@@ -72,11 +72,13 @@ var test = {0 : {
   }
 }
 
+  
 $(document).ready(function(){
 
   var FRAME_RATE = 24
   var MS_FRAME = 1000/24
-  
+
+  var sound = document.getElementById("sound");    
   var k = 0;
   var g = 0;
   var gameStep = function() {
@@ -96,7 +98,10 @@ $(document).ready(function(){
     test[0].bullets[2].x = test[0].bullets[2].x%780 + 10;
     test[0].bullets[3].x = test[0].bullets[3].x%780 + 10;
     test[0].bullets[4].x = test[0].bullets[4].x%780 + 10;
-    
+    if (test[0].bullets[4].x == 10) {
+      sound.load();
+      // sound.play();
+    }
   }
   
   var render = function(frame) {
