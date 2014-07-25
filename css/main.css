@@ -140,15 +140,19 @@ p {
   font-size: 12px;
   top: 8px;
   right: 8px;
-  opacity: 0.4;
   background-image: url('../assets/planes.png');
   background-size: 260px;
   background-repeat: no-repeat;
 }
 
+.action-left {
+  display: none;
+}
+
 .action-right {
   right: auto;
   left: 8px;
+  display: none;
 }
 
 .charge {

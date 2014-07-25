@@ -42,11 +42,14 @@ PLANES JSON
 
 **/
 
+
 var test = {0 : {
     p1: 0,
     p2: 4,
     b1: 1,
     b2: 0,
+    action1: 0,
+    action2: 0, // FIRE, SHOOT, 
     bullets: {
       0: {
         x: 0,
@@ -78,9 +81,23 @@ $(document).ready(function(){
   var FRAME_RATE = 24
   var MS_FRAME = 1000/24
 
+  var testJSONCounter = 0
+
   var sound = document.getElementById("sound");    
   var k = 0;
   var g = 0;
+  
+  var testJSON = {};
+  $.ajax({
+    url: "js/test.json",
+    success: function (data) {
+      testJSON = data;
+    }
+  }).fail(function(e, status, error) {
+    console.log( e );
+    console.log( error );
+  })
+    
   var gameStep = function() {
   /*
     $('.p1').css({'top':Math.floor(k/80)*80+20});
@@ -91,8 +108,7 @@ $(document).ready(function(){
     g += 10;
     g = g % 780;
   */
-    render(test[0]);
-    
+  /*
     test[0].bullets[0].x = test[0].bullets[0].x%780 + 10;
     test[0].bullets[1].x = test[0].bullets[1].x%780 + 10;
     test[0].bullets[2].x = test[0].bullets[2].x%780 + 10;
@@ -100,8 +116,26 @@ $(document).ready(function(){
     test[0].bullets[4].x = test[0].bullets[4].x%780 + 10;
     if (test[0].bullets[4].x == 10) {
       sound.load();
-      // sound.play();
+      //sound.play();
+      
+      $('.action-left')
+        .attr('class','action-left action')
+        .addClass('charge')
+        .show()
+        .delay(100)
+        .fadeOut(400)
+      $('.action-right')
+        .attr('class','action-right action')
+        .addClass('fire')
+        .show()
+        .delay(100)
+        .fadeOut(400)
+        
     }
+    
+  */
+    render(testJSON[testJSONCounter]);
+    testJSONCounter ++;
   }
   
   var render = function(frame) {
@@ -118,6 +152,24 @@ $(document).ready(function(){
       $bullet.addClass('bul');
       $bullet.css({'left':frame.bullets[i].x, 'top': frame.bullets[i].y * 80 + 40});
       $('.playing-field').append($bullet);
+    }
+    if (frame.action1 != 'NONE') {
+      $('.action-left')
+        .attr('class','action-left action')
+        .addClass(frame.action1)
+        .show()
+        .delay(100)
+        .fadeOut(400)
+      $('.action-right')
+        .attr('class','action-right action')
+        .addClass(frame.action2)
+        .show()
+        .delay(100)
+        .fadeOut(400)
+      if (frame.action1 == 'FIRE' || frame.action2 == 'FIRE') {
+        sound.load();
+        sound.play();
+      }
     }
   }
   
