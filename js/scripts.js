@@ -75,11 +75,11 @@ var test = {0 : {
   }
 }
 
-  
+
 $(document).ready(function(){
 
   var FRAME_RATE = 24
-  var MS_FRAME = 1000/24
+  var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
 
@@ -89,9 +89,10 @@ $(document).ready(function(){
   
   var testJSON = {};
   $.ajax({
-    url: "js/test.json",
+    url: "js/animateTest.json",
     success: function (data) {
       testJSON = data;
+      window.testJSON = testJSON;
     }
   }).fail(function(e, status, error) {
     console.log( e );
@@ -139,6 +140,12 @@ $(document).ready(function(){
   }
   
   var render = function(frame) {
+  
+    if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
+      clearInterval(gameTimer);
+      return;
+    }
+    
     // Move the Planes
     $('.p1').css({'top':(80*frame.p1)+20});
     $('.p2').css({'top':(80*frame.p2)+20});
@@ -150,10 +157,11 @@ $(document).ready(function(){
     for (i in frame.bullets) {
       $bullet = $('<div></div>');
       $bullet.addClass('bul');
+      console.log(frame.bullets[i].x, frame.bullets[i])
       $bullet.css({'left':frame.bullets[i].x, 'top': frame.bullets[i].y * 80 + 40});
       $('.playing-field').append($bullet);
     }
-    if (frame.action1 != 'NONE') {
+    if (frame.action1 !== 'NONE') {
       $('.action-left')
         .attr('class','action-left action')
         .addClass(frame.action1)
@@ -166,7 +174,8 @@ $(document).ready(function(){
         .show()
         .delay(100)
         .fadeOut(400)
-      if (frame.action1 == 'FIRE' || frame.action2 == 'FIRE') {
+      if ((frame.action1 == 'shoot' && frame.b1 > 0)|| (frame.action2 == 'shoot' && frame.b2 > 0)) {
+      
         sound.load();
         sound.play();
       }
@@ -174,4 +183,10 @@ $(document).ready(function(){
   }
   
   var gameTimer = setInterval(gameStep, MS_FRAME);
+  
+  $(document).on('keypress', function(e) {
+    if (e.keyCode == 32) {
+      clearInterval(gameTimer);
+    }
+  })
 });
