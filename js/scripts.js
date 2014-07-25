@@ -78,7 +78,7 @@ var test = {0 : {
 
 $(document).ready(function(){
 
-  var FRAME_RATE = 24
+  var FRAME_RATE = 30
   var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
@@ -166,14 +166,14 @@ $(document).ready(function(){
         .attr('class','action-left action')
         .addClass(frame.action1)
         .show()
-        .delay(100)
-        .fadeOut(400)
+        .delay(300)
+        .fadeOut(200)
       $('.action-right')
         .attr('class','action-right action')
         .addClass(frame.action2)
         .show()
-        .delay(100)
-        .fadeOut(400)
+        .delay(300)
+        .fadeOut(200)
       if ((frame.action1 == 'shoot' && frame.b1 > 0)|| (frame.action2 == 'shoot' && frame.b2 > 0)) {
       
         sound.load();
