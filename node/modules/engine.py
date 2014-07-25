@@ -230,7 +230,11 @@ def main(gameId, bot1binary, bot2binary):
 
 if __name__ == "__main__":
   args = sys.argv
-  gameId = args[1] 
-  bot1binary = args[2]
-  bot2binary = args[3]
-  main(gameId, bot1binary, bot2binary)
+  if (len(args) != 5):
+    print 'USAGE: python engine.py [gameId] [binary1] [binary2]'
+    print 'EX: python engine.py 0 test.py test.py'
+  else:
+    gameId = args[1] 
+    bot1binary = args[2]
+    bot2binary = args[3]
+    main(gameId, bot1binary, bot2binary)
