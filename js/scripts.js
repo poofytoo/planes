@@ -32,7 +32,7 @@ $(document).ready(function(){
   
   var testJSON = {};
   $.ajax({
-    url: "js/animateTest.json",
+    url: "js/victorvsfelix.json",
     success: function (data) {
       testJSON = data;
       window.testJSON = testJSON;
@@ -55,6 +55,7 @@ $(document).ready(function(){
       $('.explode-left-v')[0].play();
       $('.explode-right-v')[0].load();
       $('.explode-right-v')[0].play();
+      $('.bul').remove();
       return;
     }
     

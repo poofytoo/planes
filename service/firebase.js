@@ -40,7 +40,7 @@ var http = require('http');
 var ADMIN = {'Michael Xu': true, 
              'Victor Hung': true, 
              'Stephanie Yu': true,
-             '};
+             };
 
 // Keep track of current active users
 userList = {};

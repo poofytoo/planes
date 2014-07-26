@@ -61,6 +61,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.root);
+app.post('/', routes.upload);
 app.get('/login', routes.login);
 
 app.get('/viewer', routes.viewer);

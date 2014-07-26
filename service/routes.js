@@ -1,5 +1,6 @@
 var model = require('./model');
 var authConfig = require('./authConfig.js');
+var fs = require('fs');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
@@ -24,6 +25,18 @@ exports.root = function(req, res) {
   } else {
     res.render("login.html");
   }
+}
+
+exports.upload = function(req, res) {
+  fs.readFile(req.files.displayImage.path, function (err, data) {
+    var fileName = "test.jpg";
+    var newPath = __dirname + "/uploads/" + fileName;
+    fs.writeFile(newPath, data, function (err) {
+      if (err)
+        console.log(err);
+      res.redirect("back");
+    });
+  });
 }
 
 exports.viewer = function(req, res) {
