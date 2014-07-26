@@ -19,7 +19,7 @@ class Engine:
   X_FULL_WIDTH = 800
   X_END = 750
   X_START = 50
-  X_CUT_WIDTH = 700
+  X_CUT_WIDTH = 750
   X_STEP = X_CUT_WIDTH / float(FRAMES_PER_TURN) / NUM_COLS
 
   DIRECTIONS = [1, -1]
@@ -28,6 +28,7 @@ class Engine:
   botRows = [0, 4]
   botAmmo = [0, 0]
   botCols = [0, NUM_COLS - 1]
+  shotStatus = ['OK', 'OK']
 
   otherBot = [1, 0]
 
@@ -70,7 +71,9 @@ class Engine:
     elif currentAmmo > 0:
       currentAmmo -= 1
       self.addBullet(currentRow, direction)
-    return (currentRow, currentAmmo)
+    else:
+      return (currentRow, currentAmmo, "DUD")
+    return (currentRow, currentAmmo, "OK")
 
   def animationTick(self):
     newBullets = {}
@@ -117,7 +120,7 @@ class Engine:
 
     # Handle bot movement
     for i in range(2):
-      (self.botRows[i], self.botAmmo[i]) = self.handleMove(
+      (self.botRows[i], self.botAmmo[i], self.shotStatus[i]) = self.handleMove(
           self.botRows[i], self.botAmmo[i], self.botMoves[i], self.DIRECTIONS[i])
 
   def getRadarStatus(self, botNum, row):
@@ -205,6 +208,9 @@ class Engine:
 
       if isActionFrame:
         frameObject['action' + botId] = self.botMoves[bot]
+        # If the shot wasn't successful, return DUD
+        if self.botMoves[bot] == 'shoot' and self.shotStatus[bot] == 'DUD':
+          frameObject['action' + botId] = 'DUD'
       else:
         frameObject['action' + botId] = 'NONE'
 

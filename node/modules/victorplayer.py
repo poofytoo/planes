@@ -4,7 +4,7 @@ import json
 # returns one of 'shoot', 'charge', 'up', 'down'
 def compute(gameRound, enemyRow, myRow, radars, myAmmo, myLastMove):
   if (gameRound%32 < 16):
-    if (radars[p1] == 'ALERT'):
+    if (radars[myRow] == 'ALERT'):
       return 'up'
     else:
       return 'charge'   
