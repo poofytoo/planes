@@ -209,8 +209,8 @@ class Engine:
       if isActionFrame:
         frameObject['action' + botId] = self.botMoves[bot]
         # If the shot wasn't successful, return DUD
-        if self.botMoves[bot] == 'shoot' and self.shotStatus[bot] == 'DUD':
-          frameObject['action' + botId] = 'DUD'
+        if self.botMoves[bot] == 'shoot' and self.shotStatus[bot] == 'dud':
+          frameObject['action' + botId] = 'dud'
       else:
         frameObject['action' + botId] = 'NONE'
 
