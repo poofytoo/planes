@@ -95,10 +95,20 @@ $(document).ready(function(){
       if (frame.action1 == 'charge') {
         $('.charge-left')[0].load();
         $('.charge-left')[0].play();
+        $a = $('<div></div>')
+            .addClass('charge-gif')
+            .css({'top':(80*frame.p1)+20, 'left': '40px'})
+        $('.playing-field').append($a);
+        $a.fadeOut();
       }
       if (frame.action2 == 'charge') {
         $('.charge-right')[0].load();
         $('.charge-right')[0].play();
+        $a = $('<div></div>')
+            .addClass('charge-gif')
+            .css({'top':(80*frame.p2)+20, 'right': '40px'})
+        $('.playing-field').append($a);
+        $a.fadeOut();
       }
       
     }
