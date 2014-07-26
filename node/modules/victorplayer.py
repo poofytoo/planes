@@ -10,7 +10,12 @@ def compute(gameRound, enemyRow, myRow, radars, myAmmo, myLastMove):
       return 'charge'   
   else:
     if (myLastMove == 'shoot'):
-      return 'down'
+      if (radars[(myRow+1)%5] != 'ALERT'):
+        return 'down'
+      elif (radars[(myRow-1)%5] != 'ALERT'):
+        return 'up'
+      else: 
+        return 'shoot'
     else:
       return 'shoot'
 
