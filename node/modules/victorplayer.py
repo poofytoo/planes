@@ -5,7 +5,12 @@ import json
 def compute(gameRound, enemyRow, myRow, radars, myAmmo, myLastMove):
   if (gameRound%32 < 16):
     if (radars[myRow] == 'ALERT'):
-      return 'up'
+      if (radars[(myRow+1)%5] != 'ALERT'):
+        return 'down'
+      elif (radars[(myRow-1)%5] != 'ALERT'):
+        return 'up'
+      else: 
+        return 'shoot'
     else:
       return 'charge'   
   else:
