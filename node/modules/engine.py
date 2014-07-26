@@ -28,7 +28,7 @@ class Engine:
   botRows = [0, 4]
   botAmmo = [0, 0]
   botCols = [0, NUM_COLS - 1]
-  shotStatus = ['OK', 'OK']
+  shotStatus = ['ok', 'ok']
 
   otherBot = [1, 0]
 
@@ -72,8 +72,8 @@ class Engine:
       currentAmmo -= 1
       self.addBullet(currentRow, direction)
     else:
-      return (currentRow, currentAmmo, "DUD")
-    return (currentRow, currentAmmo, "OK")
+      return (currentRow, currentAmmo, "dud")
+    return (currentRow, currentAmmo, "ok")
 
   def animationTick(self):
     newBullets = {}
