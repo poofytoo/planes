@@ -10,12 +10,18 @@ $(document).ready(function(){
   
   
   // Load Sound Effects
-  var soundList = ['charge-left',
-                   'charge-right',
-                   'pew-left',
-                   'pew-right',
-                   'dud-left',
-                   'dud-right'];
+  var soundList = ['charge-left-v',
+                   'charge-right-v',
+                   'pew-left-v',
+                   'pew-right-v',
+                   'up-left-v',
+                   'up-right-v',
+                   'down-left-v',
+                   'down-right-v',
+                   'explode-left-v',
+                   'explode-right-v',
+                   'dud-left-v',
+                   'dud-right-v'];
   for (i in soundList) {
     snd = soundList[i];
     var $a = $('<audio></audio>')
@@ -45,6 +51,10 @@ $(document).ready(function(){
   
     if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
       clearInterval(gameTimer);
+      $('.explode-left-v')[0].load();
+      $('.explode-left-v')[0].play();
+      $('.explode-right-v')[0].load();
+      $('.explode-right-v')[0].play();
       return;
     }
     
@@ -75,40 +85,39 @@ $(document).ready(function(){
         .show()
         .delay(300)
         .fadeOut(50)
-      console.log(frame.action2, frame.b2)
-      if (frame.action1 == 'shoot') {
-        $('.pew-left')[0].load();
-        $('.pew-left')[0].play();
-      }
-      if (frame.action2 == 'shoot') {
-        $('.pew-right')[0].load();
-        $('.pew-right')[0].play();
-      }
-      if (frame.action1 == 'dud') {
-        $('.dud-left')[0].load();
-        $('.dud-left')[0].play();
-      }
-      if (frame.action2 == 'dud') {
-        $('.dud-right')[0].load();
-        $('.dud-right')[0].play();
-      }
-      if (frame.action1 == 'charge') {
-        $('.charge-left')[0].load();
-        $('.charge-left')[0].play();
-        $a = $('<div></div>')
-            .addClass('charge-gif')
-            .css({'top':(80*frame.p1)+20, 'left': '40px'})
-        $('.playing-field').append($a);
-        $a.fadeOut();
-      }
-      if (frame.action2 == 'charge') {
-        $('.charge-right')[0].load();
-        $('.charge-right')[0].play();
-        $a = $('<div></div>')
-            .addClass('charge-gif')
-            .css({'top':(80*frame.p2)+20, 'right': '40px'})
-        $('.playing-field').append($a);
-        $a.fadeOut();
+      
+      var dirs = ['left','right']
+      for (j in dirs) {
+        i = parseInt(j)+1;
+        var dir = dirs[j];    
+        if (frame['action' + i] == 'shoot') {
+          $('.pew-'+dir+'-v')[0].load();
+          $('.pew-'+dir+'-v')[0].play();
+        }
+        if (frame['action' + i] == 'dud') {
+          $('.dud-'+dir+'-v')[0].load();
+          $('.dud-'+dir+'-v')[0].play();
+        }
+        if (frame['action' + i] == 'up') {
+          $('.up-'+dir+'-v')[0].load();
+          $('.up-'+dir+'-v')[0].play();
+        }
+        if (frame['action' + i] == 'down') {
+          $('.down-'+dir+'-v')[0].load();
+          $('.down-'+dir+'-v')[0].play();
+        }
+        if (frame['action' + i] == 'charge') {
+          $('.charge-'+dir+'-v')[0].load();
+          $('.charge-'+dir+'-v')[0].play();
+          var css = {'top':(80*frame['p' + i])+20}
+          css[dir] = '40px'
+          console.log(css, i);
+          $a = $('<div></div>')
+              .addClass('charge-gif')
+              .css(css)
+          $('.playing-field').append($a);
+          $a.fadeOut();
+        }
       }
       
     }
