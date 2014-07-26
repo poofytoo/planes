@@ -1,13 +1,12 @@
 var firebase = require('./firebase');
 var LocalStrategy = require('passport-local').Strategy;
-var bcrypt = require('bcrypt');
 
 function initialize() {
   timestamp = (new Date()).getTime();
 }
 initialize();
 
-
+/*
 exports.localStrategy = new LocalStrategy(function(username, password, callback) {
   firebase.getUser(username, function(err, user) {
     if (user) {
@@ -23,7 +22,9 @@ exports.localStrategy = new LocalStrategy(function(username, password, callback)
     }
   });
 });
+*/
 
+/*
 exports.createUser = function(username, password, passwordconfirm, callback) {
   if(/[^a-zA-Z0-9_]/.test(username)) {
     callback('Invalid characters in username');
@@ -43,6 +44,8 @@ exports.createUser = function(username, password, passwordconfirm, callback) {
     }
   });
 }
+
+*/
 
 exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;
