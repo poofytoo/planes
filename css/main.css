@@ -167,6 +167,6 @@ p {
   background-position: -180px 0;
 }
 
-.shoot {
+.shoot, .dud {
   background-position: -220px 0;
 }

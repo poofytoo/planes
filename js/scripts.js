@@ -13,7 +13,9 @@ $(document).ready(function(){
   var soundList = ['charge-left',
                    'charge-right',
                    'pew-left',
-                   'pew-right'];
+                   'pew-right',
+                   'dud-left',
+                   'dud-right'];
   for (i in soundList) {
     snd = soundList[i];
     var $a = $('<audio></audio>')
@@ -65,15 +67,15 @@ $(document).ready(function(){
         .attr('class','action-left action')
         .addClass(frame.action1)
         .show()
-        .delay(350)
-        .fadeOut(100)
+        .delay(300)
+        .fadeOut(50)
       $('.action-right')
         .attr('class','action-right action')
         .addClass(frame.action2)
         .show()
-        .delay(350)
-        .fadeOut(100)
-      console.log(frame.action1, frame.b1)
+        .delay(300)
+        .fadeOut(50)
+      console.log(frame.action2, frame.b2)
       if (frame.action1 == 'shoot') {
         $('.pew-left')[0].load();
         $('.pew-left')[0].play();
@@ -81,6 +83,14 @@ $(document).ready(function(){
       if (frame.action2 == 'shoot') {
         $('.pew-right')[0].load();
         $('.pew-right')[0].play();
+      }
+      if (frame.action1 == 'dud') {
+        $('.dud-left')[0].load();
+        $('.dud-left')[0].play();
+      }
+      if (frame.action2 == 'dud') {
+        $('.dud-right')[0].load();
+        $('.dud-right')[0].play();
       }
       if (frame.action1 == 'charge') {
         $('.charge-left')[0].load();
