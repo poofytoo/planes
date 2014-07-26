@@ -9,28 +9,38 @@ var http = require('http');
 /*
  * Schema
  *
- * storytime
- *   chunks:
- *     1:
- *      author: Victor Hung
- *      status: Saved
- *      content: 
- *        text: This is the tale of a young man named bob
- *        ups: 3
- *        downs: 2
- *     2:
- *      author: Michael Xu
- *      status: Editing
- *     ...
- *   order: [2,1]
- *   users:
- *     ???
+ * planes
+ *  requests:
+ *    1:
+ *      id: 1
+ *      user1:
+ *      user2:
+ *    ...
+ *  users:
+ *    1:
+ *      id: 1
+ *      username: Victor Hung
+ *      elo: 1000
+ *      botFile: "this is a python file as a string"
+ *      blurb: "Imma a smart boy"
+ *    ...
+ *
+ *  games:
+ *    1:
+ *      id: 1
+ *      user1: Victor Hung
+ *      user2: Felix Sun
+ *      result: "user1 won"
+ *      gameJson: {some json file}
+ *
+ *    ...
  */
  
  
 var ADMIN = {'Michael Xu': true, 
              'Victor Hung': true, 
-             'Stephanie Yu': true};
+             'Stephanie Yu': true,
+             '};
 
 // Keep track of current active users
 userList = {};
