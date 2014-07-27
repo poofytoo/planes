@@ -10,26 +10,15 @@
   
 </head>
 <body>
-  <header>
-    <div class="title">
-      <h1>Story by</h1>
-      <h2>The Internet</h2>
-    </div>
-    <ul class="navigation">
-      <li class="active"><a href=''>current</a></li>
-      <li><a href=''>history</a></li>
-      <li></li>
-    </ul>
-  </header>
-  <div class="story-container">
-  
+    {{#if message}}
+      {{message}}
+    {{/if}}
+    
     <form target="" method="post" enctype="multipart/form-data">
       <input type="file" name="displayImage"/>
       <input type="submit" />
     </form>
 
-  </div>
-  
   <script type="text/javascript">
   </script>
 </body>

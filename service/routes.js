@@ -16,7 +16,6 @@ exports.initialRouter = function(req, res, next) {
 };
 
 exports.localStrategy = model.localStrategy;
-
 exports.findUser = model.findUser;
 
 exports.root = function(req, res) {
@@ -28,14 +27,38 @@ exports.root = function(req, res) {
 }
 
 exports.upload = function(req, res) {
+  var user = req.user;
+  var userId = user.id;
+  console.log(user);
   fs.readFile(req.files.displayImage.path, function (err, data) {
     var fileName = "test.jpg";
-    var newPath = __dirname + "/uploads/" + fileName;
-    fs.writeFile(newPath, data, function (err) {
-      if (err)
-        console.log(err);
-      res.redirect("back");
-    });
+    var fsWriteFile = function(data, userId) {
+      console.log('begin write file!');
+      var newPath = __dirname + "/uploads/" + userId + "/" + fileName;
+      console.log(newPath);
+      fs.writeFile(newPath, data, function (err) {
+        if (err)
+          console.log(err);
+        res.render('index.html', {status: 'success', message: 'bot uploaded! now running tests to make sure your file is syntactically correct and bug free :)'});
+      });
+    }
+    
+    if(!fs.existsSync("uploads/" + userId)){
+      fs.mkdir("uploads/" + userId, 0777, function(err){
+         if(err){ 
+           console.log(err);
+           response.send("Didnt work (probably our fault)");    // echo the result back
+         } else {
+           console.log('lets make a new file');
+           fsWriteFile(data, userId);
+         }
+      });   
+    } else {
+      console.log('re-uploading file')
+      fsWriteFile(data, userId);
+    }
+
+
   });
 }
 
