@@ -6,6 +6,10 @@ function initialize() {
 }
 initialize();
 
+exports.createBot = function(userId, fileName, blurb, callback) {
+  firebase.createBot(userId, fileName, blurb, callback)
+}
+
 /*
 exports.localStrategy = new LocalStrategy(function(username, password, callback) {
   firebase.getUser(username, function(err, user) {

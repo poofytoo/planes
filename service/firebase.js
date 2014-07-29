@@ -112,6 +112,14 @@ function getUser(username, callback) {
   });
 };
 
+function createBot(userId, botFile, blurb, callback) {
+  root.child('users').child(userId).child('bot').set({
+    botFile: botFile,
+    blurb: blurb
+  });
+  callback(false);
+};
+
 function findUser(id, callback) {
   root.child('users').child(id).once('value', function(data) {
     if (data.val()) {
@@ -121,12 +129,15 @@ function findUser(id, callback) {
       callback(true, null);
     }
   });
-}
+};
 
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
 exports.findUser = findUser;
 exports.sanitizeUsername = sanitizeUsername;
+
+// Planes Specific
+exports.createBot = createBot;
 
 

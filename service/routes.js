@@ -30,16 +30,20 @@ exports.upload = function(req, res) {
   var user = req.user;
   var userId = user.id;
   console.log(user);
-  fs.readFile(req.files.displayImage.path, function (err, data) {
+  fs.readFile(req.files.bot.path, function (err, data) {
     var fileName = "test.jpg";
     var fsWriteFile = function(data, userId) {
       console.log('begin write file!');
-      var newPath = __dirname + "/uploads/" + userId + "/" + fileName;
+      var newPath = __dirname + "/uploads/" + userId + "/" + req.body.botName;
       console.log(newPath);
       fs.writeFile(newPath, data, function (err) {
         if (err)
           console.log(err);
-        res.render('index.html', {status: 'success', message: 'bot uploaded! now running tests to make sure your file is syntactically correct and bug free :)'});
+          
+          // this desperately needs to be refactored
+          model.createBot(userId, req.body.botName, req.body.blurb, function() {
+            res.render('index.html', {status: 'success', message: 'bot uploaded! now running tests to make sure your file is syntactically correct and bug free :)'}); 
+          });
       });
     }
     
@@ -57,8 +61,7 @@ exports.upload = function(req, res) {
       console.log('re-uploading file')
       fsWriteFile(data, userId);
     }
-
-
+    
   });
 }
 
