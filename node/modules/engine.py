@@ -129,10 +129,7 @@ class Engine:
       bullet = self.bullets[bulletId]
       # Bullet in row and coming towards you
       if bullet[1] == row and bullet[0] != self.DIRECTIONS[botNum]:
-        if abs(bullet[2] - self.botCols[botNum]) <= 3:
-          status = "ALERT"
-        elif status == "SAFE":
-          status = "WARNING"
+        status = "WARNING"
     return status
 
   # Schema {
@@ -151,10 +148,10 @@ class Engine:
 
   def getBotCommand(self, botBinary):
     if botBinary.endswith(".jar"):
-      return "timeout 1s java -jar " + botBinary
+      return "java -jar " + botBinary
     elif botBinary.endswith(".py"):
-      return "timeout 1s python " + botBinary
-    return "timeout 1s ./" + botBinary
+      return "python " + botBinary
+    return "./" + botBinary
 
   def parseMove(self, botNum, botOutput):
     if "up" in botOutput:
@@ -169,8 +166,8 @@ class Engine:
   def getBotOutputs(self):
     bot1command = self.getBotCommand(self.bot1binary)
     bot2command = self.getBotCommand(self.bot2binary)
-    p1 = subprocess.Popen("sudo -u nobody timeout 2s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    p2 = subprocess.Popen("sudo -u nobody timeout 2s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    p1 = subprocess.Popen("sudo -u nobody timeout 1s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    p2 = subprocess.Popen("sudo -u nobody timeout 1s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
     input1 = self.getBotInput(0)
     input2 = self.getBotInput(1)
