@@ -1,6 +1,5 @@
 var model = require('./model');
 var authConfig = require('./authConfig.js');
-var fs = require('fs');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
@@ -27,42 +26,15 @@ exports.root = function(req, res) {
 }
 
 exports.upload = function(req, res) {
-  var user = req.user;
-  var userId = user.id;
-  console.log(user);
-  fs.readFile(req.files.bot.path, function (err, data) {
-    var fileName = "test.jpg";
-    var fsWriteFile = function(data, userId) {
-      console.log('begin write file!');
-      var newPath = __dirname + "/uploads/" + userId + "/" + req.body.botName;
-      console.log(newPath);
-      fs.writeFile(newPath, data, function (err) {
-        if (err)
-          console.log(err);
-          
-          // this desperately needs to be refactored
-          model.createBot(userId, req.body.botName, req.body.blurb, function() {
-            res.render('index.html', {status: 'success', message: 'bot uploaded! now running tests to make sure your file is syntactically correct and bug free :)'}); 
-          });
-      });
-    }
-    
-    if(!fs.existsSync("uploads/" + userId)){
-      fs.mkdir("uploads/" + userId, 0777, function(err){
-         if(err){ 
-           console.log(err);
-           response.send("Didnt work (probably our fault)");    // echo the result back
-         } else {
-           console.log('lets make a new file');
-           fsWriteFile(data, userId);
-         }
-      });   
+  var userId = req.user.id;
+  model.createBot(userId, req.body.botName, req.body.botDesc, req.files.bot, function(err){
+    if (err) {
+      res.render('index.html', {message: "An error occurred: " + err});
     } else {
-      console.log('re-uploading file')
-      fsWriteFile(data, userId);
+      res.redirect('/');
     }
-    
   });
+  
 }
 
 exports.viewer = function(req, res) {
