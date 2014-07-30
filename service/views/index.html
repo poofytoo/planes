@@ -24,17 +24,21 @@
       </div>
       <div class="contentBox uploadBot">
         
-        {{#if bot}}
-          currently flying: {{bot.botName}} <br />
-          a description: {{bot.botDesc}}
-        {{/if}}
-        
         <form target="" method="post" enctype="multipart/form-data">
           <input type="file" name="bot"/>
           <input type="text" name="botName" placeholder="botname" />
           <input type="text" name="botDesc" placeholder="botdesc" />
           <input type="submit" />
         </form>
+        
+        {{#if bot}}
+          currently flying: {{bot.botName}} <br />
+          a description: {{bot.botDesc}} <br />
+          <textarea>
+            {{bot.botCode}}
+          </textarea>
+        {{/if}}
+        
       </div>
     </div>
   <script type="text/javascript">
