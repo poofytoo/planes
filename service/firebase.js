@@ -112,10 +112,11 @@ function getUser(username, callback) {
   });
 };
 
-function createBot(userId, botFile, blurb, callback) {
+function createBot(userId, botFile, botDesc, botCode, callback) {
   root.child('users').child(userId).child('bot').set({
     botFile: botFile,
-    blurb: blurb
+    botDesc: botDesc,
+    botCode: botCode
   });
   callback(false);
 };

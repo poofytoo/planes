@@ -13,11 +13,12 @@ initialize();
 
 function fsWriteFile(data, userId, botName, botDesc, callback) {
   console.log('writing file');
+  var botCode = data.toString();
   var pathName = __dirname + "/uploads/" + userId + "/" + botName;
   fs.writeFile(pathName, data, function (err) {
     if (err)
       callback(err)
-    firebase.createBot(userId, botName, botDesc, callback)
+    firebase.createBot(userId, botName, botDesc, botCode, callback)
   });
 }
     

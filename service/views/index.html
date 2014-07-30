@@ -3,24 +3,34 @@
 <head>
   <title>Story</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
-  <script src="js/scripts.js"></script>
+      <script src="js/scripts.js"></script>
   
 </head>
 <body>
+    <header>
+      <h1>Planes</h1>
+      <h2>by <em>Next Code</em></h2>
+    </header>
     {{#if message}}
       {{message}}
     {{/if}}
-    
-    <form target="" method="post" enctype="multipart/form-data">
-      <input type="file" name="bot"/>
-      <input type="text" name="botName"/>
-      <input type="text" name="botDesc"/>
-      <input type="submit" />
-    </form>
-
+    <div class="container">
+      <div class="contentBox greeting">
+        <h1>Welcome, Commander {{user}}.</h1>
+      </div>
+      <div class="contentBox uploadBot">
+        <form target="" method="post" enctype="multipart/form-data">
+          <input type="file" name="bot"/>
+          <input type="text" name="botName" placeholder="botname" />
+          <input type="text" name="botDesc" placeholder="botdesc" />
+          <input type="submit" />
+        </form>
+      </div>
+    </div>
   <script type="text/javascript">
   </script>
 </body>
