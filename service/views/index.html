@@ -13,7 +13,7 @@
 <body>
     <header>
       <h1>Planes</h1>
-      <h2>by <em>Next Code</em></h2>
+      <h2>by <em>NEXT CODE</em></h2>
     </header>
     {{#if message}}
       {{message}}
@@ -23,6 +23,12 @@
         <h1>Welcome, Commander {{user}}.</h1>
       </div>
       <div class="contentBox uploadBot">
+        
+        {{#if bot}}
+          currently flying: {{bot.botName}} <br />
+          a description: {{bot.botDesc}}
+        {{/if}}
+        
         <form target="" method="post" enctype="multipart/form-data">
           <input type="file" name="bot"/>
           <input type="text" name="botName" placeholder="botname" />

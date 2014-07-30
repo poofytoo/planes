@@ -1,27 +1,22 @@
 var firebase = require('./firebase');
-var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 var path = require('path');
 
 var VALID_FILES = ['.py'];
 var MAX_FILE_SIZE = 50000;
 
-function initialize() {
-  timestamp = (new Date()).getTime();
-}
-initialize();
-
-function fsWriteFile(data, userId, botName, botDesc, callback) {
+function fsWriteFile(data, userId, botFileName, botName, botDesc, callback) {
   console.log('writing file');
   var botCode = data.toString();
   var pathName = __dirname + "/uploads/" + userId + "/" + botName;
   fs.writeFile(pathName, data, function (err) {
     if (err)
       callback(err)
-    firebase.createBot(userId, botName, botDesc, botCode, callback)
+    firebase.createBot(userId, botFileName, botName, botDesc, botCode, callback)
   });
 }
-    
+
+   
 exports.createBot = function(userId, botName, botDesc, botFile, callback) {
 
   // Check filetype
@@ -56,58 +51,24 @@ exports.createBot = function(userId, botName, botDesc, botFile, callback) {
                callback(err)
              } else {
                console.log('lets make a new file');
-               fsWriteFile(data, userId, uploadBotName, botDesc, callback);
+               fsWriteFile(data, userId, uploadBotName, botName, botDesc, callback);
              }
           });   
         } else {
           console.log('re-uploading file');
-          fsWriteFile(data, userId, uploadBotName, botDesc, callback);
+          fsWriteFile(data, userId, uploadBotName, botName, botDesc, callback);
         }
       });
     }
   });
 }
 
-/*
-exports.localStrategy = new LocalStrategy(function(username, password, callback) {
-  firebase.getUser(username, function(err, user) {
-    if (user) {
-      bcrypt.compare(password, user.pwHash, function(err, authenticated) {
-        if (authenticated) {
-          callback(null, user);
-        } else {
-          callback(null, false);
-        }
-      });
-    } else {
-      callback(null, false);
-    }
-  });
-});
-*/
-
-/*
-exports.createUser = function(username, password, passwordconfirm, callback) {
-  if(/[^a-zA-Z0-9_]/.test(username)) {
-    callback('Invalid characters in username');
-    return;
-  }
-  if (password !== passwordconfirm) {
-    callback('Passwords don\'t match');
-    return;
-  }
-  firebase.getUser(username, function(err, user) {
-    if (user) {
-      callback('Username already exists');
-    } else {
-      firebase.createUser(username, bcrypt.hashSync(password, 10), function(err) {
-        callback(err);
-      });
-    }
+exports.getBotStats = function(userId, callback) {
+  // Compute Bot Stats. Code goes here
+  firebase.getCurrentBot(userId, function(data) {
+    callback(data, false);
   });
 }
-
-*/
 
 exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;

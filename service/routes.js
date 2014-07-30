@@ -19,7 +19,10 @@ exports.findUser = model.findUser;
 
 exports.root = function(req, res) {
   if (req.user) {
-    res.render('index.html', {user: req.user.username});
+    var userId = req.user.id;
+    model.getBotStats(userId, function(data, err) {
+      res.render('index.html', {user: req.user.username, bot: data});
+    })
   } else {
     res.render("login.html");
   }

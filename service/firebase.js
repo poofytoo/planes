@@ -112,14 +112,22 @@ function getUser(username, callback) {
   });
 };
 
-function createBot(userId, botFile, botDesc, botCode, callback) {
+function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
   root.child('users').child(userId).child('bot').set({
-    botFile: botFile,
+    botFileName: botFileName,
+    botName: botName,
     botDesc: botDesc,
     botCode: botCode
   });
   callback(false);
 };
+
+function getCurrentBot(userId, callback) {
+  root.child('users').child(userId).once('value', function(data) {
+    console.log(data.val().bot)
+    callback(data.val().bot, null);
+  })
+}
 
 function findUser(id, callback) {
   root.child('users').child(id).once('value', function(data) {
@@ -140,5 +148,6 @@ exports.sanitizeUsername = sanitizeUsername;
 
 // Planes Specific
 exports.createBot = createBot;
+exports.getCurrentBot = getCurrentBot;
 
 
