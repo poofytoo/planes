@@ -8,7 +8,7 @@ var MAX_FILE_SIZE = 50000;
 function fsWriteFile(data, userId, botFileName, botName, botDesc, callback) {
   console.log('writing file');
   var botCode = data.toString();
-  var pathName = __dirname + "/uploads/" + userId + "/" + botName;
+  var pathName = __dirname + "/uploads/" + userId + "/" + botFileName;
   fs.writeFile(pathName, data, function (err) {
     if (err)
       callback(err)

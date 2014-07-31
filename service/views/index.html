@@ -21,7 +21,7 @@
     {{/if}}
     <div class="container">
     
-      <div class="content-box-greeting solid-back">
+      <div class="row-greeting solid-back">
         <div class="greeting">
           <h1>Welcome, Commander {{user}}.</h1>
           <span class="right-settings"><i class="fa fa-cog"></i></span>
@@ -33,27 +33,43 @@
           </ul>
         </div>
       </div>
-      <div class="content-box upload-bot">
-      
-        <form target="" method="post" enctype="multipart/form-data">
-        <div class="upload-box">
+      <div class="row">
+        <div class="content-box upload-bot">
+          <h2>Control Center</h2>
           
-          <input type="file" class="file-upload" name="bot"/>
+          <form target="" method="post" enctype="multipart/form-data">
+          <div class="upload-box">
+            <input type="file" class="file-upload" name="bot"/>
+            Upload a New Plane
+          </div>
+          
+            <input type="text" name="botName" placeholder="botname" />
+            <input type="text" name="botDesc" placeholder="botdesc" />
+            <input type="submit" />
+          
+          </form>
         </div>
-        
-          <input type="text" name="botName" placeholder="botname" />
-          <input type="text" name="botDesc" placeholder="botdesc" />
-          <input type="submit" />
-        </form>
-        
-        {{#if bot}}
-          currently flying: {{bot.botName}} <br />
-          a description: {{bot.botDesc}} <br />
-          <textarea>
-            {{bot.botCode}}
-          </textarea>
-        {{/if}}
-        
+        <div class="content-box stats">
+          <h2>Plane Stats</h2>
+          <h3>Current Plane Name</h3>
+          <p>{{bot.botName}}</p>
+          <h3>Description</h3>
+          <p>{{bot.botDesc}}</p>
+          <ul>
+            <li>
+              <h3>Current Rank</h3>
+              <div class="stat-num rank">B</div>
+            </li>
+            <li>
+              <h3>Games Won</h3>
+              <div class="stat-num win">24</div>
+            </li>
+            <li>
+              <h3>Games Lost</h3>
+              <div class="stat-num">4</div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   <script type="text/javascript">

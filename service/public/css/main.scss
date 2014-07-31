@@ -7,6 +7,8 @@ body {
 header {
   background-color: #003663;
   margin-bottom: 14px;
+  min-width: 960px;
+  
   h1 {
     font-family: 'Lobster', sans-serif;
     font-size: 70px;
@@ -31,19 +33,34 @@ header {
 }
 
 .container {
-  max-width: 960px;
+  width: 960px;
   margin: auto;
 }
 
 .content-box {
   background-color: #fff;
-  margin: 20px;
+  margin-left: 20px;
   padding: 20px;
   border: 1px solid #dde2e7;
+  float: left;
+  border-bottom: 3px solid #dde2e7;
+  
+  
+  h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+  }
 }
 
-.content-box-greeting {
+.row {
+  overflow: auto;
+  margin-bottom: 50px;
+}
+
+.row-greeting {
   border: 1px solid #dde2e7;
+  border-bottom: none;
   background-color: #fff;
   margin: 20px;
   position: relative;
@@ -52,7 +69,9 @@ header {
 
 .solid-back {
   background-color: #6c7882;
-  
+  -webkit-box-shadow:inset 0 0 2px 0 rgba(0,0,0,0.4);
+  box-shadow:inset 0 0 2px 0 rgba(0,0,0,0.4);
+
   .back-box {
     position: absolute;
     color: #fff;
@@ -91,6 +110,7 @@ header {
   left: 0;
   -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+  border-bottom: 3px solid #dde2e7;
 
   h1 {
     padding: 20px;
@@ -101,9 +121,9 @@ header {
     position: absolute;
     right: 0;
     top: 0;
-    font-size: 24px;
+    font-size: 23px;
     color: #ddd;
-    line-height: 24px; 
+    line-height: 23px; 
     padding: 20px;
     width: 24px;
     
@@ -128,16 +148,61 @@ header {
     }
   }
 }
+
+.stats {
+  width: 516px;
+
+  h3 {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    color: #ccc;
+    text-transform: uppercase;
+  }
+  p {
+    margin-bottom: 20px;
+  }
+  ul {
+    li {
+      margin-right: 50px;
+      display: inline-block;
+      text-align: left;
+      .stat-num {
+        color: #999;
+        font-size: 100px;
+        font-weight: 500;
+      }
+      .win {
+        color: #72dd7c;
+      }
+      .rank {
+        color: #333;
+      }
+    }
+  }
+}
+
 .upload-bot {
+  width: 300px;
+  background-image: url('../images/plane-large.png');
+  background-size: 200px;
+  background-repeat: no-repeat;
+  background-position: center 30px;
   
   input[type="button"] {
     display: none;
   }
+  
   .upload-box {
-    background-color: blue;
-    width: 100px;
-    height: 100px;
+    background-color: #ffba00;
+    color: #fff;
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: center;
+    text-align: center;
     position: relative;
+    margin-top: 180px;
     
     &.dragging {
       background-color: purple;
@@ -145,6 +210,10 @@ header {
     
     &.drop {
       background-color: red;
+    }
+    
+    &:hover {
+      background-color: blue;
     }
     
     input[type="file"] {
@@ -155,6 +224,12 @@ header {
       outline: none;
       opacity: 0;
       position: absolute;
+      left: 0;
+      z-index: 30;
+      
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
