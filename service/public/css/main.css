@@ -35,3 +35,19 @@ header {
 
 .greeting {
   text-align: center; }
+
+.uploadBot input[type="button"] {
+  display: none; }
+.uploadBot .uploadBox {
+  background-color: blue;
+  width: 100px;
+  height: 100px;
+  position: relative; }
+  .uploadBot .uploadBox input[type="file"] {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: blue;
+    outline: none;
+    opacity: 0.2;
+    position: absolute; }

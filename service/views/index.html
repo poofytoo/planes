@@ -7,7 +7,7 @@
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
-      <script src="js/scripts.js"></script>
+  <script src="js/scripts.js"></script>
   
 </head>
 <body>
@@ -23,9 +23,13 @@
         <h1>Welcome, Commander {{user}}.</h1>
       </div>
       <div class="contentBox uploadBot">
-        
+      
         <form target="" method="post" enctype="multipart/form-data">
-          <input type="file" name="bot"/>
+        <div class="uploadBox">
+          
+          <input type="file" class="fileUpload" name="bot"/>
+        </div>
+        
           <input type="text" name="botName" placeholder="botname" />
           <input type="text" name="botDesc" placeholder="botdesc" />
           <input type="submit" />

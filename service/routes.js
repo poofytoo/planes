@@ -32,6 +32,7 @@ exports.upload = function(req, res) {
   var userId = req.user.id;
   model.createBot(userId, req.body.botName, req.body.botDesc, req.files.bot, function(err){
     if (err) {
+      // TODO: persist username and bot data if fail
       res.render('index.html', {message: "An error occurred: " + err});
     } else {
       res.redirect('/');
