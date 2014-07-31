@@ -7,6 +7,7 @@
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
   <script src="js/scripts.js"></script>
   
 </head>
@@ -19,15 +20,25 @@
       {{message}}
     {{/if}}
     <div class="container">
-      <div class="contentBox greeting">
-        <h1>Welcome, Commander {{user}}.</h1>
+    
+      <div class="content-box-greeting solid-back">
+        <div class="greeting">
+          <h1>Welcome, Commander {{user}}.</h1>
+          <span class="right-settings"><i class="fa fa-cog"></i></span>
+        </div>
+        <div class="back-box">
+          <ul>
+            <li>Help</li>
+            <li>Logout</li>
+          </ul>
+        </div>
       </div>
-      <div class="contentBox uploadBot">
+      <div class="content-box upload-bot">
       
         <form target="" method="post" enctype="multipart/form-data">
-        <div class="uploadBox">
+        <div class="upload-box">
           
-          <input type="file" class="fileUpload" name="bot"/>
+          <input type="file" class="file-upload" name="bot"/>
         </div>
         
           <input type="text" name="botName" placeholder="botname" />
