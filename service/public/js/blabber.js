@@ -29,14 +29,15 @@ var object = ['toaster',
 
 var adj = ['delightful little',
 		   'delicious',
-		   'wonderous',
-		   'myserious',
+		   'wondrous',
+		   'mysterious',
 		   'surprising',
 		   'clever little',
 		   'smooth',
 		   'peculiar',
 		   'randomized',
-		   'orange'];
+		   'orange',
+		   'tantalizing'];
 
 var place = ['Charles River',
 			 'Earth',

@@ -32,13 +32,52 @@ exports.upload = function(req, res) {
   var userId = req.user.id;
   model.createBot(userId, req.body.botName, req.body.botDesc, req.files.bot, function(err){
     if (err) {
-      // TODO: persist username and bot data if fail
-      res.render('index.html', {message: "An error occurred: " + err});
+      var err = err;
+      model.getBotStats(userId, function(data, err2) {
+        res.render('index.html', {message: "An error occurred: " + err, user: req.user.username, bot: data});
+      });
     } else {
       res.redirect('/');
     }
   });
   
+}
+
+
+exports.getTopBots = function(req, res) {
+  // TODO: FILL IT OUT
+  data = {
+    1: {
+      user: 'Victor H',
+      userId: 213456,
+      botName: 'Fantastic',
+      wins: 10,
+      losses: 0,
+      rank: 'A'
+    },
+    2: {
+      user: 'Michael X',
+      userId: 43523412,
+      botName: 'Floppy',
+      wins: 5,
+      losses: 4,
+      rank: 'B'
+    },
+    3: {
+      user: 'Kevin C',
+      userId: 234567,
+      botName: 'Orangebot',
+      wins: 3,
+      losses: 1,
+      rank: 'B'
+    }
+  };
+  res.send(data);
+}
+
+exports.challenge = function(req, res) {
+  // TODO: FILL IT OUT
+  res.send(req.body.id);
 }
 
 exports.viewer = function(req, res) {

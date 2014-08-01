@@ -54,15 +54,56 @@ $(document).ready(function() {
   
   $('.file-upload').on('change', function(e) {
     if ($(this).get(0).files[0].name != '') {
+      var fileName = $('.file-upload').get(0).files[0].name;
       $('.botDesc').val(blabber());
+      $('.botName').val(fileName.split('.')[fileName.split('.').length - 2]);
       window.setTimeout(function(){
         $('.upload-box').addClass('drop')
         $('.upload-bot').addClass('no-background')
         $('.form-fill').slideDown(300);
       }, 500);
-      $('.upload-btn-text').text($('.file-upload').get(0).files[0].name);
+      $('.upload-btn-text').text(fileName);
     }
   });
+  
+  // Load the Top Challengers
+  // This code was written when I was very sleepy
+  
+  $.get('/getbots', function(data) {
+    var chtml = '';
+    for (i in data) {
+      var bot = data[i];
+      $botBox = $('.bot-item-template').clone();
+      $botBox.addClass('bot-item').removeClass('bot-item-template');
+      $botBox.find('.challengerName').text(bot.user);
+      $botBox.find('.challengerBot').text(bot.botName);
+      $botBox.find('.statsBox').addClass('statsBox'+i);
+      $botBox.find('.num').text(i);
+      $botBox.find('.w').text(bot.wins);
+      $botBox.find('.l').text(bot.losses);
+      $botBox.find('.r').text(bot.rank);
+      
+      $botBox.find('.stats').data('id', i);
+      $botBox.find('.challenge').data('id', bot.userId);
+      
+      $('.top-challengers').append($botBox);
+    }
+  });
+  
+  // Challenger Stats Display 
+  
+  $(document).on('click','.stats', function() {
+    var id = $(this).data('id');
+    $(this).parent().parent().find('.statsBox').slideToggle(300);
+  })
+  
+  $(document).on('click','.challenge', function() {
+    var id = $(this).data('id');
+    $.post('/challenge', {id: id}, function(data) {
+      console.log(data);
+    })
+  })
+  
   
   // This code is supposed to make my blocks the same height
   // I stole it from css-tricks
@@ -74,7 +115,7 @@ $(document).ready(function() {
      $el,
      topPosition = 0;
 
-   $('.content-box').each(function() {
+   $('.row').find('.content-box').each(function() {
   
      $el = $(this);
      topPostion = $el.position().top;

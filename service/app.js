@@ -67,6 +67,9 @@ app.get('/login', routes.login);
 app.get('/viewer', routes.viewer);
 app.get('/logout', routes.logout);
 
+app.get('/getbots', routes.getTopBots);
+app.post('/challenge', routes.challenge);
+
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',
