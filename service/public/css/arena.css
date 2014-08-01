@@ -1,0 +1,180 @@
+body {
+  background-color: #001c34;
+  font-family: 'Lato', sans-serif;
+}
+
+h1 {
+  font-family: 'Lobster', sans-serif;
+  font-size: 70px;
+  text-align: center;
+  color: #fff;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 100;
+  color: #fff;
+  text-align: center;
+}
+
+h3 {
+ font-size: 20px;
+ margin-bottom: 5px; 
+}
+
+.green {
+  color: #43ca00;
+}
+
+.orange {
+  color: #fdbb3c;
+}
+
+.container {
+  margin: 20px 0 0 0;
+}
+
+.playing-field {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  margin: 30px auto;
+  background-color: #001628;
+}
+
+.score-field {
+  width: 800px;
+  margin: 10px auto;
+}
+
+.score-field-left {
+  float: left;
+  text-align: left;
+}
+
+.score-field-right{
+  float: right;
+  text-align: right;
+}
+
+.sf {
+  background-color: #001628;
+  border-top: 2px solid #fff;
+  width: 360px;
+  padding: 10px;
+  color: #fff;
+  position: relative;
+}
+
+p {
+  font-weight: 100;
+  font-size: 14px;
+}
+
+.line {
+  height: 1px;
+  background-color: #072843;
+  width: 100%;
+  position: absolute;
+}
+
+.plane {
+  background-image: url('../assets/planes.png');
+  background-size: 260px;
+  background-repeat: no-repeat;
+  height: 40px;
+  width: 50px;
+  position: absolute;
+  z-index: 20;
+}
+
+.p1 {
+  top: 20px;
+  left: 10px;
+  background-position: 0;
+}
+
+.p2 {
+  bottom: 20px;
+  right: 10px;
+  background-position: -50px;
+}
+
+.bul {
+  width: 10px;
+  height: 2px;
+  position: absolute;
+  background-color: #fff;
+  top: 40px;  
+}
+
+.bullets {
+  font-weight: 600;
+}
+
+.l1 {
+  top: 80px;
+}
+
+.l2 {
+  top: 160px;
+}
+
+.l3 {
+  top: 240px;
+}
+
+.l4 {
+  top: 320px;
+}
+.action {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  vertical-align: middle;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  position: absolute;
+  font-size: 12px;
+  top: 8px;
+  right: 8px;
+  background-image: url('../assets/planes.png');
+  background-size: 260px;
+  background-repeat: no-repeat;
+}
+
+.action-left {
+  display: none;
+}
+
+.action-right {
+  right: auto;
+  left: 8px;
+  display: none;
+}
+
+.charge {
+  background-position: -100px 0;
+}
+
+.up {
+  background-position: -140px 0;
+}
+
+.down {
+  background-position: -180px 0;
+}
+
+.shoot, .dud {
+  background-position: -220px 0;
+}
+
+.charge-gif {
+  background-image: url('../assets/charge.gif');
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background-size: 40px;
+}

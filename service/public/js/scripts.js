@@ -94,7 +94,7 @@ $(document).ready(function() {
   
   $(document).on('click','.stats', function() {
     var id = $(this).data('id');
-    $(this).parent().parent().find('.statsBox').slideToggle(300);
+    $(this).parent().parent().find('.statsBox').slideToggle(150);
   })
   
   $(document).on('click','.challenge', function() {
