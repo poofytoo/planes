@@ -136,6 +136,7 @@ exports.getFirebase = function(req, res) {
 }
 
 exports.arena = function(req, res) {
+  // incoming as http://localhost:8080/arena#gameId
   res.render('arena.html');
 }
 
