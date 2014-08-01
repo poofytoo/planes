@@ -45,6 +45,9 @@ header {
     color: #ccc;
     text-transform: uppercase; }
 
+.split {
+  width: 408px; }
+
 .status-msg {
   float: none;
   text-align: center;
@@ -54,8 +57,9 @@ header {
   padding: 10px;
   border-bottom: 3px solid #bd0e2b; }
 
-.row {
-  overflow: auto; }
+.row, .row-later {
+  overflow: auto;
+  margin-bottom: 20px; }
 
 .row-greeting {
   border: 1px solid #dde2e7;
@@ -168,7 +172,7 @@ header {
     outline: none;
     padding: 7px 9px;
     border: 1px solid #dedede;
-    width: 280px;
+    width: 230px;
     margin-bottom: 8px;
     border-top: 3px solid #dedede; }
   .upload-bot input[type="submit"] {
@@ -228,3 +232,51 @@ header {
       z-index: 30; }
       .upload-bot .upload-box input[type="file"]:hover {
         cursor: pointer; }
+
+.bot-item {
+  margin-bottom: 2px; }
+  .bot-item .challengerBox {
+    height: 30px; }
+  .bot-item .statsBox {
+    background-color: #3d444c;
+    padding: 7px;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-align: center;
+    display: none; }
+    .bot-item .statsBox em {
+      font-weight: 500; }
+    .bot-item .statsBox .statItem {
+      margin: 0 20px; }
+  .bot-item .challengerName, .bot-item .challengerBot {
+    font-size: 16px;
+    max-width: 100px;
+    overflow: hidden; }
+  .bot-item .challengerName {
+    font-weight: 500; }
+  .bot-item .stats {
+    font-size: 14px;
+    width: auto;
+    color: #fff;
+    background-color: #9d9d9d;
+    padding: 4px 10px;
+    border-bottom: 3px solid #888888;
+    float: right; }
+    .bot-item .stats:hover {
+      cursor: pointer;
+      background-color: #8e8e8e; }
+  .bot-item .challenge {
+    font-size: 14px;
+    color: #fff;
+    background-color: #de1637;
+    padding: 4px 10px;
+    border-bottom: 3px solid #bd0e2b;
+    float: right;
+    margin-right: 3px; }
+    .bot-item .challenge:hover {
+      cursor: pointer;
+      background-color: #d11434; }
+
+.bot-item-template {
+  display: none; }

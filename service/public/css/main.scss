@@ -60,6 +60,10 @@ header {
 
 }
 
+.split {
+  width: 408px;
+}
+
 .status-msg {
   float: none;
   text-align: center;
@@ -70,8 +74,9 @@ header {
   border-bottom: 3px solid #bd0e2b;
 }
 
-.row {
+.row, .row-later {
   overflow: auto;
+  margin-bottom: 20px;
 }
 
 .row-greeting {
@@ -214,7 +219,7 @@ header {
     outline: none;
     padding: 7px 9px;
     border: 1px solid #dedede;
-    width: 280px;
+    width: 230px;
     margin-bottom: 8px;
     border-top: 3px solid #dedede;
   }
@@ -301,4 +306,76 @@ header {
       }
     }
   }
+}
+
+.bot-item {
+  margin-bottom: 2px;
+  
+  .challengerBox {
+    height: 30px;
+  }
+  
+  .statsBox {
+    background-color: #3d444c;
+    padding: 7px;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-align: center;
+    display: none;
+    
+    em {
+      font-weight: 500;
+    }
+    
+    .statItem {
+      margin: 0 20px;
+    }
+  }
+  
+  .challengerName, .challengerBot {
+    font-size: 16px;
+    max-width: 100px;
+    overflow: hidden;
+  }
+  
+  .challengerName {
+    font-weight: 500;
+  }
+  
+  .stats {
+    font-size: 14px;
+    width: auto;
+    color: #fff;
+    background-color: #9d9d9d;
+    padding: 4px 10px;
+    border-bottom: 3px solid #888888;
+    float: right;
+    
+    &:hover {
+      cursor: pointer;
+      background-color: #8e8e8e;
+    }
+  }
+  
+  .challenge {
+    font-size: 14px;
+    color: #fff;
+    background-color: #de1637;
+    padding: 4px 10px;
+    border-bottom: 3px solid #bd0e2b;
+    float: right;
+    margin-right: 3px;
+    
+    &:hover {
+      cursor: pointer;
+      background-color: #d11434;
+    }
+  }
+}
+
+// Things I want to hide from you
+
+.bot-item-template {
+  display: none;
 }
