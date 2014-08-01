@@ -75,7 +75,8 @@ function buildFile(fileName, lang) {
 
 function executeGame(gameId, binary1, binary2, callback) {
   exec('python modules/engine.py ' + gameId + ' binaries/' + binary1 + ' binaries/' + binary2,
-      {timeout : 1000 * 60 * 5}, // set a timeout of 5 minutes
+      {timeout : 1000 * 60 * 5, // set a timeout of 5 minutes
+       maxBuffer : 2000 * 1024}, 
       function(error, stdout, stderr) {
         callback(error, stdout, stderr);
       }
