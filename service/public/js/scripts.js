@@ -54,8 +54,13 @@ $(document).ready(function() {
   
   $('.file-upload').on('change', function(e) {
     if ($(this).get(0).files[0].name != '') {
-      $('.upload-box').addClass('drop');
-      console.log($(this).get(0).files[0].name);
+      $('.botDesc').val(blabber());
+      window.setTimeout(function(){
+        $('.upload-box').addClass('drop')
+        $('.upload-bot').addClass('no-background')
+        $('.form-fill').slideDown(300);
+      }, 500);
+      $('.upload-btn-text').text($('.file-upload').get(0).files[0].name);
     }
   });
   

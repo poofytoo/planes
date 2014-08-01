@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Story</title>
+  <title>Planes by NEXT CODE</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+  <script src="js/blabber.js"></script>
   <script src="js/scripts.js"></script>
   
 </head>
@@ -17,10 +18,11 @@
       <h2>by <em>NEXT CODE</em></h2>
     </header>
     {{#if message}}
-      {{message}}
+      <div class="status-msg">
+          {{message}}
+      </div>
     {{/if}}
     <div class="container">
-    
       <div class="row-greeting solid-back">
         <div class="greeting">
           <h1>Welcome, Commander {{user}}.</h1>
@@ -38,14 +40,18 @@
           <h2>Control Center</h2>
           
           <form target="" method="post" enctype="multipart/form-data">
+          <div class="form-fill">
+            <h3>Plane Name</h3>
+            <input type="text" class="botName" name="botName" placeholder="Plano Spectaculo" />
+            <h3>Plane Description</h3>
+            <input type="text" class="botDesc" name="botDesc" value="" />
+            <input type="submit" />
+          </div>
           <div class="upload-box">
             <input type="file" class="file-upload" name="bot"/>
-            Upload a New Plane
+            <span class="upload-btn-text">Upload a New Plane</span>
           </div>
           
-            <input type="text" name="botName" placeholder="botname" />
-            <input type="text" name="botDesc" placeholder="botdesc" />
-            <input type="submit" />
           
           </form>
         </div>
