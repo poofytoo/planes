@@ -178,7 +178,7 @@ function getAllGames(callback) {
   });
 }
 
-function makeRequest(challengerId, otherId, callback) {
+function makeRequest(challengerUsername, challengerId, otherId, callback) {
   if (challengerId === otherId) {
     callback("Can't challenge yourself.");
     return;
@@ -207,7 +207,9 @@ function makeRequest(challengerId, otherId, callback) {
           root.child('requests').child(gameId).set({
             id: gameId, 
             user1: challengerId, 
+            username1: challengerUsername,
             user2: otherId, 
+            username2: user2.username,
             status: "open"
           });
           root.child('users').child(challengerId).child('lastRequestTime').set(new Date().getTime());

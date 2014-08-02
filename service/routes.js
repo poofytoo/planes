@@ -75,7 +75,7 @@ exports.getGame = function(req, res) {
 }
 
 exports.makeRequest = function(req, res) {
-  model.makeRequest(req.user.id, req.body.id, function(err) {
+  model.makeRequest(req.user.username, req.user.id, req.body.id, function(err) {
     if (err) {
       res.send(err);
     } else {

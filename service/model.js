@@ -87,14 +87,14 @@ exports.getLatestGamesForUser = function(userId, callback) {
         for (var reqId in requests) {
           var request = requests[reqId];
           if (request.user1 === userId || request.user2 === userId) {
-            var opponent = request.user1;
-            if (opponent === userId) {
-              opponent = request.user2;
+            var opponent = request.username1;
+            if (opponent === user.username) {
+              opponent = request.username2;
             }
 
             var resultObject = {
               gameId : reqId,
-              opponentId : opponent
+              opponentName : opponent
             }
             if (reqId in games) {
               if (user.watched[reqId]) {
