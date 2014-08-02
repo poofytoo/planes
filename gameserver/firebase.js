@@ -70,8 +70,8 @@ function addGameObject(gameObject, gameId) {
   root.child('games').child(gameId).set(gameObject);
 }
 
-function removeRequest(requestId) {
-  root.child('requests').child(requestId).remove();
+function closeRequest(requestId) {
+  root.child('requests').child(requestId).child('status').set('closed');
 }
 
 function findUser(id, callback) {
@@ -92,4 +92,4 @@ exports.findUser = findUser;
 exports.getCurrentBot = getCurrentBot;
 exports.getRequests = getRequests;
 exports.addGameObject = addGameObject;
-exports.removeRequest = removeRequest;
+exports.closeRequest = closeRequest;

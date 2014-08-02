@@ -119,7 +119,7 @@ function processRequest(request) {
     executeGame(gameId, binary1, binary2, function(error, stdout, stderr) {
       if (!error) {
         handleOutput(stdout, userId1, userId2, gameId);
-        firebase.removeRequest(request.id);
+        firebase.closeRequest(request.id);
       } else {
         console.log(error);
       }
@@ -138,7 +138,9 @@ function checkRequests() {
     }
     for (var reqId in requests) {
       var request = requests[reqId];
-      processRequest(request);
+      if (request.status && request.status === 'open') {
+        processRequest(request);
+      }
     }
   });
   checking = false;
