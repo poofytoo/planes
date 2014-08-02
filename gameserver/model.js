@@ -13,7 +13,7 @@ var UNKNOWN = ".txt"
 
 var checking = false;
 
-var REQUEST_TICK_TIME_MILLIS = 5000
+var REQUEST_TICK_TIME_MILLIS = 10000
 
 // Make directories for source code and compiled binaries
 exec('mkdir -p binaries');
@@ -83,6 +83,43 @@ function executeGame(gameId, binary1, binary2, callback) {
   );
 }
 
+getExpected = function(a,b) {
+  return 1.0/(1 + Math.pow(10, ((b - a) / 400.0)));
+}
+
+updateRating = function(kfactor, expected,actual,current) {
+  return parseInt(current + kfactor * (actual - expected), 10);
+}
+
+function updateRankings(userId1, userId2, user1Result, user2Result) {
+  firebase.getElo(userId1, function(err, elo1) {
+    if (err) {
+      return;
+    }
+
+    firebase.getElo(userId2, function(err, elo2) {
+      if (err) {
+        return;
+      }
+
+      
+      // Gets expected score for first parameter
+      var exp1 = getExpected(elo1, elo2);
+      var exp2 = getExpected(elo2, elo1);
+
+      var newElo1 = elo1;
+      var newElo2 = elo2;
+
+      // update score, 1 if won 0 if lost, .5 if draw
+      newElo1 = updateRating(32, exp1, user1Result, elo1);
+      newElo2 = updateRating(32, exp2, user2Result, elo2);
+
+      firebase.updateElo(userId1, newElo1);
+      firebase.updateElo(userId2, newElo2);
+    });
+  });
+}
+
 function handleOutput(output, userId1, userId2, gameId) {
   var gameOutput = JSON.parse(output);
   var gameObject = {}
@@ -92,6 +129,14 @@ function handleOutput(output, userId1, userId2, gameId) {
   gameObject['user1'] = userId1;
   gameObject['user2'] = userId2;
   gameObject['gameJson'] = output;
+
+  if (gameOutput.result.indexOf("BOT1") !== -1) {
+    updateRankings(userId1, userId2, 1, 0);
+  } else if (gameOutput.result.indexOf("BOT2") !== -1) {
+    updateRankings(userId1, userId2, 0, 1);
+  } else {
+    updateRankings(userId1, userId2, .5, .5);
+  }
 
   firebase.addGameObject(gameObject, gameId);
 }
@@ -131,17 +176,19 @@ function checkRequests() {
   if (checking) {
     return;
   }
-  checking = true;
   firebase.getRequests(function(error, requests) {
-    if (error) {
+    if (checking) {
       return;
     }
-    for (var reqId in requests) {
-      var request = requests[reqId];
-      if (request.status && request.status === 'open') {
-        processRequest(request);
+    checking = true;
+    if (!error) {
+      for (var reqId in requests) {
+        var request = requests[reqId];
+        if (request.status && request.status === 'open') {
+          processRequest(request);
+        }
       }
     }
+    checking = false;
   });
-  checking = false;
 }
