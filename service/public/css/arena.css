@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 body {
   background-color: #002848;
   font-family: 'Lato', sans-serif;
@@ -235,7 +239,7 @@ h4 {
   position: relative;
   height: 200px;
   width: 200px;
-  margin: 50px auto;
+  margin: 50px auto 0;
 }
 
 .spinner {
@@ -256,4 +260,14 @@ h4 {
     to{
         -webkit-transform: rotate(360deg);
     }
+}
+
+.invalid-id {
+  display: none;
+  line-height: normal;
+  margin: 100px; 
+  text-align: center;
+  font-size: 20px;
+  color: #de1637;
+  font-weight: 100;
 }

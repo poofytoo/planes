@@ -33,15 +33,23 @@ $(document).ready(function(){
  
   var testJSON = {};
   var id = document.URL.split('?')[1];
-  console.log(id)
   
   $.get("/getgame", {id: id}, function (data) {
-    window.testJSON = JSON.parse(data);
-    setTimeout(function(){
-      // You know, for dramatic effect.
-      $('.go-btn').fadeIn(200);
-      $('.spinner').fadeOut();
-    }, 100)
+    if (data) {
+      window.testJSON = JSON.parse(data);
+      setTimeout(function(){
+        // You know, for dramatic effect.
+        $('.go-btn').fadeIn(200);
+        $('.spinner').fadeOut();
+      }, 100)
+    } else {
+      setTimeout(function(){
+        $('.spinner').fadeOut(200, function(){
+          $('.invalid-id').fadeIn(200);
+        });
+      }, 200);
+      console.log('invalid ID');
+    }
   });
     
   $('.go-btn').on('click', function() {
