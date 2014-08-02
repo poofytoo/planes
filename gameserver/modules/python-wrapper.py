@@ -1,9 +1,12 @@
 import json
 
-# YOUR CODE GOES HERE
-# returns one of 'shoot', 'charge', 'up', 'down'
 def compute(gameRound, enemyRow, myRow, radars, myAmmo, myLastMove):
-  return 'shoot'
+  # YOUR CODE GOES HERE
+  #
+  # returns one of 'shoot', 'charge', 'up', 'down'
+  pass
+
+# You should not edit anything below this line
 
 def wrapper():
   data = raw_input()

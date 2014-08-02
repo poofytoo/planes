@@ -39,7 +39,7 @@ header h2 em {
   text-align: center;
   font-size: 40px;
   opacity: 0.3;
-  transition: opacity 0.4s; }
+  transition: opacity 0.1s; }
   .back-box a {
     text-decoration: none;
     color: #fff; }
@@ -48,7 +48,7 @@ header h2 em {
       font-size: 16px; }
   .back-box:hover {
     opacity: 0.9;
-    transition: opacity 0.4s; }
+    transition: opacity 0.1s; }
 
 h3 {
   font-size: 20px;

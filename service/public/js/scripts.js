@@ -96,6 +96,7 @@ $(document).ready(function() {
     var id = $btn.data('id');
     $.post('/makerequest', {id: id + ''}, function(data) {
       $btn.addClass('challenge-sent');
+      $btn.removeAttr('href');
       $btn.text('challenge sent!');
       getPlayedGames();
     })
