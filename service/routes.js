@@ -3,7 +3,7 @@ var authConfig = require('./authConfig.js');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
-      req.url === '/loggedin' || req.url === '/') {
+      req.url === '/loggedin' || req.url === '/' || req.url === '/arena') {
     next();
   } else if (req.user) {
     console.log(req.user.username + " " + req.url);
@@ -46,6 +46,7 @@ exports.upload = function(req, res) {
 
 exports.getTopBots = function(req, res) {
   // TODO: FILL IT OUT
+  // List of 20 top bots
   data = {
     1: {
       user: 'Victor H',
@@ -75,10 +76,32 @@ exports.getTopBots = function(req, res) {
   res.send(data);
 }
 
+exports.getLatestGames = function(req, res) {
+  // TODO: FILL IT OUT
+  // 
+  data = {
+    1: {
+      gameId: 42,
+      user1: 'Victor H',
+      user2: 'Michael X',
+      status: 'unwatched'
+    }
+  }
+  res.send(data);
+}
+
 exports.challenge = function(req, res) {
   // TODO: FILL IT OUT
+  // Given a userId, start a challenge!
   res.send(req.body.id);
 }
+
+exports.getGame = function(req, res) {
+  // TODO: FILL IT OUT
+  // Given a game ID, return the animation JSON
+  res.send(req.body.id);
+}
+
 
 exports.viewer = function(req, res) {
   if (req.user) {
@@ -112,6 +135,10 @@ exports.getFirebase = function(req, res) {
   res.end();
 }
 
+exports.arena = function(req, res) {
+  // incoming as http://localhost:8080/arena#gameId
+  res.render('arena.html');
+}
 
 exports.isLoggedIn = function(req, res) {
   var loggedIn = "no";
