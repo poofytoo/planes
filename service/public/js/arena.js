@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  var FRAME_RATE = 48
+  var FRAME_RATE = 60
   var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
@@ -32,10 +32,30 @@ $(document).ready(function(){
   
  
   var testJSON = {};
-  var id = window.location.hash.slice(1);
-  console.log(id)
+  var id = document.URL.split('?')[1];
+  
   $.get("/getgame", {id: id}, function (data) {
-    window.testJSON = JSON.parse(data);
+    if (data) {
+      window.testJSON = JSON.parse(data);
+      setTimeout(function(){
+        // You know, for dramatic effect.
+        $('.go-btn').fadeIn(200);
+        $('.spinner').fadeOut();
+      }, 100)
+    } else {
+      setTimeout(function(){
+        $('.spinner').fadeOut(200, function(){
+          $('.invalid-id').fadeIn(200);
+        });
+      }, 200);
+      console.log('invalid ID');
+    }
+  });
+    
+  $('.go-btn').on('click', function() {
+    console.log('lets go')
+    $('.cover').fadeOut(100);
+    beginGame();
   });
     
   var gameStep = function() {
@@ -119,8 +139,11 @@ $(document).ready(function(){
     }
   }
   
-  var gameTimer = setInterval(gameStep, MS_FRAME);
-  
+  var gameTimer;
+  var beginGame = function() {
+    gameTimer = setInterval(gameStep, MS_FRAME);
+  }
+    
   $(document).on('keypress', function(e) {
     if (e.keyCode == 32) {
       clearInterval(gameTimer);
