@@ -3,7 +3,7 @@ var authConfig = require('./authConfig.js');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
-      req.url === '/loggedin' || req.url === '/' || req.url === '/arena') {
+      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/arena') === 0) {
     next();
   } else if (req.user) {
     console.log(req.user.username + " " + req.url);
@@ -45,59 +45,43 @@ exports.upload = function(req, res) {
 
 
 exports.getTopBots = function(req, res) {
-  // TODO: FILL IT OUT
-  // List of 20 top bots
-  data = {
-    1: {
-      user: 'Victor H',
-      userId: 213456,
-      botName: 'Fantastic',
-      wins: 10,
-      losses: 0,
-      rank: 'A'
-    },
-    2: {
-      user: 'Michael X',
-      userId: 43523412,
-      botName: 'Floppy',
-      wins: 5,
-      losses: 4,
-      rank: 'B'
-    },
-    3: {
-      user: 'Kevin C',
-      userId: 234567,
-      botName: 'Orangebot',
-      wins: 3,
-      losses: 1,
-      rank: 'B'
+  model.getTopBots(req.user.id, function(error, data) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send(data);
     }
-  };
-  res.send(data);
+  });
 }
 
-exports.getLatestGames = function(req, res) {
+exports.getLatestGamesForUser = function(req, res) {
   // TODO: FILL IT OUT
   // 
   data = {
     1: {
-      gameId: 42,
-      user1: 'Victor H',
-      user2: 'Michael X',
+      gameId: 1,
+      challenger: 'Michael X',
+      botName: 'Floppy',
       status: 'unwatched'
+    },
+    2: {
+      gameId: 16,
+      challenger: 'Michael X',
+      botName: 'Floppy',
+      status: 'watched'
+    },
+    3: {
+      gameId: 17,
+      challenger: 'Michael X',
+      botName: 'Floppy',
+      status: 'waiting'
     }
   }
   res.send(data);
 }
 
-exports.challenge = function(req, res) {
-  // TODO: FILL IT OUT
-  // Given a userId, start a challenge!
-  res.send({});
-}
-
 exports.getGame = function(req, res) {
-  model.fetchGame(req.query.id, function(err, data){
+  model.fetchGame(req.user.id, req.query.id, function(err, data){
     res.send(data);
   })
 }
@@ -106,7 +90,7 @@ exports.makeRequest = function(req, res) {
   model.makeRequest(req.user.id, req.body.id, function(err) {
     if (err) {
       res.send(err);
-    } else{
+    } else {
       res.end();
     }
   });
@@ -145,7 +129,7 @@ exports.getFirebase = function(req, res) {
 }
 
 exports.arena = function(req, res) {
-  // incoming as http://localhost:8080/arena#gameId
+  // incoming as http://localhost:8080/arena?gameId
   res.render('arena.html');
 }
 
