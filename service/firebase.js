@@ -141,10 +141,30 @@ function findUser(id, callback) {
   });
 };
 
-function fetchGame(id, callback) {  data = root.child('games/' + id + '/gameJson').once('value', function(data){
+function fetchGame(userId, id, callback) {  
+  root.child('games/' + id + '/gameJson').once('value', function(data){
     callback(false, data.val());
   });
+  root.child('users').child(userId).child('watched').child(id).set('seen');
 };
+
+function getAllUsers(callback) {
+  root.child('users').once('value', function(data) {
+    callback(data.val());
+  });
+}
+
+function getAllRequests(callback) {
+  root.child('requests').once('value', function(data) {
+    callback(data.val());
+  });
+}
+
+function getAllGames(callback) {
+  root.child('games').once('value', function(data) {
+    callback(data.val());
+  });
+}
 
 function makeRequest(challengerId, otherId, callback) {
   root.child('requestCounter').transaction(function(counter) {
@@ -152,7 +172,19 @@ function makeRequest(challengerId, otherId, callback) {
   }, function(error, committed, snapshot) {
     if (!error) {
       var gameId = snapshot.val();
-      root.child('requests').child(gameId).set({id: gameId, user1: challengerId, user2: otherId, status: "open"});
+      findUser(challengerId, function(error, user) {
+        if (error) {
+          callback(error);
+          return;
+        }
+        findUser(otherId, function(error2, user2) {
+          if (error2) {
+            callback(error);
+            return;
+          }
+          root.child('requests').child(gameId).set({id: gameId, user1: challengerId, user2: otherId, status: "open"});
+        });
+      });
       callback(false);
     } else {
       callback(error);
@@ -171,3 +203,6 @@ exports.createBot = createBot;
 exports.getCurrentBot = getCurrentBot;
 exports.fetchGame = fetchGame;
 exports.makeRequest = makeRequest;
+exports.getAllUsers = getAllUsers;
+exports.getAllRequests = getAllRequests;
+exports.getAllGames = getAllGames;

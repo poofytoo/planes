@@ -76,7 +76,7 @@ exports.getTopBots = function(req, res) {
   res.send(data);
 }
 
-exports.getLatestGames = function(req, res) {
+exports.getLatestGamesForUser = function(req, res) {
   // TODO: FILL IT OUT
   // 
   data = {
@@ -102,14 +102,8 @@ exports.getLatestGames = function(req, res) {
   res.send(data);
 }
 
-exports.challenge = function(req, res) {
-  // TODO: FILL IT OUT
-  // Given a userId, start a challenge!
-  res.send({});
-}
-
 exports.getGame = function(req, res) {
-  model.fetchGame(req.query.id, function(err, data){
+  model.fetchGame(req.user.id, req.query.id, function(err, data){
     res.send(data);
   })
 }

@@ -75,6 +75,14 @@ exports.getBotStats = function(userId, callback) {
   });
 }
 
+exports.getLatestGamesForUser = function(userId, callback) {
+}
+
+exports.getTopBots = function(callback) {
+  firebase.getAllUsers(function(users) {
+  });
+}
+
 exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;
 exports.userList = firebase.userList;
