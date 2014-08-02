@@ -64,7 +64,11 @@ function createUserFb(username, id, callback) {
         'id' : id,
         'username' : cleanUsername,
         'userStatus': 'new',
-        'elo' : 1000
+        'elo' : 1000,
+        'wins' : 0,
+        'losses' : 0,
+        'draws' : 0,
+        'lastRequestTime' : 0
       };
 
       root.child('users').child(id).set(user);
@@ -142,10 +146,18 @@ function findUser(id, callback) {
 };
 
 function fetchGame(userId, id, callback) {  
-  root.child('games/' + id + '/gameJson').once('value', function(data){
-    callback(false, data.val());
+  root.child('games').child(id).once('value', function(data) {
+    if (data.val()) {
+      callback(false, data.val().gameJson);
+      findUser(userId, function(error, user) {
+        if (!error) {
+          root.child('users').child(userId).child('watched').child(id).set('seen');
+        }
+      });
+    } else {
+      callback("Game id not found.", false);
+    }
   });
-  root.child('users').child(userId).child('watched').child(id).set('seen');
 };
 
 function getAllUsers(callback) {
@@ -167,6 +179,10 @@ function getAllGames(callback) {
 }
 
 function makeRequest(challengerId, otherId, callback) {
+  if (challengerId === otherId) {
+    callback("Can't challenge yourself.");
+    return;
+  }
   root.child('requestCounter').transaction(function(counter) {
     return counter + 1;
   }, function(error, committed, snapshot) {
@@ -177,15 +193,26 @@ function makeRequest(challengerId, otherId, callback) {
           callback(error);
           return;
         }
+        var now = new Date().getTime();
+        if (now - user.lastRequestTime < 60 * 1000) {
+          callback("Wait a minute before making another challenge.");
+          return;
+        }
         findUser(otherId, function(error2, user2) {
           if (error2) {
             callback(error);
             return;
           }
-          root.child('requests').child(gameId).set({id: gameId, user1: challengerId, user2: otherId, status: "open"});
+          root.child('requests').child(gameId).set({
+            id: gameId, 
+            user1: challengerId, 
+            user2: otherId, 
+            status: "open"
+          });
+          root.child('users').child(challengerId).child('lastRequestTime').set(new Date().getTime());
+          callback(false);
         });
       });
-      callback(false);
     } else {
       callback(error);
     }

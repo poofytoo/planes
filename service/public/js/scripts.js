@@ -82,7 +82,7 @@ $(document).ready(function() {
       $botBox.find('.num').text(i);
       $botBox.find('.w').text(bot.wins);
       $botBox.find('.l').text(bot.losses);
-      $botBox.find('.r').text(bot.rank);
+      $botBox.find('.r').text(bot.elo);
       
       $botBox.find('.stats').data('id', i);
       $botBox.find('.challenge').data('id', bot.userId);

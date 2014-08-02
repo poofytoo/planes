@@ -3,7 +3,7 @@ var authConfig = require('./authConfig.js');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
-      req.url === '/loggedin' || req.url === '/' || req.url === '/arena') {
+      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/arena') === 0) {
     next();
   } else if (req.user) {
     console.log(req.user.username + " " + req.url);
@@ -45,38 +45,13 @@ exports.upload = function(req, res) {
 
 
 exports.getTopBots = function(req, res) {
-  // TODO: FILL IT OUT
-  // List of 20 top bots
-  data = {
-    1: {
-      user: 'Victor H',
-      userId: 213456,
-      botName: 'Fantastic',
-      wins: 10,
-      losses: 0,
-      rank: 'A',
-      canChallenge: 'true'
-    },
-    2: {
-      user: 'Michael X',
-      userId: 43523412,
-      botName: 'Floppy',
-      wins: 5,
-      losses: 4,
-      rank: 'B',
-      canChallenge: 'false'
-    },
-    3: {
-      user: 'Kevin C',
-      userId: 234567,
-      botName: 'Orangebot',
-      wins: 3,
-      losses: 1,
-      rank: 'B',
-      canChallenge: 'false'
+  model.getTopBots(req.user.id, function(error, data) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send(data);
     }
-  };
-  res.send(data);
+  });
 }
 
 exports.getLatestGamesForUser = function(req, res) {
@@ -115,7 +90,7 @@ exports.makeRequest = function(req, res) {
   model.makeRequest(req.user.id, req.body.id, function(err) {
     if (err) {
       res.send(err);
-    } else{
+    } else {
       res.end();
     }
   });
