@@ -17,7 +17,6 @@ $(document).ready(function() {
     if (! settingsActivated) {
       settingsActivated = true;
       $(this).parent().animate({left: '-220px'}, 200);
-      console.log($('.right-settings').find('.fa'));
       $('.right-settings').find('.fa')
         .removeClass('fa-cog')
         .addClass('fa-times');
@@ -49,7 +48,6 @@ $(document).ready(function() {
       event.stopPropagation();
       $(this).removeClass('dragging');
       $(this).addClass('drop');
-      console.log(event.originalEvent.dataTransfer.files[0].name);
   });
   
   $('.file-upload').on('change', function(e) {
@@ -114,7 +112,6 @@ $(document).ready(function() {
       
       for (i in data) {
         var bot = data[i];
-        console.log(bot)
         $botBox = $('.match-item-template').clone();
         $botBox.addClass('bot-item').removeClass('match-item-template');
         $botBox.find('.challengerBot').text(bot.opponentName);
@@ -133,7 +130,23 @@ $(document).ready(function() {
     })
   }
   getPlayedGames();
+  window.setInterval(function(){
+    console.log(windowInFocus)
+    if (windowInFocus) {
+      getPlayedGames();
+    }
+  }, 5000);
   
+  var windowInFocus = true;
+  $(window).blur(function(){
+    console.log('out of focus')
+    windowInFocus = false;  
+  });
+  $(window).focus(function(){
+    getPlayedGames();
+    windowInFocus = true;
+  });
+    
   // Challenger Stats Display 
   
   $(document).on('click','.stats', function() {
