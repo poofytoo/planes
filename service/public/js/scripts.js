@@ -117,8 +117,7 @@ $(document).ready(function() {
         console.log(bot)
         $botBox = $('.match-item-template').clone();
         $botBox.addClass('bot-item').removeClass('match-item-template');
-        $botBox.find('.challengerName').text(bot.challenger);
-        $botBox.find('.challengerBot').text(bot.botName);
+        $botBox.find('.challengerBot').text(bot.opponentName);
         $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
         if (bot.status == 'watched') {
           $botBox.find('.view').text('watch again');
