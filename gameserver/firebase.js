@@ -62,12 +62,20 @@ function getRequests(callback) {
 
 function getCurrentBot(userId, callback) {
   root.child('users').child(userId).once('value', function(data) {
-    callback(false, data.val().bot);
+    if (data.val()) {
+      callback(false, data.val().bot);
+    } else {
+      callback("user not found.", false);
+    }
   })
 }
 
 function addGameObject(gameObject, gameId) {
-  root.child('games').child(gameId).set(gameObject);
+  if (gameId) {
+    root.child('games').child(gameId).set(gameObject);
+  } else {
+    console.log("No gameId found when adding gameObject");
+  }
 }
 
 function closeRequest(requestId) {
