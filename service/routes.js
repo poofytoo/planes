@@ -81,10 +81,22 @@ exports.getLatestGames = function(req, res) {
   // 
   data = {
     1: {
-      gameId: 42,
-      user1: 'Victor H',
-      user2: 'Michael X',
+      gameId: 1,
+      challenger: 'Michael X',
+      botName: 'Floppy',
       status: 'unwatched'
+    },
+    2: {
+      gameId: 16,
+      challenger: 'Michael X',
+      botName: 'Floppy',
+      status: 'watched'
+    },
+    3: {
+      gameId: 17,
+      challenger: 'Michael X',
+      botName: 'Floppy',
+      status: 'waiting'
     }
   }
   res.send(data);
@@ -145,7 +157,7 @@ exports.getFirebase = function(req, res) {
 }
 
 exports.arena = function(req, res) {
-  // incoming as http://localhost:8080/arena#gameId
+  // incoming as http://localhost:8080/arena?gameId
   res.render('arena.html');
 }
 

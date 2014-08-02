@@ -69,8 +69,9 @@ app.get('/logout', routes.logout);
 
 app.get('/getbots', routes.getTopBots);
 app.post('/challenge', routes.challenge);
-app.get('/arena?*', routes.arena);
+app.get('/arena', routes.arena);
 app.get('/getgame', routes.getGame);
+app.get('/getgames', routes.getLatestGames);
 app.post('/makerequest', routes.makeRequest);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));

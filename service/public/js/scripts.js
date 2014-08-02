@@ -90,6 +90,31 @@ $(document).ready(function() {
     }
   });
   
+  // Get Played Games
+  
+  $.get('/getgames', function(data) {
+    var chtml = '';
+    for (i in data) {
+      var bot = data[i];
+      console.log(bot)
+      $botBox = $('.match-item-template').clone();
+      $botBox.addClass('bot-item').removeClass('match-item-template');
+      $botBox.find('.challengerName').text(bot.challenger);
+      $botBox.find('.challengerBot').text(bot.botName);
+      $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
+      if (bot.status == 'watched') {
+        $botBox.find('.view').text('watch again');
+        $botBox.find('.view').removeClass('view').addClass('watched');
+      } else if (bot.status == 'waiting') {
+        $botBox.find('.view').removeAttr('href');
+        $botBox.find('.view').text('loading...');
+        $botBox.find('.view').removeClass('view').addClass('waiting');
+      }
+      
+      $('.match-list').append($botBox);
+    }
+  })
+  
   // Challenger Stats Display 
   
   $(document).on('click','.stats', function() {
@@ -103,7 +128,6 @@ $(document).ready(function() {
       console.log(data);
     })
   })
-  
   
   // This code is supposed to make my blocks the same height
   // I stole it from css-tricks

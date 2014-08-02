@@ -234,7 +234,8 @@ header {
         cursor: pointer; }
 
 .bot-item {
-  margin-bottom: 2px; }
+  margin-bottom: 2px;
+  /* BUTTONS */ }
   .bot-item .challengerBox {
     height: 30px; }
   .bot-item .statsBox {
@@ -255,17 +256,31 @@ header {
     overflow: hidden; }
   .bot-item .challengerName {
     font-weight: 500; }
-  .bot-item .stats {
+  .bot-item .stats, .bot-item .watched {
+    text-decoration: none;
     font-size: 14px;
     width: auto;
     color: #fff;
     background-color: #9d9d9d;
     padding: 4px 10px;
     border-bottom: 2px solid #888888;
-    float: right; }
-    .bot-item .stats:hover {
+    float: right;
+    margin-right: 3px; }
+    .bot-item .stats:hover, .bot-item .watched:hover {
       cursor: pointer;
       background-color: #8e8e8e; }
+  .bot-item .waiting {
+    text-decoration: none;
+    font-size: 14px;
+    color: #fff;
+    background-color: #f5d000;
+    border-bottom: 2px solid #debc00;
+    padding: 4px 10px;
+    float: right;
+    margin-right: 3px; }
+    .bot-item .waiting:hover {
+      cursor: pointer;
+      background-color: #efd754; }
   .bot-item .challenge {
     font-size: 14px;
     color: #fff;
@@ -277,6 +292,29 @@ header {
     .bot-item .challenge:hover {
       cursor: pointer;
       background-color: #d11434; }
+  .bot-item .share {
+    color: #fff;
+    background-color: #3b5998;
+    font-size: 14px;
+    padding: 4px 10px;
+    float: right;
+    margin-right: 3px;
+    border-bottom: 2px solid #2a4273; }
+    .bot-item .share:hover {
+      cursor: pointer;
+      background-color: #324e8a; }
+  .bot-item .view {
+    text-decoration: none;
+    color: #fff;
+    background-color: #14bd6b;
+    font-size: 14px;
+    padding: 4px 10px;
+    float: right;
+    margin-right: 3px;
+    border-bottom: 2px solid #109957; }
+    .bot-item .view:hover {
+      cursor: pointer;
+      background-color: #2cc668; }
 
-.bot-item-template {
+.bot-item-template, .match-item-template {
   display: none; }
