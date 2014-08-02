@@ -1,21 +1,28 @@
 body {
-  background-color: #001c34;
+  background-color: #002848;
   font-family: 'Lato', sans-serif;
 }
 
-h1 {
-  font-family: 'Lobster', sans-serif;
-  font-size: 70px;
-  text-align: center;
-  color: #fff;
-}
-
-h2 {
-  font-size: 16px;
-  font-weight: 100;
-  color: #fff;
-  text-align: center;
-}
+header {
+  border-bottom: 4px solid #08243a;
+  background-color: #003663;
+  min-width: 960px; }
+  header h1 {
+    font-family: 'Lobster', sans-serif;
+    font-size: 70px;
+    text-align: center;
+    color: #fff;
+    padding-top: 10px; }
+  header h2 {
+    margin-top: -1px;
+    padding-bottom: 20px;
+    font-size: 16px;
+    font-weight: 100;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 0.8em; }
+    header h2 em {
+      font-weight: 400; }
 
 h3 {
  font-size: 20px;
@@ -35,11 +42,12 @@ h3 {
 }
 
 .playing-field {
+  border-top: 4px solid #001526;
   position: relative;
   width: 800px;
   height: 400px;
   margin: 30px auto;
-  background-color: #001628;
+  background-color: #001e37;
 }
 
 .score-field {
@@ -58,7 +66,7 @@ h3 {
 }
 
 .sf {
-  background-color: #001628;
+  background-color: #001e37;
   border-top: 2px solid #fff;
   width: 360px;
   padding: 10px;

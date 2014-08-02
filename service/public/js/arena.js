@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  var FRAME_RATE = 48
+  var FRAME_RATE = 60
   var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
