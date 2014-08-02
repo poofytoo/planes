@@ -1,6 +1,8 @@
 body {
   background-color: #002848;
   font-family: 'Lato', sans-serif;
+  position: relative;
+  overflow: auto;
 }
 
 header {
@@ -53,6 +55,7 @@ h3 {
 .score-field {
   width: 800px;
   margin: 10px auto;
+  overflow: auto;
 }
 
 .score-field-left {
@@ -185,4 +188,72 @@ p {
   height: 40px;
   width: 40px;
   background-size: 40px;
+}
+
+.cover {
+  background-color: rgba(0,0,0,0.8);
+  position: fixed;
+  top: 120px;
+  width: 100%;
+  bottom: -10px;
+  position: absolute;
+  z-index: 100;
+}
+
+h4 {
+  margin-top: 30px;
+  font-size: 60px;
+  color: #fff;
+  font-weight: 200;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.go-btn, .go-btn:focus {
+  font-size: 80px;
+  color: #222;
+  font-weight: 100;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 100px;
+  height: 200px;
+  width: 200px;
+  line-height: 200px;
+  vertical-align: center;
+  display: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.go-btn:hover {
+  cursor: pointer;
+  background-color: #14bd6b;
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.spinner-container {
+  position: relative;
+  height: 200px;
+  width: 200px;
+  margin: 50px auto;
+}
+
+.spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 200px;
+  width: 200px;
+  background-size: 200px;
+  background-image: url('../assets/spinner-large.png');
+  -webkit-animation: rotating 2s linear infinite;
+}
+
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
 }

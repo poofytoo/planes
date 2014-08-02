@@ -34,8 +34,20 @@ $(document).ready(function(){
   var testJSON = {};
   var id = window.location.hash.slice(1);
   console.log(id)
+  
   $.get("/getgame", {id: id}, function (data) {
     window.testJSON = JSON.parse(data);
+    setTimeout(function(){
+      // You know, for dramatic effect.
+      $('.go-btn').fadeIn(200);
+      $('.spinner').fadeOut();
+    }, 1000)
+  });
+    
+  $('.go-btn').on('click', function() {
+    console.log('lets go')
+    $('.cover').fadeOut(100);
+    beginGame();
   });
     
   var gameStep = function() {
@@ -119,8 +131,11 @@ $(document).ready(function(){
     }
   }
   
-  var gameTimer = setInterval(gameStep, MS_FRAME);
-  
+  var gameTimer;
+  var beginGame = function() {
+    gameTimer = setInterval(gameStep, MS_FRAME);
+  }
+    
   $(document).on('keypress', function(e) {
     if (e.keyCode == 32) {
       clearInterval(gameTimer);
