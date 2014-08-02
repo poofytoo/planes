@@ -82,14 +82,18 @@ header {
     .solid-back .back-box ul {
       display: inline-block; }
       .solid-back .back-box ul li {
-        display: inline-block;
-        line-height: 24px;
-        width: 60px;
-        text-align: center;
-        padding: 20px;
-        font-size: 15px;
-        vertical-align: middle;
-        transition: background-color 0.2s ease; }
+        display: inline-block; }
+        .solid-back .back-box ul li a {
+          text-decoration: none;
+          color: #fff;
+          line-height: 28px;
+          display: inline-block;
+          width: 60px;
+          text-align: center;
+          padding: 20px;
+          font-size: 15px;
+          vertical-align: middle;
+          transition: background-color 0.2s ease; }
         .solid-back .back-box ul li:hover {
           cursor: pointer;
           background-color: #5c6973;
@@ -166,6 +170,18 @@ header {
     -moz-transition: all 0.6s;
     -o-transition: all 0.6s;
     transition: all 0.6s; }
+  .upload-bot .download-template {
+    text-align: center;
+    font-weight: 400;
+    margin-top: 10px;
+    font-size: 13px; }
+    .upload-bot .download-template a {
+      text-decoration: none;
+      opacity: 0.4;
+      color: #0979e1; }
+      .upload-bot .download-template a:hover, .upload-bot .download-template a:visited, .upload-bot .download-template a:focus {
+        opacity: 1;
+        color: #0979e1; }
   .upload-bot input[type="text"] {
     font-size: 14px;
     font-family: 'Lato', sans-serif;
@@ -269,6 +285,11 @@ header {
     .bot-item .stats:hover, .bot-item .watched:hover {
       cursor: pointer;
       background-color: #8e8e8e; }
+  .bot-item .challenge-sent {
+    background-color: #9d9d9d !important;
+    border-bottom: 2px solid #888888 !important;
+    color: #ddd !important;
+    transition: background-color 0.2s, color 0.2s, border 0.2s; }
   .bot-item .waiting {
     text-decoration: none;
     font-size: 14px;

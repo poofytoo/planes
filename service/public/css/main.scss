@@ -103,15 +103,21 @@ header {
     ul {
       display: inline-block;
       
-      li {      
+      li { 
         display: inline-block;
-        line-height: 24px;
-        width: 60px;
-        text-align: center;
-        padding: 20px;
-        font-size: 15px;
-        vertical-align: middle;
-        transition: background-color 0.2s ease;
+      
+        a { 
+          text-decoration: none;
+          color: #fff;
+          line-height: 28px;
+          display: inline-block;
+          width: 60px;
+          text-align: center;
+          padding: 20px;
+          font-size: 15px;
+          vertical-align: middle;
+          transition: background-color 0.2s ease;
+        }
         
         &:hover {
           cursor: pointer;
@@ -213,6 +219,24 @@ header {
     transition: all 0.6s;
   }
 
+  .download-template {
+    text-align: center;
+    font-weight: 400;
+    margin-top: 10px;
+    font-size: 13px;
+    
+    a {
+      text-decoration: none;
+      opacity: 0.4;
+      color: #0979e1;
+      
+      &:hover, &:visited, &:focus {
+        opacity: 1;
+        color: #0979e1;
+      }
+    }
+  }
+  
   input[type="text"] {
     font-size: 14px;
     font-family: 'Lato', sans-serif;
@@ -360,6 +384,13 @@ header {
       cursor: pointer;
       background-color: #8e8e8e;
     }
+  }
+  
+  .challenge-sent {
+    background-color: #9d9d9d !important;
+    border-bottom: 2px solid #888888 !important;
+    color: #ddd !important;
+    transition: background-color 0.2s, color 0.2s, border 0.2s;
   }
   
   .waiting {

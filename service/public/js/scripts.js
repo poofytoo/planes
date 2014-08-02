@@ -61,6 +61,7 @@ $(document).ready(function() {
         $('.upload-box').addClass('drop')
         $('.upload-bot').addClass('no-background')
         $('.form-fill').slideDown(300);
+        $('.download-template').fadeOut(200);
       }, 500);
       $('.upload-btn-text').text(fileName);
     }
@@ -90,43 +91,51 @@ $(document).ready(function() {
     }
   });
   
+  $(document).on('click','.challenge', function() {
+    var $btn = $(this);
+    var id = $btn.data('id');
+    $.post('/makerequest', {id: id + ''}, function(data) {
+      $btn.addClass('challenge-sent');
+      $btn.text('challenge sent!');
+      getPlayedGames();
+    })
+  })
+  
   // Get Played Games
   
-  $.get('/getgames', function(data) {
-    var chtml = '';
-    for (i in data) {
-      var bot = data[i];
-      console.log(bot)
-      $botBox = $('.match-item-template').clone();
-      $botBox.addClass('bot-item').removeClass('match-item-template');
-      $botBox.find('.challengerName').text(bot.challenger);
-      $botBox.find('.challengerBot').text(bot.botName);
-      $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
-      if (bot.status == 'watched') {
-        $botBox.find('.view').text('watch again');
-        $botBox.find('.view').removeClass('view').addClass('watched');
-      } else if (bot.status == 'waiting') {
-        $botBox.find('.view').removeAttr('href');
-        $botBox.find('.view').text('loading...');
-        $botBox.find('.view').removeClass('view').addClass('waiting');
-      }
+  var getPlayedGames = function() {
+    $.get('/getgames', function(data) {
+      var chtml = '';
+      $('.match-list').html('');
       
-      $('.match-list').append($botBox);
-    }
-  })
+      for (i in data) {
+        var bot = data[i];
+        console.log(bot)
+        $botBox = $('.match-item-template').clone();
+        $botBox.addClass('bot-item').removeClass('match-item-template');
+        $botBox.find('.challengerName').text(bot.challenger);
+        $botBox.find('.challengerBot').text(bot.botName);
+        $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
+        if (bot.status == 'watched') {
+          $botBox.find('.view').text('watch again');
+          $botBox.find('.view').removeClass('view').addClass('watched');
+        } else if (bot.status == 'waiting') {
+          $botBox.find('.view').removeAttr('href');
+          $botBox.find('.view').text('loading...');
+          $botBox.find('.view').removeClass('view').addClass('waiting');
+        }
+        
+        $('.match-list').append($botBox);
+      }
+    })
+  }
+  getPlayedGames();
   
   // Challenger Stats Display 
   
   $(document).on('click','.stats', function() {
     var id = $(this).data('id');
     $(this).parent().parent().find('.statsBox').slideToggle(150);
-  })
-  
-  $(document).on('click','.challenge', function() {
-    var id = $(this).data('id');
-    $.post('/challenge', {id: id}, function(data) {
-      console.log(data);
-    })
   })
   
   // This code is supposed to make my blocks the same height

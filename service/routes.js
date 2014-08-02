@@ -54,7 +54,8 @@ exports.getTopBots = function(req, res) {
       botName: 'Fantastic',
       wins: 10,
       losses: 0,
-      rank: 'A'
+      rank: 'A',
+      canChallenge: 'true'
     },
     2: {
       user: 'Michael X',
@@ -62,7 +63,8 @@ exports.getTopBots = function(req, res) {
       botName: 'Floppy',
       wins: 5,
       losses: 4,
-      rank: 'B'
+      rank: 'B',
+      canChallenge: 'false'
     },
     3: {
       user: 'Kevin C',
@@ -70,7 +72,8 @@ exports.getTopBots = function(req, res) {
       botName: 'Orangebot',
       wins: 3,
       losses: 1,
-      rank: 'B'
+      rank: 'B',
+      canChallenge: 'false'
     }
   };
   res.send(data);
