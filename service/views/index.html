@@ -8,6 +8,9 @@
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+  <script type="text/javascript">
+    var currentUser = '{{user}}';
+  </script>
   <script src="js/blabber.js"></script>
   <script src="js/scripts.js"></script>
   
@@ -58,24 +61,24 @@
           </div>
           </form>
         </div>
-        <div class="content-box stats">
+        <div class="content-box current-user-stats">
           <h2>Plane Stats</h2>
           <h3>Current Plane Name</h3>
-          <p>{{bot.botName}}</p>
+          <p>{{bot.bot.botName}}</p>
           <h3>Description</h3>
-          <p>{{bot.botDesc}}</p>
+          <p>{{bot.bot.botDesc}}</p>
           <ul>
             <li>
-              <h3>Current Rank</h3>
-              <div class="stat-num rank">B</div>
+              <h3>Current ELO</h3>
+              <div class="stat-num rank">{{bot.elo}}</div>
             </li>
             <li>
               <h3>Games Won</h3>
-              <div class="stat-num win">24</div>
+              <div class="stat-num win">{{bot.wins}}</div>
             </li>
             <li>
               <h3>Games Lost</h3>
-              <div class="stat-num">4</div>
+              <div class="stat-num">{{bot.losses}}</div>
             </li>
           </ul>
         </div>
@@ -99,12 +102,12 @@
   <!-- bot item templater -->
   <div class="bot-item-template">
     <div class="challengerBox">
-      <span class="num">1</span>. <span class="challengerName">Victor H's</span> <span class="challengerBot">botbot</span>
+      <span class="num">1</span>. <span class="challengerName"></span> <span class="challengerBot"></span>
       <span data-id="" class="stats">stats</span>
       <span class="challenge">challenge</span>
     </div>
     <div class="statsBox">
-      <span class="statItem">Rank: <em class='r'>A</em></span>
+      <span class="statItem">Elo: <em class='r'>A</em></span>
       <span class="statItem">Wins: <em class='w'>200</em></span>
       <span class="statItem">Losses: <em class='l'>10</em></span>
     </div>
@@ -113,7 +116,7 @@
   <!-- match item templater -->
   <div class="match-item-template">
     <div class="challengerBox">
-      <span class="challengerName">Victor H's</span> <span class="challengerBot">botbot</span>
+      <span class="challengerName"></span> <span class="challengerBot">botbot</span>
       <span class="share">share</span>
       <a class="view" href="#">view match</a>
     </div>

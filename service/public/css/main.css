@@ -139,21 +139,21 @@ header {
         -webkit-transform: rotate(-30deg);
         /* Opera, Chrome, and Safari */ }
 
-.stats {
+.current-user-stats {
   width: 566px; }
-  .stats p {
+  .current-user-stats p {
     margin-bottom: 20px; }
-  .stats ul li {
+  .current-user-stats ul li {
     margin-right: 50px;
     display: inline-block;
     text-align: left; }
-    .stats ul li .stat-num {
+    .current-user-stats ul li .stat-num {
       color: #999;
       font-size: 100px;
       font-weight: 500; }
-    .stats ul li .win {
+    .current-user-stats ul li .win {
       color: #14bd6b; }
-    .stats ul li .rank {
+    .current-user-stats ul li .rank {
       color: #333; }
 
 .upload-bot {

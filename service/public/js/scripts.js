@@ -76,16 +76,19 @@ $(document).ready(function() {
       var bot = data[i];
       $botBox = $('.bot-item-template').clone();
       $botBox.addClass('bot-item').removeClass('bot-item-template');
-      $botBox.find('.challengerName').text(bot.user);
       $botBox.find('.challengerBot').text(bot.botName);
       $botBox.find('.statsBox').addClass('statsBox'+i);
-      $botBox.find('.num').text(i);
+      $botBox.find('.num').text((parseInt(i)+1));
       $botBox.find('.w').text(bot.wins);
       $botBox.find('.l').text(bot.losses);
       $botBox.find('.r').text(bot.elo);
+      $botBox.find('.challengerName').text(bot.user);
       
       $botBox.find('.stats').data('id', i);
       $botBox.find('.challenge').data('id', bot.userId);
+      if (bot.user == currentUser) {
+        $botBox.find('.challenge').remove();
+      }
       
       $('.top-challengers').append($botBox);
     }

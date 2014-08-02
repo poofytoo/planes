@@ -130,7 +130,7 @@ function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
 function getCurrentBot(userId, callback) {
   root.child('users').child(userId).once('value', function(data) {
     console.log(data.val().bot)
-    callback(data.val().bot, null);
+    callback(data.val(), null);
   })
 }
 
