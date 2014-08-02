@@ -32,7 +32,7 @@ $(document).ready(function(){
   
  
   var testJSON = {};
-  var id = window.location.hash.slice(1);
+  var id = document.URL.split('?')[1];
   console.log(id)
   
   $.get("/getgame", {id: id}, function (data) {
@@ -41,7 +41,7 @@ $(document).ready(function(){
       // You know, for dramatic effect.
       $('.go-btn').fadeIn(200);
       $('.spinner').fadeOut();
-    }, 1000)
+    }, 100)
   });
     
   $('.go-btn').on('click', function() {
