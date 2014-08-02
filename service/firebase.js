@@ -148,11 +148,18 @@ function findUser(id, callback) {
 function fetchGame(userId, id, callback) {  
   root.child('games').child(id).once('value', function(data) {
     if (data.val()) {
-      callback(false, data.val().gameJson);
-      findUser(userId, function(error, user) {
-        if (!error) {
-          root.child('users').child(userId).child('watched').child(id).set('seen');
-        }
+      root.child('requests').child(id).once('value', function(requestData) {
+        var gameObject = JSON.parse(data.val().gameJson);
+        gameObject['username1'] = requestData.val().username1;
+        gameObject['username2'] = requestData.val().username2;
+
+        callback(false, gameObject);
+
+        findUser(userId, function(error, user) {
+          if (!error) {
+            root.child('users').child(userId).child('watched').child(id).set('seen');
+          }
+        });
       });
     } else {
       callback("Game id not found.", false);

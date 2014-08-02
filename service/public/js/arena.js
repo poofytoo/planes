@@ -36,7 +36,7 @@ $(document).ready(function(){
   
   $.get("/getgame", {id: id}, function (data) {
     if (data) {
-      window.testJSON = JSON.parse(data);
+      window.testJSON = data;
       setTimeout(function(){
         // You know, for dramatic effect.
         $('.go-btn').fadeIn(200);
