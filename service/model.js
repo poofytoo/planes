@@ -1,9 +1,12 @@
 var firebase = require('./firebase');
 var fs = require('fs');
 var path = require('path');
+var exec = require('child_process').exec;
 
 var VALID_FILES = ['.py'];
 var MAX_FILE_SIZE = 50000;
+
+exec('mkdir -p uploads');
 
 function fsWriteFile(data, userId, botFileName, botName, botDesc, callback) {
   console.log('writing file');
@@ -36,9 +39,8 @@ exports.createBot = function(userId, botName, botDesc, botFile, callback) {
       return;
     } else {
     
-      // Collect number of files
-      var numFiles = fs.readdirSync("uploads/" + userId).length;
       
+      var numFiles = 0;
       // Reformat the Upload File Name
       var uploadBotName = (numFiles+1) + '-' + botName + fileExt;
       
@@ -56,6 +58,9 @@ exports.createBot = function(userId, botName, botDesc, botFile, callback) {
           });   
         } else {
           console.log('re-uploading file');
+          // Collect number of files
+          numFiles = fs.readdirSync("uploads/" + userId).length;
+          uploadBotName = (numFiles+1) + '-' + botName + fileExt;
           fsWriteFile(data, userId, uploadBotName, botName, botDesc, callback);
         }
       });
@@ -74,3 +79,4 @@ exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;
 exports.userList = firebase.userList;
 exports.fetchGame = firebase.fetchGame;
+exports.makeRequest = firebase.makeRequest;

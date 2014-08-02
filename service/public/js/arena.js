@@ -34,8 +34,7 @@ $(document).ready(function(){
   var testJSON = {};
   var id = window.location.hash.slice(1);
   console.log(id)
-  $.post("/getgame", {id: id}, function (data) {
-    console.log(data);
+  $.get("/getgame", {id: id}, function (data) {
     window.testJSON = JSON.parse(data);
   });
     
@@ -45,7 +44,6 @@ $(document).ready(function(){
   }
   
   var render = function(frame) {
-    console.log(frame);
     if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
       clearInterval(gameTimer);
       $('.explode-left-v')[0].load();

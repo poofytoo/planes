@@ -103,7 +103,7 @@ function getUser(username, callback) {
     var users = data.val();
     for (var userKey in users) {
       var user = users[userKey];
-      if (user.username == username) {
+      if (user.username === username) {
         callback(false, user);
         return;
       }
@@ -145,6 +145,20 @@ function fetchGame(id, callback) {  data = root.child('games/' + id + '/gameJson
   });
 };
 
+function makeRequest(challengerId, otherId, callback) {
+  root.child('requestCounter').transaction(function(counter) {
+    return counter + 1;
+  }, function(error, committed, snapshot) {
+    if (!error) {
+      var gameId = snapshot.val();
+      root.child('requests').child(gameId).set({id: gameId, user1: challengerId, user2: otherId, status: "open"});
+      callback(false);
+    } else {
+      callback(error);
+    }
+  });
+}
+
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
@@ -155,5 +169,4 @@ exports.sanitizeUsername = sanitizeUsername;
 exports.createBot = createBot;
 exports.getCurrentBot = getCurrentBot;
 exports.fetchGame = fetchGame;
-
-
+exports.makeRequest = makeRequest;

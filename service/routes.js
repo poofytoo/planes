@@ -97,11 +97,20 @@ exports.challenge = function(req, res) {
 }
 
 exports.getGame = function(req, res) {
-  model.fetchGame(req.body.id, function(err, data){
+  model.fetchGame(req.query.id, function(err, data){
     res.send(data);
   })
 }
 
+exports.makeRequest = function(req, res) {
+  model.makeRequest(req.user.id, req.body.id, function(err) {
+    if (err) {
+      res.send(err);
+    } else{
+      res.end();
+    }
+  });
+}
 
 exports.viewer = function(req, res) {
   if (req.user) {
