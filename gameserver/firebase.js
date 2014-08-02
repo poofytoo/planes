@@ -93,6 +93,24 @@ function findUser(id, callback) {
   });
 };
 
+function getElo(userId, callback) {
+  root.child('users').child(userId).once('value', function(data) {
+    if (data.val()) {
+      callback(false, data.val().elo);
+    } else {
+      callback("User not found.", false);
+    }
+  });
+}
+
+function updateElo(userId, newElo) {
+  root.child('users').child(userId).once('value', function(data) {
+    if (data.val()) {
+      root.child('users').child(userId).child('elo').set(newElo);
+    }
+  });
+}
+
 exports.getUser = getUser;
 exports.findUser = findUser;
 
@@ -101,3 +119,5 @@ exports.getCurrentBot = getCurrentBot;
 exports.getRequests = getRequests;
 exports.addGameObject = addGameObject;
 exports.closeRequest = closeRequest;
+exports.getElo = getElo;
+exports.updateElo = updateElo;

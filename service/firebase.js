@@ -63,7 +63,8 @@ function createUserFb(username, id, callback) {
       var user = {
         'id' : id,
         'username' : cleanUsername,
-        'userStatus': 'new'
+        'userStatus': 'new',
+        'elo' : 1000
       };
 
       root.child('users').child(id).set(user);
