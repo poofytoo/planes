@@ -103,6 +103,24 @@ function getElo(userId, callback) {
   });
 }
 
+function addWin(userId) {
+  root.child('users').child(userId).child('wins').transaction(function(wins) {
+    return wins + 1;
+  });
+}
+
+function addLoss(userId) {
+  root.child('users').child(userId).child('losses').transaction(function(losses) {
+    return losses + 1;
+  });
+}
+
+function addDraw(userId) {
+  root.child('users').child(userId).child('draws').transaction(function(draws) {
+    return draws + 1;
+  });
+}
+
 function updateElo(userId, newElo) {
   root.child('users').child(userId).once('value', function(data) {
     if (data.val()) {
@@ -121,3 +139,6 @@ exports.addGameObject = addGameObject;
 exports.closeRequest = closeRequest;
 exports.getElo = getElo;
 exports.updateElo = updateElo;
+exports.addWin = addWin;
+exports.addLoss = addLoss;
+exports.addDraw = addDraw;

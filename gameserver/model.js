@@ -13,7 +13,7 @@ var UNKNOWN = ".txt"
 
 var checking = false;
 
-var REQUEST_TICK_TIME_MILLIS = 10000
+var REQUEST_TICK_TIME_MILLIS = 30000
 
 // Make directories for source code and compiled binaries
 exec('mkdir -p binaries');
@@ -132,10 +132,19 @@ function handleOutput(output, userId1, userId2, gameId) {
 
   if (gameOutput.result.indexOf("BOT1") !== -1) {
     updateRankings(userId1, userId2, 1, 0);
+
+    firebase.addWin(userId1);
+    firebase.addLoss(userId2);
   } else if (gameOutput.result.indexOf("BOT2") !== -1) {
     updateRankings(userId1, userId2, 0, 1);
+
+    firebase.addLoss(userId1);
+    firebase.addWin(userId2);
   } else {
     updateRankings(userId1, userId2, .5, .5);
+
+    firebase.addDraw(userId1);
+    firebase.addDraw(userId2);
   }
 
   firebase.addGameObject(gameObject, gameId);
@@ -150,6 +159,12 @@ function processRequest(request) {
   var userId2 = request.user2;
 
   getBots(userId1, userId2, function(error, bot1, bot2) {
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+
     var bot1lang = getCodeLang(bot1.botFileName);
     var bot1fn = getCodeName(userId1, bot1lang);
     var bot2lang = getCodeLang(bot2.botFileName);
@@ -164,6 +179,7 @@ function processRequest(request) {
     executeGame(gameId, binary1, binary2, function(error, stdout, stderr) {
       if (!error) {
         handleOutput(stdout, userId1, userId2, gameId);
+        console.log("closing game: " + gameId);
         firebase.closeRequest(request.id);
       } else {
         console.log(error);
@@ -185,9 +201,12 @@ function checkRequests() {
       for (var reqId in requests) {
         var request = requests[reqId];
         if (request.status && request.status === 'open') {
+          console.log("Processing request: " + reqId);
           processRequest(request);
         }
       }
+    } else {
+      console.log(error);
     }
     checking = false;
   });
