@@ -140,6 +140,11 @@ function findUser(id, callback) {
   });
 };
 
+function fetchGame(id, callback) {  data = root.child('games/' + id + '/gameJson').once('value', function(data){
+    callback(false, data.val());
+  });
+};
+
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
@@ -149,5 +154,6 @@ exports.sanitizeUsername = sanitizeUsername;
 // Planes Specific
 exports.createBot = createBot;
 exports.getCurrentBot = getCurrentBot;
+exports.fetchGame = fetchGame;
 
 

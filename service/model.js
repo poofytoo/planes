@@ -73,3 +73,4 @@ exports.getBotStats = function(userId, callback) {
 exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;
 exports.userList = firebase.userList;
+exports.fetchGame = firebase.fetchGame;

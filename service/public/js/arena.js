@@ -30,25 +30,22 @@ $(document).ready(function(){
     $('body').append($a);
   }
   
+ 
   var testJSON = {};
-  $.ajax({
-    url: "js/victorvsfelix.json",
-    success: function (data) {
-      testJSON = data;
-      window.testJSON = testJSON;
-    }
-  }).fail(function(e, status, error) {
-    console.log( e );
-    console.log( error );
-  })
+  var id = window.location.hash.slice(1);
+  console.log(id)
+  $.post("/getgame", {id: id}, function (data) {
+    console.log(data);
+    window.testJSON = JSON.parse(data);
+  });
     
   var gameStep = function() {
-    render(testJSON[testJSONCounter]);
+    render(window.testJSON[testJSONCounter]);
     testJSONCounter ++;
   }
   
   var render = function(frame) {
-  
+    console.log(frame);
     if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
       clearInterval(gameTimer);
       $('.explode-left-v')[0].load();

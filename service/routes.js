@@ -93,13 +93,13 @@ exports.getLatestGames = function(req, res) {
 exports.challenge = function(req, res) {
   // TODO: FILL IT OUT
   // Given a userId, start a challenge!
-  res.send(req.body.id);
+  res.send({});
 }
 
 exports.getGame = function(req, res) {
-  // TODO: FILL IT OUT
-  // Given a game ID, return the animation JSON
-  res.send(req.body.id);
+  model.fetchGame(req.body.id, function(err, data){
+    res.send(data);
+  })
 }
 
 
