@@ -55,34 +55,22 @@ exports.getTopBots = function(req, res) {
 }
 
 exports.getLatestGamesForUser = function(req, res) {
-  // TODO: FILL IT OUT
-  // 
-  data = {
-    1: {
-      gameId: 1,
-      challenger: 'Michael X',
-      botName: 'Floppy',
-      status: 'unwatched'
-    },
-    2: {
-      gameId: 16,
-      challenger: 'Michael X',
-      botName: 'Floppy',
-      status: 'watched'
-    },
-    3: {
-      gameId: 17,
-      challenger: 'Michael X',
-      botName: 'Floppy',
-      status: 'waiting'
+  model.getLatestGamesForUser(req.user.id, function(error, data) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send(data);
     }
-  }
-  res.send(data);
+  });
 }
 
 exports.getGame = function(req, res) {
   model.fetchGame(req.user.id, req.query.id, function(err, data){
-    res.send(data);
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
   })
 }
 

@@ -76,6 +76,51 @@ exports.getBotStats = function(userId, callback) {
 }
 
 exports.getLatestGamesForUser = function(userId, callback) {
+  firebase.getAllRequests(function(requests) {
+    firebase.getAllGames(function(games) {
+      firebase.findUser(userId, function(error, user) {
+        if (error) {
+          callback("User not found.", false);
+          return;
+        }
+        var relevantGames = [];
+        for (var reqId in requests) {
+          var request = requests[reqId];
+          if (request.user1 === userId || request.user2 === userId) {
+            var opponent = request.user1;
+            if (opponent === userId) {
+              opponent = request.user2;
+            }
+
+            var resultObject = {
+              gameId : reqId,
+              opponentId : opponent
+            }
+            if (reqId in games) {
+              if (user.watched[reqId]) {
+                resultObject['status'] = 'watched';
+              } else {
+                resultObject['status'] = 'unwatched';
+              }
+            } else {
+              resultObject['status'] = 'waiting';
+            }
+            relevantGames.push(resultObject);
+          }
+        }
+
+        relevantGames.sort(function(a, b) {
+          return b.gameId - a.gameId;
+        });
+
+        var returnObject = {}
+        for (var i = 0; i < Math.min(relevantGames.length, 20); i++) {
+          returnObject[i] = relevantGames[i];
+        }
+        callback(false, returnObject);
+      });
+    });
+  });
 }
 
 exports.getTopBots = function(userId, callback) {

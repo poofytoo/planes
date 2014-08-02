@@ -194,7 +194,8 @@ function makeRequest(challengerId, otherId, callback) {
           return;
         }
         var now = new Date().getTime();
-        if (now - user.lastRequestTime < 60 * 1000) {
+        // ANTI-SPAM
+        if (now - user.lastRequestTime < 300) {
           callback("Wait a minute before making another challenge.");
           return;
         }
