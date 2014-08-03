@@ -67,6 +67,10 @@ header {
         opacity: 0.6; }
   .help-container .no {
     color: #aaa; }
+  .help-container img {
+    width: 360px;
+    float: right;
+    margin-left: 30px; }
   .help-container .type {
     color: #fd9720;
     font-size: 16px; }

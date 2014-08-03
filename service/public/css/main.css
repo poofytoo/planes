@@ -44,6 +44,20 @@ header {
     margin-bottom: 2px;
     color: #ccc;
     text-transform: uppercase; }
+  .content-box h4 {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    color: #ddd;
+    text-transform: uppercase; }
+  .content-box .new-here a {
+    text-decoration: none;
+    opacity: 0.4;
+    color: #0979e1;
+    font-weight: 400; }
+    .content-box .new-here a:hover, .content-box .new-here a:visited, .content-box .new-here a:focus {
+      opacity: 1;
+      color: #0979e1; }
 
 .split {
   width: 408px; }
@@ -169,7 +183,7 @@ header {
 
 .upload-bot {
   width: 250px;
-  background-image: url("../images/plane-large.png");
+  background-image: url("../assets/plane-large.png");
   background-size: 200px;
   background-repeat: no-repeat;
   background-position: center 90px;
