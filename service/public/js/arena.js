@@ -125,13 +125,18 @@ $(document).ready(function(){
         if (frame['action' + i] == 'charge') {
           $('.charge-'+dir+'-v')[0].load();
           $('.charge-'+dir+'-v')[0].play();
+          
           var css = {'top':(80*frame['p' + i])+20}
-          css[dir] = '40px'
+          css[dir] = '10px'
           console.log(css, i);
           $a = $('<div></div>')
-              .addClass('charge-gif')
+              .addClass('glow-overlay')
+              .addClass(dir + '-overlay')
               .css(css)
+              
           $('.playing-field').append($a);
+          
+          
           $a.fadeOut();
         }
       }
