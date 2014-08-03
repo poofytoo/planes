@@ -82,6 +82,7 @@ header {
     .solid-back .back-box ul {
       display: inline-block; }
       .solid-back .back-box ul li {
+        vertical-align: top;
         display: inline-block; }
         .solid-back .back-box ul li a {
           text-decoration: none;
@@ -94,6 +95,16 @@ header {
           font-size: 15px;
           vertical-align: middle;
           transition: background-color 0.2s ease; }
+          .solid-back .back-box ul li a.emails {
+            line-height: 14px; }
+          .solid-back .back-box ul li a .email-state {
+            font-size: 9px;
+            text-transform: uppercase;
+            padding: 0px 6px; }
+          .solid-back .back-box ul li a .email-on {
+            background-color: #14bd6b; }
+          .solid-back .back-box ul li a .email-off {
+            background-color: #de1637; }
         .solid-back .back-box ul li:hover {
           cursor: pointer;
           background-color: #5c6973;

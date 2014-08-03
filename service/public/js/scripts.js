@@ -16,7 +16,7 @@ $(document).ready(function() {
   $('.right-settings').on('click', function() { 
     if (! settingsActivated) {
       settingsActivated = true;
-      $(this).parent().animate({left: '-220px'}, 200);
+      $(this).parent().animate({left: '-320px'}, 200);
       $('.right-settings').find('.fa')
         .removeClass('fa-cog')
         .addClass('fa-times');
@@ -26,6 +26,24 @@ $(document).ready(function() {
       $('.right-settings').find('.fa')
         .removeClass('fa-times')
         .addClass('fa-cog');
+    }
+  });
+  
+  $('.emails').on('click', function() {
+    $s = $(this)
+    $e = $(this).find('.email-state');
+    if ($e.data('state') == 'on') {
+      $e.fadeOut(100, function(){
+        $e.remove();
+        $s.append('<span data-state="off" class="email-state email-off">off</span>'); 
+        $.post('/setemails', {state: 'off'})
+      }) 
+    } else {
+      $e.fadeOut(100, function(){
+        $e.remove();
+        $s.append('<span data-state="on" class="email-state email-on">on</span>'); 
+        $.post('/setemails', {state: 'on'})
+      })
     }
   });
   

@@ -74,6 +74,7 @@ app.get('/arena', routes.arena);
 app.get('/getgame', routes.getGame);
 app.get('/getgames', routes.getLatestGamesForUser);
 app.post('/makerequest', routes.makeRequest);
+app.post('/setemails', routes.setEmails);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',

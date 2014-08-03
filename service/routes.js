@@ -132,6 +132,13 @@ exports.arena = function(req, res) {
   res.render('arena.html');
 }
 
+exports.setEmails = function(req, res) {
+  // TODO: toggle email settings per user
+  console.log(req.body.state);
+  console.log(req.user.id);
+  res.end();
+}
+
 exports.isLoggedIn = function(req, res) {
   var loggedIn = "no";
   if(req.user) {

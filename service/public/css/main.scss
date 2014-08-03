@@ -1,3 +1,8 @@
+$green: #14bd6b;
+
+$red: #de1637;
+$red-dark: #bd0e2b;
+
 body {
   font-family: 'Lato', sans-serif;
   font-weight: 300;
@@ -104,6 +109,7 @@ header {
       display: inline-block;
       
       li { 
+        vertical-align: top;
         display: inline-block;
       
         a { 
@@ -117,6 +123,24 @@ header {
           font-size: 15px;
           vertical-align: middle;
           transition: background-color 0.2s ease;
+          
+          &.emails {
+            line-height: 14px;
+          }
+          
+          .email-state {
+            font-size: 9px;
+            text-transform: uppercase;
+            padding: 0px 6px;
+          }
+          
+          .email-on {
+            background-color: $green;
+          }
+          
+          .email-off {
+            background-color: $red;
+          }
         }
         
         &:hover {
@@ -193,7 +217,7 @@ header {
         font-weight: 500;
       }
       .win {
-        color: #14bd6b;
+        color: $green;
       }
       .rank {
         color: #333;
@@ -412,9 +436,9 @@ header {
   .challenge {
     font-size: 14px;
     color: #fff;
-    background-color: #de1637;
+    background-color: $red;
     padding: 4px 10px;
-    border-bottom: 2px solid #bd0e2b;
+    border-bottom: 2px solid $red-dark;
     float: right;
     margin-right: 3px;
     
