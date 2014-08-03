@@ -62,7 +62,7 @@ function getRequests(callback) {
 
 function getCurrentBot(userId, callback) {
   root.child('users').child(userId).once('value', function(data) {
-    if (data.val()) {
+    if (data.val() && data.val().bot) {
       callback(false, data.val().bot);
     } else {
       callback("user not found.", false);
