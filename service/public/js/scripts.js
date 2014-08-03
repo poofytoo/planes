@@ -135,7 +135,7 @@ $(document).ready(function() {
     if (windowInFocus) {
       getPlayedGames();
     }
-  }, 5000);
+  }, 1000 * 60 * 3);
   
   var windowInFocus = true;
   $(window).blur(function(){
