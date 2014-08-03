@@ -56,7 +56,7 @@ function hasAdminPrivileges (user) {
   return user in ADMIN;
 }
 
-function createUserFb(username, id, callback) {
+function createUserFb(username, emails, id, callback) {
   findUser(id, function(notFound, foundUser) {
     var cleanUsername = sanitizeUsername(username);
     if (notFound) {
@@ -136,6 +136,7 @@ function getCurrentBot(userId, callback) {
 
 function findUser(id, callback) {
   root.child('users').child(id).once('value', function(data) {
+    console.log(data.val());
     if (data.val()) {
       callback(false, data.val());
     } else {
@@ -194,6 +195,9 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
     callback("Can't challenge yourself.");
     return;
   }
+  
+  console.log(otherId);
+  
   root.child('requestCounter').transaction(function(counter) {
     return counter + 1;
   }, function(error, committed, snapshot) {
@@ -221,6 +225,7 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
             username1: challengerUsername,
             user2: otherId, 
             username2: user2.username,
+            watched: {0:'seen'},
             status: "open"
           });
           root.child('users').child(challengerId).child('lastRequestTime').set(new Date().getTime());

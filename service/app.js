@@ -34,10 +34,12 @@ app.use(app.router);
 passport.use(new FacebookStrategy({
     clientID: authConfig.clientID,
     clientSecret: authConfig.clientSecret,
-    callbackURL: authConfig.callbackURL
+    callbackURL: authConfig.callbackURL,
+    profileFields: ['id', 'displayName', 'photos', 'emails']
   },
   function(accessToken, refreshToken, profile, done) {
-    firebase.createUserFb(profile.displayName, profile.id, function(error, user) {
+    console.log(profile);
+    firebase.createUserFb(profile.displayName, profile.emails, profile.id, function(error, user) {
       if (error) {
         return done(error);
       }

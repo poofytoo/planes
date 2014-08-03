@@ -42,6 +42,8 @@ $(document).ready(function(){
         // You know, for dramatic effect.
         $('.go-btn').fadeIn(200);
         $('.spinner').fadeOut();
+        $('.green').text(data.username1);
+        $('.orange').text(data.username2);
       }, 100)
     } else {
       setTimeout(function(){
