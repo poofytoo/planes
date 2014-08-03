@@ -65,13 +65,24 @@ exports.getLatestGamesForUser = function(req, res) {
 }
 
 exports.getGame = function(req, res) {
-  model.fetchGame(req.user.id, req.query.id, function(err, data){
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(data);
-    }
-  })
+  var id = 0;
+  if (req.query && req.query.id) {
+    id = req.query.id;
+  }
+
+  getHandler = function(err, data) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(data);
+      }
+  }
+
+  if (req.user) {
+    model.fetchGame(req.user.id, id, getHandler);
+  } else {
+    model.fetchGamePublic(id, getHandler);
+  }
 }
 
 exports.makeRequest = function(req, res) {

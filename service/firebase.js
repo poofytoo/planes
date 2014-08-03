@@ -167,6 +167,10 @@ function fetchGame(userId, id, callback) {
   });
 };
 
+function fetchGamePublic(id, callback) {
+  fetchGame("placeholder-nonexistent", id, callback);
+}
+
 function getAllUsers(callback) {
   root.child('users').once('value', function(data) {
     callback(data.val());
@@ -239,6 +243,7 @@ exports.sanitizeUsername = sanitizeUsername;
 exports.createBot = createBot;
 exports.getCurrentBot = getCurrentBot;
 exports.fetchGame = fetchGame;
+exports.fetchGamePublic = fetchGamePublic;
 exports.makeRequest = makeRequest;
 exports.getAllUsers = getAllUsers;
 exports.getAllRequests = getAllRequests;
