@@ -76,6 +76,8 @@ app.get('/getgames', routes.getLatestGamesForUser);
 app.post('/makerequest', routes.makeRequest);
 app.post('/setemails', routes.setEmails);
 
+app.get('/help', routes.help);
+
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',

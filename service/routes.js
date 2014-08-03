@@ -3,7 +3,8 @@ var authConfig = require('./authConfig.js');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
-      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || req.url.indexOf('/arena') === 0) {
+      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || 
+      req.url.indexOf('/arena') === 0 || req.url == '/help') {
     next();
   } else if (req.user) {
     console.log(req.user.username + " " + req.url);
@@ -130,6 +131,11 @@ exports.getFirebase = function(req, res) {
 exports.arena = function(req, res) {
   // incoming as http://localhost:8080/arena?gameId
   res.render('arena.html');
+}
+
+exports.help = function(req, res) {
+  // incoming as http://localhost:8080/help
+  res.render('help.html');
 }
 
 exports.setEmails = function(req, res) {
