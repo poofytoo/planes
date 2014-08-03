@@ -3,6 +3,10 @@ body {
   font-weight: 300;
   background-color: #fff; }
 
+a, a:visited, a:active, a:hover {
+  text-decoration: none;
+  color: #fff; }
+
 header {
   background-color: #003663;
   min-width: 960px; }
@@ -26,7 +30,8 @@ header {
 .tagline {
   text-align: center;
   padding: 20px;
-  color: #666; }
+  font-size: 20px;
+  color: #bbb; }
 
 .banner {
   height: 200px;
@@ -42,7 +47,7 @@ header {
     background-color: #3f588e;
     color: #fff;
     font-size: 14px;
-    font-weight: 100;
+    font-weight: 300;
     padding: 10px 20px 8px 40px;
     background-image: url("../assets/facebook-login-2.png");
     background-repeat: no-repeat;
@@ -61,7 +66,7 @@ header {
     font-weight: 400;
     text-align: center;
     margin-bottom: 10px;
-    opacity: 0.3; }
+    opacity: 0.2; }
   .lower-container p {
     margin: 0 auto;
     text-align: center;
@@ -69,3 +74,17 @@ header {
     line-height: normal; }
   .lower-container em {
     font-weight: 500; }
+  .lower-container .samples {
+    text-align: center;
+    margin-top: 20px; }
+    .lower-container .samples a {
+      padding: 5px 20px;
+      margin-right: 10px; }
+    .lower-container .samples .sample-game {
+      background-color: #14bd6b;
+      border-bottom: 2px solid #109957; }
+    .lower-container .samples .sample-code {
+      color: #67e65a;
+      font-family: 'Courier New', monospace;
+      background-color: #2d2d2d;
+      border-bottom: 2px solid #000; }

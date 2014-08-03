@@ -3,7 +3,7 @@ var authConfig = require('./authConfig.js');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
-      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/arena') === 0) {
+      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || req.url.indexOf('/arena') === 0) {
     next();
   } else if (req.user) {
     console.log(req.user.username + " " + req.url);

@@ -35,7 +35,8 @@ $(document).ready(function(){
   var id = document.URL.split('?')[1];
   
   $.get("/getgame", {id: id}, function (data) {
-    if (data) {
+    console.log(data);
+    if (data && data !== 'Game id not found.') {
       window.testJSON = data;
       setTimeout(function(){
         // You know, for dramatic effect.
@@ -50,10 +51,16 @@ $(document).ready(function(){
       }, 200);
       console.log('invalid ID');
     }
+  }).fail(function(){
+      setTimeout(function(){
+        $('.spinner').fadeOut(200, function(){
+          $('.invalid-id').fadeIn(200);
+        });
+      }, 200);
+      console.log('invalid ID');
   });
     
   $('.go-btn').on('click', function() {
-    console.log('lets go')
     $('.cover').fadeOut(100);
     beginGame();
   });
