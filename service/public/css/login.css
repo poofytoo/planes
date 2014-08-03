@@ -8,8 +8,7 @@ a, a:visited, a:active, a:hover {
   color: #fff; }
 
 header {
-  background-color: #003663;
-  min-width: 960px; }
+  background-color: #003663; }
   header h1 {
     font-family: 'Lobster', sans-serif;
     font-size: 70px;
@@ -60,7 +59,9 @@ header {
 .lower-container {
   background-color: #eceff1;
   margin-top: 40px;
-  padding: 30px; }
+  padding: 30px;
+  border: 1px solid #d7dde1;
+  border-width: 1px 0 1px 0; }
   .lower-container h1 {
     font-size: 20px;
     font-weight: 400;
@@ -92,3 +93,29 @@ header {
       background-color: #2d2d2d;
       border-bottom: 2px solid #000;
       font-weight: 100; }
+
+.row-code {
+  margin-top: 40px;
+  text-align: center;
+  margin-bottom: 30px; }
+  .row-code h1 {
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 10px;
+    opacity: 0.2; }
+  .row-code img {
+    max-width: 798px;
+    width: 100%; }
+  .row-code p {
+    font-size: 16px;
+    max-width: 700px;
+    padding: 0 20px;
+    margin: 0 auto;
+    line-height: normal; }
+    .row-code p a {
+      color: #336de5; }
+      .row-code p a:hover {
+        opacity: 0.8; }
+    .row-code p code {
+      font-family: 'Andale Mono', 'Courier', monospace; }

@@ -28,10 +28,32 @@
       <a class="sample-game" href="arena?16">
         view sample game
       </a>
-      <a class="sample-code" href="#">
+      <a class="sample-code" href="#code">
         the code
       </a>
     </div>
   </div>
+    <div id="code" class="row-code">
+      <img src="../assets/example-code.png">
+      <h1>How does it work?</h1>
+      <p>Making your AI is easy! Each round, you must return a plane action- one of <code>up</code>, <code>down</code>, <code>charge</code>, or <code>shoot</code>. You get information such as the current <code>gameRound</code> and the position of your enemy. Check out the full <a href='/help'>documentation</a>!
+      </p>
+    </div>
+    <script type="text/javascript">
+    $(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top
+            }, 1000);
+            return false;
+          }
+        }
+      });
+    });
+    </script>
   </body>
 </html>

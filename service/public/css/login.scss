@@ -12,7 +12,6 @@ a, a:visited, a:active, a:hover {
 
 header {
   background-color: #003663;
-  min-width: 960px;
   
   h1 {
     font-family: 'Lobster', sans-serif;
@@ -78,7 +77,8 @@ header {
   background-color: #eceff1;
   margin-top: 40px;
   padding: 30px;
-  
+  border: 1px solid #d7dde1;
+  border-width: 1px 0 1px 0;
   h1 {
     font-size: 20px;
     font-weight: 400;
@@ -121,6 +121,45 @@ header {
       background-color: #2d2d2d;
       border-bottom: 2px solid #000;
       font-weight: 100;
+    }
+  }
+}
+
+.row-code {
+  margin-top: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+  
+  h1 {
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 10px;
+    opacity: 0.2;
+  }
+  
+  img {
+    max-width: 798px;
+    width: 100%;
+  }
+  
+  p {
+    font-size: 16px;
+    max-width: 700px;
+    padding: 0 20px;
+    margin: 0 auto;
+    line-height: normal;
+    
+    a {
+      color: #336de5;
+      
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    
+    code {
+      font-family: 'Andale Mono', 'Courier', monospace;
     }
   }
 }
