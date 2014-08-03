@@ -125,7 +125,9 @@ exports.getTopBots = function(userId, callback) {
   firebase.getAllUsers(function(users) {
     var userList = [];
     for (var userId in users) {
-      userList.push(users[userId]);
+      if (users[userId].bot) {
+        userList.push(users[userId]);
+      }
     }
 
     userList.sort(function(a, b) {
