@@ -101,7 +101,6 @@ function updateRankings(userId1, userId2, user1Result, user2Result) {
       if (err) {
         return;
       }
-
       
       // Gets expected score for first parameter
       var exp1 = getExpected(elo1, elo2);
