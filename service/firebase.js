@@ -77,6 +77,8 @@ function createUserFb(username, emails, id, callback) {
         'losses' : 0,
         'draws' : 0,
         'lastRequestTime' : 0,
+        'emails' : 'on',
+        'watched' : {0:0},
         'secret' : genSecret()
       };
 
