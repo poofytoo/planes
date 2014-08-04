@@ -36,7 +36,7 @@
         </div>
         <div class="back-box">
           <ul>
-            <li><a class='emails'>Emails<br /><span data-state='on' class='email-state email-on'>on</span></a></li>
+            <li><a class='emails'>Emails<br /><span data-state='{{bot.emails}}' class='email-state email-{{bot.emails}}'>{{bot.emails}}</span></a></li>
             <li><a href='/help'>Help</a></li>
             <li><a href='/logout'>Logout</a></li>
           </ul>
@@ -119,6 +119,10 @@
       </div>
     </div>
     
+  <footer>
+    It's going to be a great day! <br />Questions or Comments? Contact <em>planes@mit.edu</em>
+  </footer>
+  <!-- below are things I don't want you to see -->
   <!-- bot item templater -->
   <div class="bot-item-template">
     <div class="challengerBox">

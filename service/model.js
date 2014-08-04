@@ -157,6 +157,19 @@ exports.getTopBots = function(userId, callback) {
   });
 }
 
+
+exports.toggleEmail = function(userId, state, callback) {
+  if (state == 'on') {
+    firebase.setEmailPreferences(userId, 'on', function() {
+      callback();
+    })
+  } else {
+    firebase.setEmailPreferences(userId, 'off', function() {
+      callback();
+    })
+  }
+}
+
 exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;
 exports.userList = firebase.userList;

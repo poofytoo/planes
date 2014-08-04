@@ -238,6 +238,11 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
   });
 }
 
+function setEmailPreferences(userId, state, callback) {
+  root.child('users/' + userId + '/emails').set(state);
+  callback(false);
+}
+
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
@@ -253,3 +258,4 @@ exports.makeRequest = makeRequest;
 exports.getAllUsers = getAllUsers;
 exports.getAllRequests = getAllRequests;
 exports.getAllGames = getAllGames;
+exports.setEmailPreferences = setEmailPreferences;

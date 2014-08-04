@@ -57,3 +57,15 @@ header {
     }
   }
 }
+
+footer {
+  text-align: center;
+  margin: 30px;
+  font-size: 14px;
+  color: #333;
+  line-height: normal;
+  
+  em {
+    font-weight: 400;
+  }
+}

@@ -37,6 +37,15 @@ header {
       opacity: 0.9;
       transition: opacity 0.1s; }
 
+footer {
+  text-align: center;
+  margin: 30px;
+  font-size: 14px;
+  color: #333;
+  line-height: normal; }
+  footer em {
+    font-weight: 400; }
+
 body {
   font-family: 'Lato', sans-serif;
   font-weight: 300;

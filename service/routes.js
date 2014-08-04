@@ -140,9 +140,14 @@ exports.help = function(req, res) {
 
 exports.setEmails = function(req, res) {
   // TODO: toggle email settings per user
-  console.log(req.body.state);
-  console.log(req.user.id);
-  res.end();
+  model.toggleEmail(req.user.id, req.body.state, function(err){
+    if (err) {
+      console.log(err)
+      res.end();
+    } else {
+      res.end();
+    }
+  });
 }
 
 exports.isLoggedIn = function(req, res) {
