@@ -96,7 +96,7 @@ exports.getLatestGamesForUser = function(userId, callback) {
             opponentName : opponent
           };
           if (request.status === 'closed') {
-            if (user.watched[reqId]) {
+            if (user.watched && user.watched[reqId]) {
               resultObject['status'] = 'watched';
             } else {
               resultObject['status'] = 'unwatched';

@@ -35,11 +35,11 @@ passport.use(new FacebookStrategy({
     clientID: authConfig.clientID,
     clientSecret: authConfig.clientSecret,
     callbackURL: authConfig.callbackURL,
-    profileFields: ['id', 'displayName', 'photos', 'emails']
+    profileFields: ['id', 'displayName', 'emails', 'friends'],
+    enableProof : true
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-    firebase.createUserFb(profile.displayName, profile.emails, profile.id, function(error, user) {
+    firebase.createUserFb(profile, function(error, user) {
       if (error) {
         return done(error);
       }
@@ -81,7 +81,7 @@ app.get('/goodbye', routes.unsubscribe);
 
 app.get('/help', routes.help);
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email', 'user_friends']}));
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',
       failureRedirect: '/' }))

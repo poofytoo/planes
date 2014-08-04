@@ -64,7 +64,13 @@ function genSecret() {
     return text;
 }
 
-function createUserFb(username, emails, id, callback) {
+function createUserFb(profile, callback) {
+  var username = profile.displayName;
+  var id = profile.id;
+  var email = profile.email;
+  if (!email && profile.emails) {
+    email = profile.emails[0];
+  }
   findUser(id, function(notFound, foundUser) {
     var cleanUsername = sanitizeUsername(username);
     if (notFound) {
@@ -78,6 +84,7 @@ function createUserFb(username, emails, id, callback) {
         'draws' : 0,
         'lastRequestTime' : 0,
         'emails' : 'on',
+        'email' : email,
         'watched' : {0:0},
         'secret' : genSecret()
       };
