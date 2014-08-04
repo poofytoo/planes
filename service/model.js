@@ -185,7 +185,7 @@ sendChallengeEmail = function(userId, userName, userEmail, otherName, matchId, u
   var mailOptions = {
       from: 'The Planes Team <theplanesgame@gmail.com>', // sender address
       to: userEmail, // list of receivers
-      subject: 'Your plane has been challenged!', // Subject line
+      subject: 'Your plane was challenged by ' + otherName + '!', // Subject line
       replyTo: 'planes@mit.edu',
       text: emailTemplate.challengeEmail(userId, userName, otherName, matchId, userSecret), // plaintext body
       html: emailTemplate.challengeEmail(userId, userName, otherName, matchId, userSecret) // html body
