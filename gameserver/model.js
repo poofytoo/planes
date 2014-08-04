@@ -13,7 +13,10 @@ var UNKNOWN = ".txt"
 
 var checking = false;
 
-var REQUEST_TICK_TIME_MILLIS = 30000
+var REQUEST_TICK_TIME_MILLIS = 120000;
+
+var queuedGameCounter = 0;
+var closedGameCounter = 0;
 
 // Make directories for source code and compiled binaries
 exec('mkdir -p binaries');
@@ -21,6 +24,7 @@ exec('mkdir -p sources');
 
 // Listen to requests
 setInterval(checkRequests, REQUEST_TICK_TIME_MILLIS);
+
 
 function getBots(user1, user2, callback) {
   firebase.getCurrentBot(user1, function(error1, bot1) {
@@ -76,7 +80,7 @@ function buildFile(fileName, lang) {
 function executeGame(gameId, binary1, binary2, callback) {
   exec('python modules/engine.py ' + gameId + ' binaries/' + binary1 + ' binaries/' + binary2,
       {timeout : 1000 * 60 * 5, // set a timeout of 5 minutes
-       maxBuffer : 2000 * 1024}, 
+       maxBuffer : 5000 * 1024}, 
       function(error, stdout, stderr) {
         callback(error, stdout, stderr);
       }
@@ -101,6 +105,7 @@ function updateRankings(userId1, userId2, user1Result, user2Result) {
       if (err) {
         return;
       }
+
       
       // Gets expected score for first parameter
       var exp1 = getExpected(elo1, elo2);
@@ -174,6 +179,7 @@ function processRequest(request) {
 
     var binary1 = buildFile('f' + userId1, bot1lang);
     var binary2 = buildFile('f' + userId2, bot2lang);
+    console.log("executing game: " + gameId);
 
     executeGame(gameId, binary1, binary2, function(error, stdout, stderr) {
       if (!error) {
@@ -183,30 +189,29 @@ function processRequest(request) {
       } else {
         console.log(error);
       }
+      closedGameCounter++;
     });
   });
 }
 
 function checkRequests() {
-  if (checking) {
+  if (queuedGameCounter < closedGameCounter) {
+    console.log("Waiting on " + (queuedGameCounter - closedGameCounter) + " games to finish.");
     return;
   }
+  console.log("Getting requests.");
   firebase.getRequests(function(error, requests) {
-    if (checking) {
-      return;
-    }
-    checking = true;
     if (!error) {
+      console.log("Obtained requests.");
       for (var reqId in requests) {
         var request = requests[reqId];
         if (request.status && request.status === 'open') {
-          console.log("Processing request: " + reqId);
+          queuedGameCounter++;
           processRequest(request);
         }
       }
     } else {
       console.log(error);
     }
-    checking = false;
   });
 }
