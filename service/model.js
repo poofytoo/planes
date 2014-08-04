@@ -181,7 +181,7 @@ exports.toggleEmail = function(userId, state, callback) {
   }
 }
 
-exports.sendChallengeEmail = function(userId, userName, userEmail, otherName, matchId, userSecret) {
+sendChallengeEmail = function(userId, userName, userEmail, otherName, matchId, userSecret) {
   var mailOptions = {
       from: 'The Planes Team <theplanesgame@gmail.com>', // sender address
       to: userEmail, // list of receivers
@@ -208,3 +208,5 @@ exports.fetchGame = firebase.fetchGame;
 exports.fetchGamePublic = firebase.fetchGamePublic;
 exports.makeRequest = firebase.makeRequest;
 exports.verifyUser = firebase.verifyUser;
+
+exports.sendChallengeEmail = sendChallengeEmail;
