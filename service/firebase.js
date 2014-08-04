@@ -67,8 +67,10 @@ function genSecret() {
 function createUserFb(profile, callback) {
   var username = profile.displayName;
   var id = profile.id;
-  var email = profile.email.value;
-  if (!email && profile.emails) {
+  var email = "";
+  if (email.value) {
+    email = email.value;
+  } else if (!email && profile.emails) {
     email = profile.emails[0].value;
   }
   findUser(id, function(notFound, foundUser) {
@@ -147,7 +149,6 @@ function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
 
 function getCurrentBot(userId, callback) {
   root.child('users').child(userId).once('value', function(data) {
-    console.log(data.val().bot)
     callback(data.val(), null);
   })
 }
