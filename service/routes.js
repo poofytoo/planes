@@ -1,6 +1,7 @@
 var model = require('./model');
 var authConfig = require('./authConfig.js');
 
+
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
       req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || 
@@ -176,5 +177,10 @@ exports.isLoggedIn = function(req, res) {
     'Content-Length': loggedIn.length,
     'Content-Type': 'text/plain' })
   res.write(loggedIn);
+  res.end();
+}
+
+exports.testEmail = function(req, res) {
+  model.sendChallengeEmail(12345, 'Victor Hung', 'victorhung92@gmail.com', 'Bob Challengero', 16, 'abcde');
   res.end();
 }

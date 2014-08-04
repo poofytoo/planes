@@ -16,6 +16,6 @@
     "request": "*",
     "passport-facebook": "*",
     "serve-favicon": "*",
-    "socket.io": "*"
-  }
+    "nodemailer": "*"
+ }
 }

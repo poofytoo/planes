@@ -76,6 +76,7 @@ app.get('/getgames', routes.getLatestGamesForUser);
 app.post('/makerequest', routes.makeRequest);
 
 // emails
+app.get('/testemails', routes.testEmail);
 app.post('/setemails', routes.setEmails);
 app.get('/goodbye', routes.unsubscribe);
 
