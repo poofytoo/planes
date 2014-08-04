@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  var FRAME_RATE = 60
+  var FRAME_RATE = 400
   var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
@@ -35,7 +35,6 @@ $(document).ready(function(){
   var id = document.URL.split('?')[1];
   
   $.get("/getgame", {id: id}, function (data) {
-    console.log(data);
     if (data && data !== 'Game id not found.') {
       window.testJSON = data;
       setTimeout(function(){
@@ -51,7 +50,6 @@ $(document).ready(function(){
           $('.invalid-id').fadeIn(200);
         });
       }, 200);
-      console.log('invalid ID');
     }
   }).fail(function(){
       setTimeout(function(){
@@ -59,7 +57,6 @@ $(document).ready(function(){
           $('.invalid-id').fadeIn(200);
         });
       }, 200);
-      console.log('invalid ID');
   });
     
   $('.go-btn').on('click', function() {
@@ -73,6 +70,13 @@ $(document).ready(function(){
   }
   
   var render = function(frame) {
+    if (!frame) {
+      setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
+      $('h4').text('It\'s a TIE!');
+      clearInterval(gameTimer);
+      $('.bul').remove();
+      return
+    }
     if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
       clearInterval(gameTimer);
       $('.explode-left-v')[0].load();
@@ -144,7 +148,6 @@ $(document).ready(function(){
           
           var css = {'top':(80*frame['p' + i])+20}
           css[dir] = '10px'
-          console.log(css, i);
           $a = $('<div></div>')
               .addClass('glow-overlay')
               .addClass(dir + '-overlay')
