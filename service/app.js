@@ -12,6 +12,7 @@ var app = express();
 
 // all environments
 
+app.use(favicon(__dirname + '/public/assets/favicons/favicon.ico'));
 
 app.set('port', authConfig.port);
 app.set('views', __dirname + '/views');
@@ -30,6 +31,8 @@ app.use(passport.session());
 
 app.use(routes.initialRouter);
 app.use(app.router);
+
+console.log(__dirname);
 
 passport.use(new FacebookStrategy({
     clientID: authConfig.clientID,
