@@ -74,7 +74,10 @@ app.get('/arena', routes.arena);
 app.get('/getgame', routes.getGame);
 app.get('/getgames', routes.getLatestGamesForUser);
 app.post('/makerequest', routes.makeRequest);
+
+// emails
 app.post('/setemails', routes.setEmails);
+app.get('/goodbye', routes.unsubscribe);
 
 app.get('/help', routes.help);
 

@@ -56,6 +56,14 @@ function hasAdminPrivileges (user) {
   return user in ADMIN;
 }
 
+function genSecret() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i=0; i < 30; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+}
+
 function createUserFb(username, emails, id, callback) {
   findUser(id, function(notFound, foundUser) {
     var cleanUsername = sanitizeUsername(username);
@@ -68,7 +76,8 @@ function createUserFb(username, emails, id, callback) {
         'wins' : 0,
         'losses' : 0,
         'draws' : 0,
-        'lastRequestTime' : 0
+        'lastRequestTime' : 0,
+        'secret' : genSecret()
       };
 
       root.child('users').child(id).set(user);
@@ -243,6 +252,12 @@ function setEmailPreferences(userId, state, callback) {
   callback(false);
 }
 
+function verifyUser(userId, userSecret, callback) {
+  root.child('users').child(userId).child('secret').once('value', function(data) {
+    callback(userSecret !== data.val());
+  })
+}
+
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
@@ -259,3 +274,4 @@ exports.getAllUsers = getAllUsers;
 exports.getAllRequests = getAllRequests;
 exports.getAllGames = getAllGames;
 exports.setEmailPreferences = setEmailPreferences;
+exports.verifyUser = verifyUser;

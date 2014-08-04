@@ -176,3 +176,4 @@ exports.userList = firebase.userList;
 exports.fetchGame = firebase.fetchGame;
 exports.fetchGamePublic = firebase.fetchGamePublic;
 exports.makeRequest = firebase.makeRequest;
+exports.verifyUser = firebase.verifyUser;

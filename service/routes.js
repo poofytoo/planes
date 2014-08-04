@@ -4,7 +4,7 @@ var authConfig = require('./authConfig.js');
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
       req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || 
-      req.url.indexOf('/arena') === 0 || req.url == '/help') {
+      req.url.indexOf('/arena') === 0 || req.url == '/help' ||req.url.indexOf('/goodbye') === 0) {
     next();
   } else if (req.user) {
     console.log(req.user.username + " " + req.url);
@@ -139,13 +139,30 @@ exports.help = function(req, res) {
 }
 
 exports.setEmails = function(req, res) {
-  // TODO: toggle email settings per user
   model.toggleEmail(req.user.id, req.body.state, function(err){
     if (err) {
       console.log(err)
       res.end();
     } else {
       res.end();
+    }
+  });
+}
+
+exports.unsubscribe = function(req, res) {
+  userId = req.query.a;
+  userSecret = req.query.b;
+  model.verifyUser(userId, userSecret, function(err) {
+    if (err) {
+      res.render('error.html');
+    } else {
+      model.toggleEmail(userId, 'off', function(err){
+        if (err) {
+          res.render('error.html');
+        } else {
+          res.render('goodbye.html');
+        }
+      });
     }
   });
 }
