@@ -280,8 +280,8 @@ body {
     .upload-bot .upload-box.dragging {
       background-color: purple; }
     .upload-bot .upload-box.drop {
-      background-color: #f5d000;
-      border-bottom: 3px solid #debc00;
+      background-color: #f2c200;
+      border-bottom: 3px solid #e0b300;
       -webkit-transition: all 0.6s;
       -moz-transition: all 0.6s;
       -o-transition: all 0.6s;
