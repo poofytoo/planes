@@ -155,7 +155,6 @@ function getCurrentBot(userId, callback) {
 
 function findUser(id, callback) {
   root.child('users').child(id).once('value', function(data) {
-    console.log(data.val());
     if (data.val()) {
       callback(false, data.val());
     } else {
