@@ -1,3 +1,42 @@
+header {
+  background-color: #003663; }
+  header a {
+    text-decoration: none; }
+  header h1 {
+    font-family: 'Lobster', sans-serif;
+    font-size: 70px;
+    text-align: center;
+    color: #fff;
+    padding-top: 10px; }
+  header h2 {
+    margin-top: -1px;
+    padding-bottom: 20px;
+    font-size: 16px;
+    font-weight: 100;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 0.8em; }
+    header h2 em {
+      font-weight: 400; }
+  header .back-box {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    width: 60px;
+    text-align: center;
+    font-size: 40px;
+    opacity: 0.3;
+    transition: opacity 0.1s; }
+    header .back-box a {
+      text-decoration: none;
+      color: #fff; }
+      header .back-box a .back-text {
+        margin-top: 4px;
+        font-size: 16px; }
+    header .back-box:hover {
+      opacity: 0.9;
+      transition: opacity 0.1s; }
+
 html, body {
   height: 100%; }
 
@@ -6,49 +45,6 @@ body {
   font-family: 'Lato', sans-serif;
   position: relative;
   overflow: auto; }
-
-header {
-  border-bottom: 4px solid #08243a;
-  background-color: #003663;
-  min-width: 960px; }
-
-header h1 {
-  font-family: 'Lobster', sans-serif;
-  font-size: 70px;
-  text-align: center;
-  color: #fff;
-  padding-top: 10px; }
-
-header h2 {
-  margin-top: -1px;
-  padding-bottom: 20px;
-  font-size: 16px;
-  font-weight: 100;
-  color: #fff;
-  text-align: center;
-  letter-spacing: 0.8em; }
-
-header h2 em {
-  font-weight: 400; }
-
-.back-box {
-  position: absolute;
-  top: 30px;
-  left: 10px;
-  width: 60px;
-  text-align: center;
-  font-size: 40px;
-  opacity: 0.3;
-  transition: opacity 0.1s; }
-  .back-box a {
-    text-decoration: none;
-    color: #fff; }
-    .back-box a .back-text {
-      margin-top: 4px;
-      font-size: 16px; }
-  .back-box:hover {
-    opacity: 0.9;
-    transition: opacity 0.1s; }
 
 h3 {
   font-size: 20px;

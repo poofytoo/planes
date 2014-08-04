@@ -30,3 +30,4 @@ node_modules
 authConfig.js
 .sass-cache
 uploads
+.DS_Store
