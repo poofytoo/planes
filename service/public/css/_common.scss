@@ -1,14 +1,20 @@
 $green: #14bd6b;
+$green-dark: #109957;
 
 $red: #de1637;
 $red-dark: #bd0e2b;
 
+$yellow: #f5d000;
+$yellow-dark: #debc00;
+
+a {
+  text-decoration: none;
+}
+  
 header {
   background-color: #003663;
   
-  a {
-    text-decoration: none;
-  }
+
   
   h1 {
     font-family: 'Lobster', sans-serif;

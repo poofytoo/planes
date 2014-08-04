@@ -80,6 +80,13 @@ $(document).ready(function(){
       $('.explode-right-v')[0].load();
       $('.explode-right-v')[0].play();
       $('.bul').remove();
+        
+      if (frame.p1 == 'EXPLODED') {
+        $('.winner-name').text($('.orange').text())
+      } else {
+        $('.winner-name').text($('.green').text())
+      }
+      setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
       return;
     }
     

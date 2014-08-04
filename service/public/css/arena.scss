@@ -194,7 +194,7 @@ p {
   background-size: 40px;
 }
 
-.cover {
+.cover, .end-cover {
   background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   top: 120px;
@@ -202,6 +202,37 @@ p {
   bottom: -10px;
   position: absolute;
   z-index: 100;
+}
+
+.end-cover {
+  display: none;
+  text-align: center;
+  
+  h4 {
+    margin-bottom: 40px;
+  }
+  
+  .winner-name {
+    font-weight: 300;
+  }
+   
+  a {
+    padding: 6px 10px;
+    background-color: $green;
+    border-bottom: 3px solid $green-dark;
+    color: #fff;
+    font-weight: 300;
+    margin: 10px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+    
+    &.replay {
+      background-color: $yellow;
+      border-color: $yellow-dark;
+    }
+  }
 }
 
 h4 {

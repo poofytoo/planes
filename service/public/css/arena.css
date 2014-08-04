@@ -1,7 +1,8 @@
+a {
+  text-decoration: none; }
+
 header {
   background-color: #003663; }
-  header a {
-    text-decoration: none; }
   header h1 {
     font-family: 'Lobster', sans-serif;
     font-size: 70px;
@@ -207,7 +208,7 @@ p {
   width: 40px;
   background-size: 40px; }
 
-.cover {
+.cover, .end-cover {
   background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   top: 120px;
@@ -215,6 +216,26 @@ p {
   bottom: -10px;
   position: absolute;
   z-index: 100; }
+
+.end-cover {
+  display: none;
+  text-align: center; }
+  .end-cover h4 {
+    margin-bottom: 40px; }
+  .end-cover .winner-name {
+    font-weight: 300; }
+  .end-cover a {
+    padding: 6px 10px;
+    background-color: #14bd6b;
+    border-bottom: 3px solid #109957;
+    color: #fff;
+    font-weight: 300;
+    margin: 10px; }
+    .end-cover a:hover {
+      opacity: 0.8; }
+    .end-cover a.replay {
+      background-color: #f5d000;
+      border-color: #debc00; }
 
 h4 {
   margin-top: 30px;

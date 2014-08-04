@@ -269,10 +269,10 @@ body {
   input[type="submit"] {
     border: none;
     font-family: 'Lato', sans-serif;
-    background-color: #14bd6b;
+    background-color: $green;
     color: #fff;
     width: 100%;
-    border-bottom: 3px solid #109957;
+    border-bottom: 3px solid $green-dark;
     font-size: 16px;
     font-weight: 300;
     padding: 9px;
@@ -312,8 +312,8 @@ body {
     }
     
     &.drop {
-      background-color: #f5d000;
-      border-bottom: 3px solid #debc00;
+      background-color: $yellow;
+      border-bottom: 3px solid $yellow-dark;
       -webkit-transition: all 0.6s;
       -moz-transition: all 0.6s;
       -o-transition: all 0.6s;
