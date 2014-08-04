@@ -200,13 +200,33 @@ sendChallengeEmail = function(userId, userName, userEmail, otherName, matchId, u
   });
 }
 
+getUserAndSendEmail = function(userId, matchId, otherName) {
+  firebase.findUser(userId, function(error, user) {
+    if (user.emails === "on") {
+      if (user.email && user.secret) {
+        sendChallengeEmail(userId, user.username, user.email, otherName, matchId, user.secret);
+      }
+    }
+  });
+}
+
+exports.makeRequest = function(challengerUsername, challengerId, otherId, callback) {
+  firebase.makeRequest(challengerUsername, challengerId, otherId, function(error, gameId) {
+    if (error) {
+      callback(error);
+    } else {
+      getUserAndSendEmail(otherId, gameId, challengerUsername);
+      callback(false);
+    }
+  });
+}
+
 
 exports.findUser = firebase.findUser;
 exports.updateUserStatus = firebase.updateUserStatus;
 exports.userList = firebase.userList;
 exports.fetchGame = firebase.fetchGame;
 exports.fetchGamePublic = firebase.fetchGamePublic;
-exports.makeRequest = firebase.makeRequest;
 exports.verifyUser = firebase.verifyUser;
 
 exports.sendChallengeEmail = sendChallengeEmail;

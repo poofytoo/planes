@@ -67,9 +67,9 @@ function genSecret() {
 function createUserFb(profile, callback) {
   var username = profile.displayName;
   var id = profile.id;
-  var email = profile.email;
+  var email = profile.email.value;
   if (!email && profile.emails) {
-    email = profile.emails[0];
+    email = profile.emails[0].value;
   }
   findUser(id, function(notFound, foundUser) {
     var cleanUsername = sanitizeUsername(username);
@@ -210,7 +210,7 @@ function getAllGames(callback) {
 
 function makeRequest(challengerUsername, challengerId, otherId, callback) {
   if (challengerId === otherId) {
-    callback("Can't challenge yourself.");
+    callback("Can't challenge yourself.", false);
     return;
   }
   
@@ -223,18 +223,18 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
       var gameId = snapshot.val();
       findUser(challengerId, function(error, user) {
         if (error) {
-          callback(error);
+          callback(error, false);
           return;
         }
         var now = new Date().getTime();
         // ANTI-SPAM
         if (now - user.lastRequestTime < 300) {
-          callback("Wait a minute before making another challenge.");
+          callback("Wait a minute before making another challenge.", false);
           return;
         }
         findUser(otherId, function(error2, user2) {
           if (error2) {
-            callback(error);
+            callback(error, false);
             return;
           }
           root.child('requests').child(gameId).set({
@@ -247,11 +247,11 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
             status: "open"
           });
           root.child('users').child(challengerId).child('lastRequestTime').set(new Date().getTime());
-          callback(false);
+          callback(false, gameId);
         });
       });
     } else {
-      callback(error);
+      callback(error, false);
     }
   });
 }
