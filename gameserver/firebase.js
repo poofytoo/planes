@@ -1,9 +1,18 @@
 /* Functions that interact with Firebase */
 
-var Firebase = require('firebase');
+// var Firebase = require('firebase');
 var authConfig = require('./authConfig');
-var root = new Firebase(authConfig.firebaseURL);
-root.auth(authConfig.firebaseSecret);
+// var root = new Firebase(authConfig.firebaseURL);
+// root.auth(authConfig.firebaseSecret);
+
+// http://mongoosejs.com/docs/index.html
+var mongoose = require('mongoose');
+mongoose.connect(authConfig.mongoURL);
+var requestsSchema = mongoose.Schema({
+  id: Number,
+  user1: String,
+  user2: String,
+});
 
 /*
  * Schema
@@ -35,44 +44,64 @@ root.auth(authConfig.firebaseSecret);
  *    ...
  */
 
+// Not used???
 function getUser(username, callback) {
-  root.child('users').once('value', function(data) {
-    var users = data.val();
-    for (var userKey in users) {
-      var user = users[userKey];
-      if (user.username == username) {
-        callback(false, user);
-        return;
-      }
-    }
-    callback(false, false);
+  runMongo(function(err, db){
+
   });
+
+  // root.child('users').once('value', function(data) {
+  //   var users = data.val();
+  //   for (var userKey in users) {
+  //     var user = users[userKey];
+  //     if (user.username == username) {
+  //       callback(false, user);
+  //       return;
+  //     }
+  //   }
+  //   callback(false, false);
+  // });
 };
 
 function getRequests(callback) {
-  root.child('requests').once('value', function(data) {
-    var requests = data.val();
-    if (requests) {
-      callback(false, requests);
-    } else {
-      callback("No requests found.", requests);
-    }
+  runMongo(function(err, db){
+    var collection = db.collection('requests');
+    collection.find().toArray(callback);
   });
+  // root.child('requests').once('value', function(data) {
+  //   var requests = data.val();
+  //   if (requests) {
+  //     callback(false, requests);
+  //   } else {
+  //     callback("No requests found.", requests);
+  //   }
+  // });
 }
 
 function getCurrentBot(userId, callback) {
-  root.child('users').child(userId).once('value', function(data) {
+  var collection = db.collection('users');
+  var userStream = collection.findOne({id: userId}, function(err, data){
     if (data.val() && data.val().bot) {
       callback(false, data.val().bot);
     } else {
       callback("user not found.", false);
     }
-  })
+  });
+});
+  // root.child('users').child(userId).once('value', function(data) {
+  //   if (data.val() && data.val().bot) {
+  //     callback(false, data.val().bot);
+  //   } else {
+  //     callback("user not found.", false);
+  //   }
+  // })
 }
 
 function addGameObject(gameObject, gameId) {
   if (gameId) {
-    root.child('games').child(gameId).set(gameObject);
+    var collection = db.collection('games');
+    collection.update({id: gameId}, {$set:{}})
+    // root.child('games').child(gameId).set(gameObject);
   } else {
     console.log("No gameId found when adding gameObject");
   }
