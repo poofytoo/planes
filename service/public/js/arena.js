@@ -36,14 +36,22 @@ $(document).ready(function(){
   
   $.get("/getgame", {id: id}, function (data) {
     if (data && data !== 'Game id not found.') {
-      window.testJSON = data;
-      setTimeout(function(){
-        // You know, for dramatic effect.
-        $('.go-btn').fadeIn(200);
-        $('.spinner').fadeOut();
-        $('.green').text(data.username1);
-        $('.orange').text(data.username2);
-      }, 100)
+      if (data === 'processing') {
+        setTimeout(function(){
+          $('.spinner').fadeOut(200, function(){
+            $('.match-processing').fadeIn(200);
+          });
+        }, 200);
+      } else {
+        window.testJSON = data;
+        setTimeout(function(){
+          // You know, for dramatic effect.
+          $('.go-btn').fadeIn(200);
+          $('.spinner').fadeOut();
+          $('.green').text(data.username1);
+          $('.orange').text(data.username2);
+        }, 100)
+      }
     } else {
       setTimeout(function(){
         $('.spinner').fadeOut(200, function(){

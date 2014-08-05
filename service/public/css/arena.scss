@@ -199,7 +199,7 @@ p {
   position: fixed;
   top: 120px;
   width: 100%;
-  bottom: -10px;
+  bottom: 0px;
   position: absolute;
   z-index: 100;
 }
@@ -294,7 +294,7 @@ h4 {
 }
 
 
-.invalid-id {
+.invalid-id, .match-processing {
   display: none;
   line-height: normal;
   margin: 100px;
@@ -302,4 +302,8 @@ h4 {
   font-size: 20px;
   color: #de1637;
   font-weight: 100;
+}
+
+.match-processing {
+  color: $yellow;
 }
