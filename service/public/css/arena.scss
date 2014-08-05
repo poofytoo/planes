@@ -43,6 +43,7 @@ h3 {
   overflow: auto;
 }
 
+
 .score-field-left {
   float: left;
   text-align: left;
@@ -56,10 +57,23 @@ h3 {
 .sf {
   background-color: #001e37;
   border-top: 2px solid #fff;
-  width: 360px;
+  width: 320px;
   padding: 10px;
   color: #fff;
   position: relative;
+}
+
+.round-number {
+  float: left;
+  font-size: 20px;
+  line-height: 20px;
+  color: #fff;
+  margin-left: 10px;
+  background-color: #001e37;
+  border-top: 2px solid #fff;
+  padding: 20px 0;
+  width:100px;
+  text-align: center;
 }
 
 p {

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  var FRAME_RATE = 48
+  var FRAME_RATE = 60;
   var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
@@ -73,11 +73,11 @@ $(document).ready(function(){
   });
     
   var gameStep = function() {
-    render(window.testJSON[testJSONCounter]);
+    render(window.testJSON[testJSONCounter], testJSONCounter);
     testJSONCounter ++;
   }
   
-  var render = function(frame) {
+  var render = function(frame, id) {
     if (!frame) {
       setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
       $('h4').text('It\'s a TIE!');
@@ -105,6 +105,12 @@ $(document).ready(function(){
     // Move the Planes
     $('.p1').css({'top':(80*frame.p1)+20});
     $('.p2').css({'top':(80*frame.p2)+20});
+    // Set the Round Number
+    var roundNum = Math.floor(id/24)
+    if (roundNum >= 120) {
+      roundNum = 'END'
+    }
+    $('.round-number').text(roundNum);
     // Set the Bullet Count
     $('.gb').text(frame.b1);
     $('.ob').text(frame.b2);
