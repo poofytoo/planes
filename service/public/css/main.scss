@@ -371,14 +371,20 @@ body {
     }
   }
   
+  
   .challengerName, .challengerBot {
     font-size: 16px;
-    max-width: 100px;
+    max-width: 140px;
     overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    line-height: normal;
+    vertical-align: bottom;
   }
   
   .challengerName {
     font-weight: 500;
+    max-width: 150px;
   }
   
   /* BUTTONS */
