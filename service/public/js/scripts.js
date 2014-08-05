@@ -92,7 +92,7 @@ $(document).ready(function() {
       var bot = data[i];
       $botBox = $('.bot-item-template').clone();
       $botBox.addClass('bot-item').removeClass('bot-item-template');
-      $botBox.find('.challengerBot').text(bot.botName);
+      $botBox.find('.challengerBot').html(bot.botName);
       $botBox.find('.statsBox').addClass('statsBox'+i);
       $botBox.find('.num').text((parseInt(i)+1));
       $botBox.find('.w').text(bot.wins);
@@ -127,6 +127,8 @@ $(document).ready(function() {
   
   var getPlayedGames = function() {
     $.get('/getgames', function(data) {
+      console.log(data)
+      
       var chtml = '';
       $('.match-list').html('');
       
@@ -134,7 +136,7 @@ $(document).ready(function() {
         var bot = data[i];
         $botBox = $('.match-item-template').clone();
         $botBox.addClass('bot-item').removeClass('match-item-template');
-        $botBox.find('.challengerBot').text(bot.opponentName);
+        $botBox.find('.challengerBot').html(bot.opponentName + ' <span class="match-id">' + bot.gameId + '</span> ');
         $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
         if (bot.status == 'watched') {
           $botBox.find('.view').text('watch again');

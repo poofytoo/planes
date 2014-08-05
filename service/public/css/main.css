@@ -331,6 +331,8 @@ body {
   .bot-item .challengerName {
     font-weight: 500;
     max-width: 150px; }
+  .bot-item .match-id {
+    color: #ddd; }
   .bot-item .stats, .bot-item .watched {
     text-decoration: none;
     font-size: 14px;
