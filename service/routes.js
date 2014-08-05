@@ -58,11 +58,11 @@ exports.getTopBots = function(req, res) {
 
 exports.getLatestGamesForUser = function(req, res) {
   model.getLatestGamesForUser(req.user.id, function(error, data) {
-    if (error) {
-      res.send(error);
-    } else {
-      res.send(data);
-    }
+      if (error) {
+        res.send(error);
+      } else {
+        res.send(data);
+      }
   });
 }
 
