@@ -8,14 +8,31 @@
   <link rel="stylesheet" type="text/css" href="css/arena.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <meta property="og:image" content="/assets/planes-main-icon.png" />
+  <meta name="description" content="An epic duel of PLANES between {{user1}} and {{user2}}">
   <script src="js/arena.js"></script>
 </head>
 <body>
+
+  <!-- facebook -->
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) return;
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=422733944533946&version=v2.0";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
     <header>
     <a href='/'>
       <h1>Planes</h1>
       <h2>by <em>NEXT CODE</em></h2>
     </a>
+      <div class="fb-share-box">
+          <div class="fb-share-button" data-href="http://theplanesgame.com/arena?{{id}}"></div>
+      </div>
       <div class="back-box">
         <a href="javascript:history.back()">
           <i class="fa fa-arrow-left"></i>
