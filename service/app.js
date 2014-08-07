@@ -19,6 +19,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
 app.engine('html', require('hbs').__express);
 
+hbs.registerPartials(__dirname + '/views/partials');
+
 app.use(express.cookieParser());
 app.use(express.logger('dev'));
 
