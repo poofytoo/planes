@@ -14,7 +14,7 @@ class Engine:
   MAX_FRAMES = MAX_TIME_IN_SECONDS * FRAMES_PER_SECOND
 
   NUM_ROWS = 5
-  NUM_COLS = 6
+  NUM_COLS = 12
 
   X_FULL_WIDTH = 800
   X_END = 750
@@ -216,7 +216,7 @@ class Engine:
     bulletList = []
     for bulletId in self.bullets:
       bullet = self.bullets[bulletId]
-      bulletObject = {'x': bullet[3], 'y': bullet[1], 'direction': bullet[0]}
+      bulletObject = {'x': bullet[3], 'y': bullet[1], 'd': bullet[0], 't': 'r'}
       bulletList.append(bulletObject)
 
     frameObject['bullets'] = bulletList
