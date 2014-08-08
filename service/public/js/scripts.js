@@ -138,6 +138,8 @@ $(document).ready(function() {
         $botBox.addClass('bot-item').removeClass('match-item-template');
         $botBox.find('.challengerBot').html(bot.opponentName + ' <span class="match-id">' + bot.gameId + '</span> ');
         $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
+        $botBox.find('.result').text(bot.result);
+        
         if (bot.status == 'watched') {
           $botBox.find('.view').text('watch again');
           $botBox.find('.view').removeClass('view').addClass('watched');

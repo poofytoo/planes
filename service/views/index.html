@@ -105,36 +105,57 @@
       </div>
       
       <div class="row-later">
-        {{#if bot.bot.botCode}}
         <div class="content-box split">
           <h2>Top Players</h2>
           <div class="top-challengers">
           </div>
         </div>
+        {{#if bot.bot.botCode}}
         <div class="content-box split">
           <h2>Challenged Matches</h2>
           <div class="match-list">
           </div>
         </div>
         {{/if}}
+        {{#unless bot.bot.botCode}}
+        <div class="content-box split">
+          <h2>Challenged Matches</h2>
+          <div class="match-list-empty">
+            The matches you play will appear here
+          </div>
+        </div>
+        {{/unless}}
       </div>
     </div>
-    
+  
   <footer>
     It's going to be a great day! <br />Questions or Comments? Contact <em>planes@mit.edu</em>
   </footer>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53583648-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
   <!-- below are things I don't want you to see -->
   <!-- bot item templater -->
   <div class="bot-item-template">
     <div class="challengerBox">
       <span class="num">1</span>. <span class="challengerName"></span> <span class="challengerBot"></span>
-      <span data-id="" class="stats">stats</span>
-      <span class="challenge">challenge</span>
+      <span data-id="" class="stats button-sm">stats</span>
+        {{#if bot.bot.botCode}}
+      <span class="challenge button-sm">challenge</span>
+        {{/if}}
     </div>
     <div class="statsBox">
-      <span class="statItem">Elo: <em class='r'>A</em></span>
-      <span class="statItem">Wins: <em class='w'>200</em></span>
-      <span class="statItem">Losses: <em class='l'>10</em></span>
+      <span class="statItem">Elo: <em class='r'>0</em></span>
+      <span class="statItem">Wins: <em class='w'>0</em></span>
+      <span class="statItem">Losses: <em class='l'>0</em></span>
     </div>
   </div>
    
@@ -142,8 +163,9 @@
   <div class="match-item-template">
     <div class="challengerBox">
       <span class="challengerBot"></span>
-      <!--<span class="share">share</span>-->
-      <a class="view" href="#">view match</a>
+      <!--<span class="share button-sm">share</span>-->
+      <a class="view button-sm" href="#">view match</a>
+      <span class="result"></span>
     </div>
   </div>
          

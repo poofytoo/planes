@@ -321,3 +321,17 @@ h4 {
 .match-processing {
   color: $yellow;
 }
+
+.fb-share-box {
+    position: absolute;
+    top: 45px;
+    right: 45px;
+    display: none;
+    
+  .fb-share-button {
+    padding: 5px 12px 6px 10px;
+    float: right;
+    background-color: #fff;
+    border-bottom: 2px solid #bbb;
+  }
+}

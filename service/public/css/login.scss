@@ -103,9 +103,14 @@ a, a:visited, a:active, a:hover {
     
     a {
       padding: 8px 20px;
-      margin: 0 auto 10px;
-      display: block;
+      margin: 0 5px 10px;
+      display: inline-block;
       width: 180px;
+    }
+    
+    .rules {
+      background-color: $yellow;
+      border-bottom: 2px solid $yellow-dark;
     }
     
     .sample-game {

@@ -7,15 +7,16 @@ $red-dark: #bd0e2b;
 $yellow: #f2c200;
 $yellow-dark: #e0b300;
 
+$inactive-gray: #9d9d9d;
+$inactive-gray-dark: #888888;
+
 a {
   text-decoration: none;
 }
   
 header {
   background-color: #003663;
-  
 
-  
   h1 {
     font-family: 'Lobster', sans-serif;
     font-size: 70px;
@@ -61,6 +62,20 @@ header {
       opacity: 0.9;
       transition: opacity 0.1s;
     }
+  }
+}
+
+.button-sm {
+  text-decoration: none;
+  font-size: 14px;
+  width: auto;
+  color: #fff;
+  border-bottom: 2px solid #000;
+  padding: 4px 10px;
+  margin-right: 3px;
+  
+  &:hover {
+    cursor: pointer;
   }
 }
 

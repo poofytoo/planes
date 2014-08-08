@@ -38,6 +38,17 @@ header {
       opacity: 0.9;
       transition: opacity 0.1s; }
 
+.button-sm {
+  text-decoration: none;
+  font-size: 14px;
+  width: auto;
+  color: #fff;
+  border-bottom: 2px solid #000;
+  padding: 4px 10px;
+  margin-right: 3px; }
+  .button-sm:hover {
+    cursor: pointer; }
+
 footer {
   text-align: center;
   margin: 30px;
@@ -129,9 +140,12 @@ a, a:visited, a:active, a:hover {
     margin-top: 20px; }
     .lower-container .samples a {
       padding: 8px 20px;
-      margin: 0 auto 10px;
-      display: block;
+      margin: 0 5px 10px;
+      display: inline-block;
       width: 180px; }
+    .lower-container .samples .rules {
+      background-color: #f2c200;
+      border-bottom: 2px solid #e0b300; }
     .lower-container .samples .sample-game {
       background-color: #14bd6b;
       border-bottom: 2px solid #109957; }
