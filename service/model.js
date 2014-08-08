@@ -128,7 +128,7 @@ exports.getLatestGamesForUser = function(userId, callback) {
             resultObject['result'] = 'draw';
           } else if (request.result === botQualifier) {
             resultObject['result'] = 'win';
-          } else if (request.request) {
+          } else if (request.result) {
             resultObject['result'] = 'lose';
           }
 

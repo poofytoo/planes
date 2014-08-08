@@ -19,16 +19,20 @@ class Engine:
   X_FULL_WIDTH = 800
   X_END = 750
   X_START = 50
-  X_CUT_WIDTH = 750
+  X_CUT_WIDTH = 700
   X_STEP = X_CUT_WIDTH / float(FRAMES_PER_TURN) / NUM_COLS
 
   DIRECTIONS = [1, -1]
+
+  SUPER_SHOT_COST = 5
+  SHIELD_COST = 3
 
   botMoves = [None, None]
   botRows = [0, 4]
   botAmmo = [0, 0]
   botCols = [0, NUM_COLS - 1]
   shotStatus = ['ok', 'ok']
+  shieldThickness = [0, 0]
 
   otherBot = [1, 0]
 
@@ -54,23 +58,30 @@ class Engine:
     self.bot2binary = bot2binary
 
   # (direction, row, column, xpos)
-  def addBullet(self, row, direction):
+  def addBullet(self, row, direction, type):
     if direction > 0:
-      self.bullets[self.bulletCounter] = (direction, row, 0, self.X_START)
+      self.bullets[self.bulletCounter] = (direction, row, 0, self.X_START, type)
     else:
-      self.bullets[self.bulletCounter] = (direction, row, self.NUM_COLS - 1, self.X_END)
+      self.bullets[self.bulletCounter] = (direction, row, self.NUM_COLS - 1, self.X_END, type)
     self.bulletCounter += 1
 
-  def handleMove(self, currentRow, currentAmmo, move, direction):
+  def handleMove(self, currentRow, currentAmmo, move, direction, botNum):
     if move == "up":
       currentRow = (currentRow - 1 + self.NUM_ROWS) % self.NUM_ROWS
     elif move == "down":
       currentRow = (currentRow + 1 + self.NUM_ROWS) % self.NUM_ROWS
     elif move == "charge":
       currentAmmo += 1
-    elif currentAmmo > 0:
+    elif move == "shoot" and currentAmmo > 0:
       currentAmmo -= 1
-      self.addBullet(currentRow, direction)
+      self.addBullet(currentRow, direction, 'r')
+    elif move == "supershoot" and currentAmmo >= self.SUPER_SHOT_COST:
+      currentAmmo -= self.SUPER_SHOT_COST
+      for i in range(-1, 2):
+        self.addBullet((currentRow + i + self.NUM_ROWS) % self.NUM_ROWS, direction, 's')
+    elif move == "shield" and currentAmmo >= self.SHIELD_COST:
+      currentAmmo -= self.SHIELD_COST
+      self.shieldThickness[botNum] += 1
     else:
       return (currentRow, currentAmmo, "dud")
     return (currentRow, currentAmmo, "ok")
@@ -81,21 +92,33 @@ class Engine:
       bullet = self.bullets[bulletId]
       direction, row, column = bullet[:3]
       xpos = bullet[3] + direction * self.X_STEP
-      newBullets[bulletId] = (direction, row, column, xpos)
+      newBullets[bulletId] = (direction, row, column, xpos, bullet[4])
     self.bullets = newBullets
-    
+
+  def shieldWouldBeHit(self, myRow, bulletRow):
+    for i in range(-1, 2):
+      if (bulletRow + i + self.NUM_ROWS) % self.NUM_ROWS == myRow:
+        return True
+    return False
+
   def checkEndConditions(self):
     for bulletId in self.bullets:
       bullet = self.bullets[bulletId]
-      # same row as a plane
-      if bullet[1] == self.botRows[0]:
-        if bullet[0] == -1 and bullet[2] == 0:
-          self.botRows[0] = 'EXPLODED'
-          self.gameOver = "BOT2"
-      if bullet[1] == self.botRows[1]:
-        if bullet[0] == 1 and bullet[2] == self.NUM_COLS - 1:
-          self.botRows[1] = 'EXPLODED'
-          self.gameOver = "BOT1"
+      shieldWasHit = [False, False]
+
+      botQualifiers = ["BOT2", "BOT1"]
+      for i in range(2):
+        otherBot = 1 ^ i
+        # In the same column as the bot
+        if bullet[0] != self.DIRECTIONS[i] and bullet[2] == (self.NUM_COLS - 1 if i else 0):
+          if self.shieldWouldBeHit(self.botRows[i], bullet[1]) and not shieldWasHit[i]:
+            if self.shieldThickness[i] > 0:
+              self.shieldThickness[i] -= 1
+              shieldWasHit[i] = True
+            elif bullet[1] == self.botRows[i]:
+              self.botRows[i] = 'EXPLODED'
+              self.gameOver += botQualifiers[i]
+
     if self.frameCounter > self.MAX_FRAMES:
       self.gameOver = "TIMEOUT"
     if "BOT2" in self.gameOver and "BOT1" in self.gameOver:
@@ -117,13 +140,13 @@ class Engine:
       xpos = bullet[3]
       # Kill bullets that fall out of play
       if column >= 0 and column < self.NUM_COLS:
-        newBullets[bulletId] = (direction, row, column, xpos)
+        newBullets[bulletId] = (direction, row, column, xpos, bullet[4])
     self.bullets = newBullets
 
     # Handle bot movement
     for i in range(2):
       (self.botRows[i], self.botAmmo[i], self.shotStatus[i]) = self.handleMove(
-          self.botRows[i], self.botAmmo[i], self.botMoves[i], self.DIRECTIONS[i])
+          self.botRows[i], self.botAmmo[i], self.botMoves[i], self.DIRECTIONS[i], i)
 
   def getRadarStatus(self, botNum, row):
     status = "SAFE"
@@ -144,7 +167,8 @@ class Engine:
     dataDump['myRow'] = self.botRows[botNum]
     for row in range(self.NUM_ROWS):
       dataDump['radar' + str(row)] = self.getRadarStatus(botNum, row)
-    dataDump['ammo'] = self.botAmmo[botNum]
+    dataDump['myEnergy'] = self.botAmmo[botNum]
+    dataDump['myShield'] = self.shieldThickness[botNum]
     dataDump['lastMove'] = self.botMoves[botNum]
     return json.dumps(dataDump)
 
@@ -156,12 +180,16 @@ class Engine:
     return "./" + botBinary
 
   def parseMove(self, botNum, botOutput):
-    if "up" in botOutput:
-      self.botMoves[botNum] = "up"
-    elif "down" in botOutput:
+    if "down" in botOutput:
       self.botMoves[botNum] = "down"
+    elif "supershoot" in botOutput:
+      self.botMoves[botNum] = "supershoot"
+    elif "up" in botOutput:
+      self.botMoves[botNum] = "up"
     elif "shoot" in botOutput:
       self.botMoves[botNum] = "shoot"
+    elif "shield" in botOutput:
+      self.botMoves[botNum] = "shield"
     else:
       self.botMoves[botNum] = "charge"
 
@@ -204,6 +232,8 @@ class Engine:
       frameObject['p' + botId] = self.botRows[bot]
       # Ammo counts
       frameObject['b' + botId] = self.botAmmo[bot]
+      # Shield thickness
+      frameObject['st' + botId] = self.shieldThickness[bot]
 
       if isActionFrame:
         frameObject['action' + botId] = self.botMoves[bot]
@@ -216,7 +246,7 @@ class Engine:
     bulletList = []
     for bulletId in self.bullets:
       bullet = self.bullets[bulletId]
-      bulletObject = {'x': bullet[3], 'y': bullet[1], 'd': bullet[0], 't': 'r'}
+      bulletObject = {'x': bullet[3], 'y': bullet[1], 'd': bullet[0], 't': bullet[4]}
       bulletList.append(bulletObject)
 
     frameObject['bullets'] = bulletList
@@ -241,7 +271,7 @@ if __name__ == "__main__":
     print 'USAGE: python engine.py [gameId] [binary1] [binary2]'
     print 'EX: python engine.py 0 test.py test.py'
   else:
-    gameId = args[1] 
+    gameId = args[1]
     bot1binary = args[2]
     bot2binary = args[3]
     main(gameId, bot1binary, bot2binary)
