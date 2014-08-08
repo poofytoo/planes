@@ -1,10 +1,7 @@
 /* Functions that interact with Firebase */
 
-// var Firebase = require('firebase');
 var authConfig = require('./authConfig');
 var autoIncrement = require('mongoose-auto-increment');
-// var root = new Firebase(authConfig.firebaseURL);
-// root.auth(authConfig.firebaseSecret);
 
 // http://mongoosejs.com/docs/index.html
 var mongoose = require('mongoose');
@@ -56,9 +53,7 @@ var gamesModel = mongoose.model('games', gamesSchema);
 
 // Not used???
 function getUser(username, callback) {
-  runMongo(function(err, db){
 
-  });
 };
 
 function getRequests(callback) {
@@ -95,20 +90,13 @@ function closeRequest(requestId, result) {
 }
 
 function findUser(id, callback) {
-  root.child('users').child(id).once('value', function(data) {
-    if (data.val()) {
-      callback(false, data.val());
-    } else {
-      console.log("User " + id + " was not found.");
-      callback(true, null);
-    }
-  });
+  usersModel.findOne({id: id}, callback);
 };
 
 function getElo(userId, callback) {
-  root.child('users').child(userId).once('value', function(data) {
-    if (data.val()) {
-      callback(false, data.val().elo);
+  usersModel.findOne({id: userId}, function(error, data) {
+    if (data) {
+      callback(false, data.elo);
     } else {
       callback("User not found.", false);
     }
@@ -116,28 +104,30 @@ function getElo(userId, callback) {
 }
 
 function addWin(userId) {
-  root.child('users').child(userId).child('wins').transaction(function(wins) {
-    return wins + 1;
+  findUser(userId, function(error, user) {
+    user.wins += 1;
+    user.save();
   });
 }
 
 function addLoss(userId) {
-  root.child('users').child(userId).child('losses').transaction(function(losses) {
-    return losses + 1;
+  findUser(userId, function(error, user) {
+    user.losses += 1;
+    user.save();
   });
 }
 
 function addDraw(userId) {
-  root.child('users').child(userId).child('draws').transaction(function(draws) {
-    return draws + 1;
+  findUser(userId, function(error, user) {
+    user.draws += 1;
+    user.save();
   });
 }
 
 function updateElo(userId, newElo) {
-  root.child('users').child(userId).once('value', function(data) {
-    if (data.val()) {
-      root.child('users').child(userId).child('elo').set(newElo);
-    }
+  findUser(userId, function(error, user) {
+    user.elo = newElo;
+    user.save();
   });
 }
 
