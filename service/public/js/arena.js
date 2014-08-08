@@ -130,9 +130,14 @@ $(document).ready(function(){
     for (i in frame.bullets) {
       $bullet = $('<div></div>');
       $bullet.addClass('bul');
-      $bullet.css({'left':frame.bullets[i].x, 'top': frame.bullets[i].y * 80 + 40});
+      var bulCss = {'left':frame.bullets[i].x, 'top': frame.bullets[i].y * 80 + 40};
+      if (frame.bullets[i].t == 's') {
+        $bullet.addClass('super-bul');
+      }
+      $bullet.css(bulCss);
       $('.playing-field').append($bullet);
     }
+    // Create the action icon
     if (frame.action1 !== 'NONE') {
       $('.action-left')
         .attr('class','action-left action')
