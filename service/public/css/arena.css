@@ -172,6 +172,9 @@ p {
   background-color: #fff;
   top: 40px; }
 
+.super-bul {
+  background-color: #fffa64 !important; }
+
 .bullets {
   font-weight: 600; }
 
