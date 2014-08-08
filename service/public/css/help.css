@@ -92,15 +92,21 @@ em {
   padding: 30px; }
   .help-container h1 {
     font-size: 40px;
-    margin: 20px 0 20px 0;
+    margin: 50px 0 20px 0;
     color: #ddd; }
+    .help-container h1:nth-child(1) {
+      margin-top: 0; }
   .help-container h2 {
     font-size: 20px;
-    margin: 0 0 8px 0;
+    margin: 30px 0 8px 0;
     font-weight: 400; }
   .help-container p {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     line-height: normal; }
+  .help-container .ct {
+    text-align: center;
+    overflow: auto;
+    margin: 20px; }
   .help-container code {
     font-family: 'Andale Mono', 'Courier', monospace; }
     .help-container code a {
@@ -109,13 +115,32 @@ em {
         opacity: 0.6; }
   .help-container .no {
     color: #aaa; }
-  .help-container img {
-    width: 360px;
-    float: right;
-    margin-left: 30px; }
   .help-container .type {
     color: #fd9720;
     font-size: 16px; }
   .help-container samp {
     font-family: 'Andale Mono', 'Courier', monospace;
     color: #f92772; }
+  .help-container .image-caption {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 10px;
+    background-color: #f7f7f7;
+    border-bottom: 3px solid #eee;
+    display: inline-block; }
+    .help-container .image-caption.img-180 {
+      width: 180px; }
+    .help-container .image-caption.img-360 {
+      width: 360px;
+      float: none;
+      margin: 20px auto 20px; }
+    .help-container .image-caption img {
+      display: block;
+      margin: 0;
+      width: 100%; }
+    .help-container .image-caption p {
+      margin: 0;
+      padding: 10px;
+      display: block;
+      text-align: center; }
