@@ -1,0 +1,135 @@
+{{#if message}}
+  <div class="status-msg">
+      {{message}}
+  </div>
+{{/if}}
+<div class="container">
+
+  <div class="row-greeting solid-back">
+    <div class="greeting">
+      <h1>Welcome, Commander {{user}}.</h1>
+      <span class="right-settings"><i class="fa fa-cog"></i></span>
+    </div>
+    <div class="back-box">
+      <ul>
+        <li><a class='emails'>Emails<br /><span data-state='{{bot.emails}}' class='email-state email-{{bot.emails}}'>{{bot.emails}}</span></a></li>
+        <li><a href='/help'>Help</a></li>
+        <li><a href='/logout'>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="content-box upload-bot">
+      <h2>Control Center</h2>
+      
+      <form target="" method="post" enctype="multipart/form-data">
+      <div class="form-fill">
+        <h3>Plane Name</h3>
+        <input type="text" class="botName" name="botName" />
+        <h3>Plane Description</h3>
+        <input type="text" class="botDesc" name="botDesc" value="" />
+        <input type="submit" value="Deploy Plane!"/>
+      </div>
+      <div class="upload-box">
+        <input type="file" class="file-upload" name="bot"/>
+        <span class="upload-btn-text">Upload a New Plane</span>
+      </div>
+      <div class="download-template">
+        <a href="assets/bot-template.py">download template bot (.py)&nbsp;</a>
+      </div>
+      </form>
+    </div>
+    {{#if bot.bot.botCode}}
+    <div class="content-box current-user-stats">
+      <h2>Plane Stats</h2>
+      <h3>Current Plane Name</h3>
+      <p>{{bot.bot.botName}}</p>
+      <h3>Description</h3>
+      <p>{{bot.bot.botDesc}}</p>
+      <ul>
+        <li>
+          <h3>Current ELO</h3>
+          <div class="stat-num rank">{{bot.elo}}</div>
+        </li>
+        <li>
+          <h3>Games Won</h3>
+          <div class="stat-num win">{{bot.wins}}</div>
+        </li>
+        <li>
+          <h3>Games Lost</h3>
+          <div class="stat-num">{{bot.losses}}</div>
+        </li>
+      </ul>
+    </div>
+    {{/if}}
+    {{#unless bot.bot.botCode}}
+    <div class="content-box current-user-stats">
+      <h2>Welcome to Planes!</h2>
+      <div class="new-here">
+        <p>You look new here! Not to worry, we're here to help!</p>
+        <h4>Step 1</h4>
+        <p>Download our <a href='../assets/bot-template.py'>template bot</a></p>
+        <h4>Step 2</h4>
+        <p>Fill out the function with your devious strategy. Confused? <a href='/help'>Click here</a></p>
+        <h4>Step 3</h4>
+        <p>Upload your bot and challenge your friends!</p>
+      </div>
+    </div>
+    {{/unless}}
+  </div>
+  
+  <div class="row-later">
+    <div class="content-box split">
+      <h2>Top Players</h2>
+      <div class="top-challengers">
+      </div>
+    </div>
+    {{#if bot.bot.botCode}}
+    <div class="content-box split">
+      <h2>Challenged Matches</h2>
+      <div class="match-list">
+      </div>
+    </div>
+    {{/if}}
+    {{#unless bot.bot.botCode}}
+    <div class="content-box split">
+      <h2>Challenged Matches</h2>
+      <div class="match-list-empty">
+        The matches you play will appear here
+      </div>
+    </div>
+    {{/unless}}
+  </div>
+</div>
+
+<footer>
+  It's going to be a great day! <br />Questions or Comments? Contact <em>planes@mit.edu</em>
+</footer>
+
+<!-- below are things I don't want you to see -->
+<!-- bot item templater -->
+<div class="bot-item-template">
+  <div class="challengerBox">
+    <span class="num">1</span>. <span class="challengerName"></span> <span class="challengerBot"></span>
+    <span data-id="" class="stats button-sm">stats</span>
+      {{#if bot.bot.botCode}}
+    <span class="challenge button-sm">challenge</span>
+      {{/if}}
+  </div>
+  <div class="statsBox">
+    <span class="statItem">Elo: <em class='r'>0</em></span>
+    <span class="statItem">Wins: <em class='w'>0</em></span>
+    <span class="statItem">Losses: <em class='l'>0</em></span>
+  </div>
+</div>
+ 
+<!-- match item templater -->
+<div class="match-item-template">
+  <div class="challengerBox">
+    <span class="challengerBot"></span>
+    <!--<span class="share button-sm">share</span>-->
+    <a class="view button-sm" href="#">view match</a>
+    <span class="result"></span>
+  </div>
+</div>
