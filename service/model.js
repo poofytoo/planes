@@ -128,9 +128,10 @@ exports.getLatestGamesForUser = function(userId, callback) {
             resultObject['result'] = 'draw';
           } else if (request.result === botQualifier) {
             resultObject['result'] = 'win';
-          } else {
+          } else if (request.request) {
             resultObject['result'] = 'lose';
           }
+
           relevantGames.push(resultObject);
         }
       }
