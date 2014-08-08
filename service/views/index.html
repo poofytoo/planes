@@ -105,18 +105,26 @@
       </div>
       
       <div class="row-later">
-        {{#if bot.bot.botCode}}
         <div class="content-box split">
           <h2>Top Players</h2>
           <div class="top-challengers">
           </div>
         </div>
+        {{#if bot.bot.botCode}}
         <div class="content-box split">
           <h2>Challenged Matches</h2>
           <div class="match-list">
           </div>
         </div>
         {{/if}}
+        {{#unless bot.bot.botCode}}
+        <div class="content-box split">
+          <h2>Challenged Matches</h2>
+          <div class="match-list-empty">
+            The matches you play will appear here
+          </div>
+        </div>
+        {{/unless}}
       </div>
     </div>
   
@@ -140,7 +148,9 @@
     <div class="challengerBox">
       <span class="num">1</span>. <span class="challengerName"></span> <span class="challengerBot"></span>
       <span data-id="" class="stats button-sm">stats</span>
+        {{#if bot.bot.botCode}}
       <span class="challenge button-sm">challenge</span>
+        {{/if}}
     </div>
     <div class="statsBox">
       <span class="statItem">Elo: <em class='r'>0</em></span>

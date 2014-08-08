@@ -24,6 +24,11 @@ body {
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
     margin-bottom: 15px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    color: #555;
+    text-transform: uppercase;
   }
   h3 {
     font-size: 12px;
@@ -346,6 +351,10 @@ body {
   }
 }
 
+.match-list-empty{
+  color: #ccc;
+}
+  
 .bot-item {
   margin-bottom: 2px;
   
