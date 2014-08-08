@@ -13,17 +13,27 @@ var UNKNOWN = ".txt"
 
 var checking = false;
 
-var REQUEST_TICK_TIME_MILLIS = 120000;
+var REQUEST_TICK_TIME_MILLIS = 30000;
 
 var queuedGameCounter = 0;
 var closedGameCounter = 0;
+
+var lastTimestamp = 0;
 
 // Make directories for source code and compiled binaries
 exec('mkdir -p binaries');
 exec('mkdir -p sources');
 
+console.log("Server coming back up: " + new Date());
 // Listen to requests
-setInterval(checkRequests, REQUEST_TICK_TIME_MILLIS);
+checkRequests();
+var loop = setInterval(checkRequests, REQUEST_TICK_TIME_MILLIS);
+
+// Blow yourself up in 20 minutes
+var x = {}
+setTimeout(function() {
+  console.log("GOING DOWN: " + new Date());
+  return x.y.z;}, 20 * 60 * 1000);
 
 
 function getBots(user1, user2, callback) {
@@ -79,7 +89,7 @@ function buildFile(fileName, lang) {
 
 function executeGame(gameId, binary1, binary2, callback) {
   exec('python modules/engine.py ' + gameId + ' binaries/' + binary1 + ' binaries/' + binary2,
-      {timeout : 1000 * 60 * 5, // set a timeout of 5 minutes
+      {timeout : 1000 * 60 * 20, // set a timeout of 5 minutes
        maxBuffer : 5000 * 1024}, 
       function(error, stdout, stderr) {
         callback(error, stdout, stderr);
@@ -195,14 +205,18 @@ function processRequest(request) {
 }
 
 function checkRequests() {
-  if (queuedGameCounter < closedGameCounter) {
+  var timestamp = new Date().getTime();
+  if (timestamp - lastTimestamp > 60000) {
+    console.log("Getting requests." + new Date());
+    lastTimestamp = timestamp;
+  }
+
+  if (queuedGameCounter > closedGameCounter) {
     console.log("Waiting on " + (queuedGameCounter - closedGameCounter) + " games to finish.");
     return;
   }
-  console.log("Getting requests.");
   firebase.getRequests(function(error, requests) {
     if (!error) {
-      console.log("Obtained requests.");
       for (var reqId in requests) {
         var request = requests[reqId];
         if (request.status && request.status === 'open') {
