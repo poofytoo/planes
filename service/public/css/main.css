@@ -358,7 +358,7 @@ body {
     position: relative;
     top: 3px;
     margin-right: 10px;
-    color: #ccc; }
+    color: #aaa; }
   .bot-item .stats, .bot-item .watched {
     background-color: #9d9d9d;
     border-color: #888888;
@@ -376,7 +376,9 @@ body {
   .bot-item .waiting {
     background-color: #f5d000;
     border-bottom: 2px solid #debc00;
-    float: right; }
+    float: right;
+    width: 80px;
+    text-align: center; }
     .bot-item .waiting:hover {
       background-color: #efd754; }
   .bot-item .challenge {

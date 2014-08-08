@@ -3,13 +3,17 @@ $(document).ready(function(){
   var FRAME_RATE = 48;
   var MS_FRAME = 1000/FRAME_RATE
 
+  var SOUND = false;
+  
   var testJSONCounter = 0
     
   var k = 0;
   var g = 0;
   
   
-  // Load Sound Effects
+  // background sound potential: http://www.newgrounds.com/audio/listen/553128
+  // ORIGINAL SOUND EFFECTS
+  
   var soundList = ['charge-left-v',
                    'charge-right-v',
                    'pew-left-v',
@@ -22,15 +26,23 @@ $(document).ready(function(){
                    'explode-right-v',
                    'dud-left-v',
                    'dud-right-v'];
+
   for (i in soundList) {
     snd = soundList[i];
     var $a = $('<audio></audio>')
     $a.attr('src',"assets/" + snd + ".ogg")
+      .attr('preload', 'auto')
       .addClass(snd);
     $('body').append($a);
   }
-  
  
+  var playSnd = function(type,dir) {
+    if (SOUND) {
+      $('.'+type+'-'+dir+'-v')[0].load();
+      $('.'+type+'-'+dir+'-v')[0].play();
+    }
+  }
+          
   var testJSON = {};
   var id = document.URL.split('?')[1];
   
@@ -88,10 +100,8 @@ $(document).ready(function(){
     }
     if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
       clearInterval(gameTimer);
-      $('.explode-left-v')[0].load();
-      $('.explode-left-v')[0].play();
-      $('.explode-right-v')[0].load();
-      $('.explode-right-v')[0].play();
+      playSnd('explode','left');
+      playSnd('explode','right');
       $('.bul').remove();
         
       if (frame.p1 == 'EXPLODED') {
@@ -142,24 +152,19 @@ $(document).ready(function(){
         i = parseInt(j)+1;
         var dir = dirs[j];    
         if (frame['action' + i] == 'shoot') {
-          $('.pew-'+dir+'-v')[0].load();
-          $('.pew-'+dir+'-v')[0].play();
+          playSnd('pew',dir);
         }
         if (frame['action' + i] == 'dud') {
-          $('.dud-'+dir+'-v')[0].load();
-          $('.dud-'+dir+'-v')[0].play();
+          playSnd('dud',dir);
         }
         if (frame['action' + i] == 'up') {
-          $('.up-'+dir+'-v')[0].load();
-          $('.up-'+dir+'-v')[0].play();
+          playSnd('up',dir);
         }
         if (frame['action' + i] == 'down') {
-          $('.down-'+dir+'-v')[0].load();
-          $('.down-'+dir+'-v')[0].play();
+          playSnd('down',dir);
         }
         if (frame['action' + i] == 'charge') {
-          $('.charge-'+dir+'-v')[0].load();
-          $('.charge-'+dir+'-v')[0].play();
+          playSnd('charge',dir);
           
           var css = {'top':(80*frame['p' + i])+20}
           css[dir] = '10px'

@@ -406,7 +406,7 @@ body {
     position: relative;
     top: 3px;
     margin-right: 10px;
-    color: #ccc;
+    color: #aaa;
   }
   /* BUTTONS */
   
@@ -436,6 +436,8 @@ body {
     background-color: #f5d000;
     border-bottom: 2px solid #debc00;
     float: right;
+    width: 80px;
+    text-align: center;
     
     &:hover {
       background-color: #efd754;
