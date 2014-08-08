@@ -12,104 +12,84 @@ var requestsSchema = mongoose.Schema({
   id: Number,
   user1: String,
   user2: String,
+  username1: String,
+  username2: String,
+  status: String,
+  result: String,
 });
+var requestsModel = mongoose.model('requests', requestsSchema);
 
-/*
- * Schema
- *
- * planes
- *  requests:
- *    1:
- *      id: 1
- *      user1:
- *      user2:
- *    ...
- *  users:
- *    1:
- *      id: 1
- *      username: Victor Hung
- *      elo: 1000
- *      botFile: "this is a python file as a string"
- *      blurb: "Imma a smart boy"
- *    ...
- *
- *  games:
- *    1:
- *      id: 1
- *      user1: Victor Hung
- *      user2: Felix Sun
- *      result: "user1 won"
- *      gameJson: {some json file}
- *
- *    ...
- */
+var usersSchema = mongoose.Schema({
+  id: Number,
+  username: String,
+  email: String,
+  emails: String,
+  userStatus: String,
+  secret: String,
+  wins: Number,
+  losses: Number,
+  draws: Number,
+  elo: Number,
+  bot: {
+    botCode: String,
+    botDesc: String,
+    botFileName: String,
+    botName: String,
+  }
+  blurb: String,
+  watched: mongoose.Schema.Types.Mixed,
+});
+var usersModel = mongoose.model('users', usersSchema);
+
+var gamesSchema = mongoose.Schema({
+  gameId: Number,
+  user1: String,
+  user2: String,
+  username1: String,
+  username2: String,
+  result: String,
+  gameJson: mongoose.Schema.Types.Mixed,
+});
+var gamesModel = mongoose.model('games', gamesSchema);
 
 // Not used???
 function getUser(username, callback) {
   runMongo(function(err, db){
 
   });
-
-  // root.child('users').once('value', function(data) {
-  //   var users = data.val();
-  //   for (var userKey in users) {
-  //     var user = users[userKey];
-  //     if (user.username == username) {
-  //       callback(false, user);
-  //       return;
-  //     }
-  //   }
-  //   callback(false, false);
-  // });
 };
 
 function getRequests(callback) {
-  runMongo(function(err, db){
-    var collection = db.collection('requests');
-    collection.find().toArray(callback);
-  });
-  // root.child('requests').once('value', function(data) {
-  //   var requests = data.val();
-  //   if (requests) {
-  //     callback(false, requests);
-  //   } else {
-  //     callback("No requests found.", requests);
-  //   }
-  // });
+  requestsModel.find(callback);
 }
 
 function getCurrentBot(userId, callback) {
-  var collection = db.collection('users');
-  var userStream = collection.findOne({id: userId}, function(err, data){
-    if (data.val() && data.val().bot) {
-      callback(false, data.val().bot);
+  usersModel.findOne({id:userId}, function(error, user) {
+    if (user && user.bot) {
+      callback(false, user.bot);
     } else {
       callback("user not found.", false);
     }
   });
-});
-  // root.child('users').child(userId).once('value', function(data) {
-  //   if (data.val() && data.val().bot) {
-  //     callback(false, data.val().bot);
-  //   } else {
-  //     callback("user not found.", false);
-  //   }
-  // })
 }
 
 function addGameObject(gameObject, gameId) {
   if (gameId) {
-    var collection = db.collection('games');
-    collection.update({id: gameId}, {$set:{}})
-    // root.child('games').child(gameId).set(gameObject);
+    var newGameObject = new gamesModel(gameObject);
+    newGameObject.save(function (err) {
+      console.log(err);
+    });
   } else {
     console.log("No gameId found when adding gameObject");
   }
 }
 
 function closeRequest(requestId, result) {
-  root.child('requests').child(requestId).child('status').set('closed');
-  root.child('requests').child(requestId).child('result').set(result);
+  requestsModel.findOne({id: requestId}, function(error, request) {
+    request.status = 'closed';
+    request.result = result;
+    reqest.save();
+  });
 }
 
 function findUser(id, callback) {
