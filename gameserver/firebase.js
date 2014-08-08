@@ -78,8 +78,9 @@ function addGameObject(gameObject, gameId) {
   }
 }
 
-function closeRequest(requestId) {
+function closeRequest(requestId, result) {
   root.child('requests').child(requestId).child('status').set('closed');
+  root.child('requests').child(requestId).child('result').set(result);
 }
 
 function findUser(id, callback) {
