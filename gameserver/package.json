@@ -11,6 +11,6 @@
     "bcrypt": "*",
     "request": "*",
     "serve-favicon": "*",
-    "socket.io": "*",
+    "socket.io": "*"
   }
 }

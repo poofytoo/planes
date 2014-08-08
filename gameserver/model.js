@@ -134,7 +134,7 @@ function updateRankings(userId1, userId2, user1Result, user2Result) {
   });
 }
 
-function handleOutput(output, userId1, userId2, gameId) {
+function handleOutput(output, userId1, userId2, gameId, callback) {
   var gameOutput = JSON.parse(output);
   var gameObject = {}
 
@@ -162,7 +162,8 @@ function handleOutput(output, userId1, userId2, gameId) {
   }
 
   firebase.addGameObject(gameObject, gameId);
-  firebase.closeRequest(request.id, gameOutput.result);
+  firebase.closeRequest(gameId, gameOutput.result);
+  callback(false);
 }
 
 function processRequest(request) {

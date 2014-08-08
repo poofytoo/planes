@@ -218,8 +218,6 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
     return;
   }
   
-  console.log(otherId);
-  
   root.child('requestCounter').transaction(function(counter) {
     return counter + 1;
   }, function(error, committed, snapshot) {
