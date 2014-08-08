@@ -1,4 +1,5 @@
 var model = require('./model');
+var util = require('./util');
 var authConfig = require('./authConfig.js');
 
 
@@ -22,11 +23,13 @@ exports.findUser = model.findUser;
 exports.root = function(req, res) {
   if (req.user) {
     var userId = req.user.id;
+    util.registerPageContent('index', 'contentHeader')
     model.getBotStats(userId, function(data, err) {
-      res.render('index.html', {user: req.user.username, bot: data});
+      res.render('base.html', {user: req.user.username, bot: data});
     })
   } else {
-    res.render("login.html");
+    util.registerPageContent('login', 'contentHeader')
+    res.render("base.html");
   }
 }
 
@@ -36,7 +39,8 @@ exports.upload = function(req, res) {
     if (err) {
       var err = err;
       model.getBotStats(userId, function(data, err2) {
-        res.render('index.html', {message: "An error occurred: " + err, user: req.user.username, bot: data});
+        util.registerPageContent('index', 'contentHeader')
+        res.render('base.html', {message: "An error occurred: " + err, user: req.user.username, bot: data});
       });
     } else {
       res.redirect('/');
@@ -99,7 +103,8 @@ exports.makeRequest = function(req, res) {
 
 exports.viewer = function(req, res) {
   if (req.user) {
-    res.render('index.html', {user: req.user.username});
+    util.registerPageContent('index', 'contentHeader')
+    res.render('base.html', {user: req.user.username});
   } else {
     res.redirect('/');
   }
@@ -109,7 +114,8 @@ exports.login = function(req, res) {
   if (req.user) {
     res.redirect('/');
   } else {
-    res.render('login.html');
+    util.registerPageContent('login', 'contentHeader')
+    res.render('base.html');
   }
 };
 
@@ -132,18 +138,20 @@ exports.getFirebase = function(req, res) {
 exports.arena = function(req, res) {
   // incoming as http://localhost:8080/arena?gameId
   var gameId = Object.keys(req.query)[0];
+  util.registerPageContent('arena', 'arena/header')
   if (gameId) {
     model.fetchGamePublic(gameId, function(err, data) {
-      res.render('arena.html', {user1: data.username1, user2: data.username2, id: gameId});
+      res.render('base.html', {user1: data.username1, user2: data.username2, id: gameId});
     });
   } else {
-    res.render('arena.html', {user1: 'no one', user2: 'no one', id: ''});
+    res.render('base.html', {user1: 'no one', user2: 'no one', id: ''});
   }
 }
 
 exports.help = function(req, res) {
   // incoming as http://localhost:8080/help
-  res.render('help.html');
+  util.registerPageContent('help', 'contentHeaderBack')
+  res.render('base.html');
 }
 
 exports.setEmails = function(req, res) {
@@ -162,12 +170,15 @@ exports.unsubscribe = function(req, res) {
   userSecret = req.query.b;
   model.verifyUser(userId, userSecret, function(err) {
     if (err) {
+      util.registerPageContent('error', 'contentHeaderBack')
       res.render('error.html');
     } else {
       model.toggleEmail(userId, 'off', function(err){
         if (err) {
+          util.registerPageContent('error', 'contentHeaderBack')
           res.render('error.html');
         } else {
+          util.registerPageContent('goodbye', 'contentHeaderBack');
           res.render('goodbye.html');
         }
       });
