@@ -43,6 +43,7 @@ h3 {
   overflow: auto;
 }
 
+
 .score-field-left {
   float: left;
   text-align: left;
@@ -56,10 +57,23 @@ h3 {
 .sf {
   background-color: #001e37;
   border-top: 2px solid #fff;
-  width: 360px;
+  width: 320px;
   padding: 10px;
   color: #fff;
   position: relative;
+}
+
+.round-number {
+  float: left;
+  font-size: 20px;
+  line-height: 20px;
+  color: #fff;
+  margin-left: 10px;
+  background-color: #001e37;
+  border-top: 2px solid #fff;
+  padding: 20px 0;
+  width:100px;
+  text-align: center;
 }
 
 p {
@@ -199,7 +213,7 @@ p {
   position: fixed;
   top: 120px;
   width: 100%;
-  bottom: -10px;
+  bottom: 0px;
   position: absolute;
   z-index: 100;
 }
@@ -294,7 +308,7 @@ h4 {
 }
 
 
-.invalid-id {
+.invalid-id, .match-processing {
   display: none;
   line-height: normal;
   margin: 100px;
@@ -302,4 +316,22 @@ h4 {
   font-size: 20px;
   color: #de1637;
   font-weight: 100;
+}
+
+.match-processing {
+  color: $yellow;
+}
+
+.fb-share-box {
+    position: absolute;
+    top: 45px;
+    right: 45px;
+    display: none;
+    
+  .fb-share-button {
+    padding: 5px 12px 6px 10px;
+    float: right;
+    background-color: #fff;
+    border-bottom: 2px solid #bbb;
+  }
 }

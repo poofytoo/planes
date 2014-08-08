@@ -1,6 +1,6 @@
 $(document).ready(function(){
-
-  var FRAME_RATE = 400
+  
+  var FRAME_RATE = 48;
   var MS_FRAME = 1000/FRAME_RATE
 
   var testJSONCounter = 0
@@ -36,14 +36,23 @@ $(document).ready(function(){
   
   $.get("/getgame", {id: id}, function (data) {
     if (data && data !== 'Game id not found.') {
-      window.testJSON = data;
-      setTimeout(function(){
-        // You know, for dramatic effect.
-        $('.go-btn').fadeIn(200);
-        $('.spinner').fadeOut();
-        $('.green').text(data.username1);
-        $('.orange').text(data.username2);
-      }, 100)
+      if (data === 'processing') {
+        setTimeout(function(){
+          $('.spinner').fadeOut(200, function(){
+            $('.match-processing').fadeIn(200);
+          });
+        }, 200);
+      } else {
+        window.testJSON = data;
+        setTimeout(function(){
+          $('.fb-share-box').fadeIn(200);
+          // You know, for dramatic effect.
+          $('.go-btn').fadeIn(200);
+          $('.spinner').fadeOut();
+          $('.green').text(data.username1);
+          $('.orange').text(data.username2);
+        }, 100)
+      }
     } else {
       setTimeout(function(){
         $('.spinner').fadeOut(200, function(){
@@ -65,11 +74,11 @@ $(document).ready(function(){
   });
     
   var gameStep = function() {
-    render(window.testJSON[testJSONCounter]);
+    render(window.testJSON[testJSONCounter], testJSONCounter);
     testJSONCounter ++;
   }
   
-  var render = function(frame) {
+  var render = function(frame, id) {
     if (!frame) {
       setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
       $('h4').text('It\'s a TIE!');
@@ -97,6 +106,12 @@ $(document).ready(function(){
     // Move the Planes
     $('.p1').css({'top':(80*frame.p1)+20});
     $('.p2').css({'top':(80*frame.p2)+20});
+    // Set the Round Number
+    var roundNum = Math.floor(id/24)
+    if (roundNum >= 120) {
+      roundNum = 'END'
+    }
+    $('.round-number').text(roundNum);
     // Set the Bullet Count
     $('.gb').text(frame.b1);
     $('.ob').text(frame.b2);

@@ -96,7 +96,15 @@ exports.getLatestGamesForUser = function(userId, callback) {
       var relevantGames = [];
       for (var reqId in requests) {
         var request = requests[reqId];
-        if (request.user1 === userId || request.user2 === userId) {
+        var botQualifier = 'NONE';
+
+        if (request.user1 === userId) {
+          botQualifier = 'BOT1';
+        } else if (request.user2 === userId) {
+          botQualifier = 'BOT2';
+        }
+
+        if (botQualifier !== 'NONE') {
           var opponent = request.username1;
           if (opponent === user.username) {
             opponent = request.username2;
@@ -114,6 +122,14 @@ exports.getLatestGamesForUser = function(userId, callback) {
             }
           } else {
             resultObject['status'] = 'waiting';
+          }
+
+          if (request.result === "TIMEOUT" || request.result === "DRAW") {
+            resultObject['result'] = 'draw';
+          } else if (request.result === botQualifier) {
+            resultObject['result'] = 'win';
+          } else {
+            resultObject['result'] = 'lose';
           }
           relevantGames.push(resultObject);
         }
@@ -185,7 +201,7 @@ sendChallengeEmail = function(userId, userName, userEmail, otherName, matchId, u
   var mailOptions = {
       from: 'The Planes Team <theplanesgame@gmail.com>', // sender address
       to: userEmail, // list of receivers
-      subject: 'Your plane has been challenged!', // Subject line
+      subject: 'Your plane was challenged by ' + otherName + '!', // Subject line
       replyTo: 'planes@mit.edu',
       text: emailTemplate.challengeEmail(userId, userName, otherName, matchId, userSecret), // plaintext body
       html: emailTemplate.challengeEmail(userId, userName, otherName, matchId, userSecret) // html body

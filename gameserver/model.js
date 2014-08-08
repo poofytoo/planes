@@ -162,6 +162,7 @@ function handleOutput(output, userId1, userId2, gameId) {
   }
 
   firebase.addGameObject(gameObject, gameId);
+  firebase.closeRequest(request.id, gameOutput.result);
 }
 
 function processRequest(request) {
@@ -193,13 +194,16 @@ function processRequest(request) {
 
     executeGame(gameId, binary1, binary2, function(error, stdout, stderr) {
       if (!error) {
-        handleOutput(stdout, userId1, userId2, gameId);
-        console.log("closing game: " + gameId);
-        firebase.closeRequest(request.id);
+        handleOutput(stdout, userId1, userId2, gameId, function(err2) {
+          console.log("closed game: " + gameId);
+          if (err2) {
+            console.log(err2);
+          }
+          closedGameCounter++;
+        });
       } else {
         console.log(error);
       }
-      closedGameCounter++;
     });
   });
 }

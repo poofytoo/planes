@@ -58,11 +58,11 @@ exports.getTopBots = function(req, res) {
 
 exports.getLatestGamesForUser = function(req, res) {
   model.getLatestGamesForUser(req.user.id, function(error, data) {
-    if (error) {
-      res.send(error);
-    } else {
-      res.send(data);
-    }
+      if (error) {
+        res.send(error);
+      } else {
+        res.send(data);
+      }
   });
 }
 
@@ -131,7 +131,14 @@ exports.getFirebase = function(req, res) {
 
 exports.arena = function(req, res) {
   // incoming as http://localhost:8080/arena?gameId
-  res.render('arena.html');
+  var gameId = Object.keys(req.query)[0];
+  if (gameId) {
+    model.fetchGamePublic(gameId, function(err, data) {
+      res.render('arena.html', {user1: data.username1, user2: data.username2, id: gameId});
+    });
+  } else {
+    res.render('arena.html', {user1: 'no one', user2: 'no one', id: ''});
+  }
 }
 
 exports.help = function(req, res) {

@@ -11,6 +11,33 @@ a, a:visited, a:active, a:hover {
   color: #27a7f9;
 }
 
+h1 {
+  a {
+    background-color: #999;
+    padding: 14px 26px;
+    font-size: 15px;
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+    border-bottom: 3px solid #777;
+    color: #fff;
+    
+    &.template {
+      background-color: $yellow;
+      border-color: $yellow-dark;
+    }
+    
+    &:hover {
+      color: #fff;
+      opacity: 0.8;
+    }
+  }
+}
+
+em {
+  font-weight: 500;
+}
+
 .help-container {
   max-width: 840px;
   margin: 0 auto;

@@ -67,8 +67,10 @@ function genSecret() {
 function createUserFb(profile, callback) {
   var username = profile.displayName;
   var id = profile.id;
-  var email = profile.email.value;
-  if (!email && profile.emails) {
+  var email = "";
+  if (email.value) {
+    email = email.value;
+  } else if (!email && profile.emails) {
     email = profile.emails[0].value;
   }
   findUser(id, function(notFound, foundUser) {
@@ -147,14 +149,12 @@ function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
 
 function getCurrentBot(userId, callback) {
   root.child('users').child(userId).once('value', function(data) {
-    console.log(data.val().bot)
     callback(data.val(), null);
   })
 }
 
 function findUser(id, callback) {
   root.child('users').child(id).once('value', function(data) {
-    console.log(data.val());
     if (data.val()) {
       callback(false, data.val());
     } else {
@@ -165,20 +165,24 @@ function findUser(id, callback) {
 };
 
 function fetchGame(userId, id, callback) {  
-  root.child('games').child(id).once('value', function(data) {
-    if (data.val()) {
-      root.child('requests').child(id).once('value', function(requestData) {
-        var gameObject = JSON.parse(data.val().gameJson);
-        gameObject['username1'] = requestData.val().username1;
-        gameObject['username2'] = requestData.val().username2;
+  root.child('requests').child(id).once('value', function(requestData) {
+    if (requestData.val()) {
+      root.child('games').child(id).once('value', function(data) {
+        if (data.val()) {
+          var gameObject = JSON.parse(data.val().gameJson);
+          gameObject['username1'] = requestData.val().username1;
+          gameObject['username2'] = requestData.val().username2;
 
-        callback(false, gameObject);
+          callback(false, gameObject);
 
-        findUser(userId, function(error, user) {
-          if (!error) {
-            root.child('users').child(userId).child('watched').child(id).set('seen');
-          }
-        });
+          findUser(userId, function(error, user) {
+            if (!error) {
+              root.child('users').child(userId).child('watched').child(id).set('seen');
+            }
+          });
+        } else {
+          callback("processing", false);
+        }
       });
     } else {
       callback("Game id not found.", false);

@@ -3,7 +3,7 @@ import json
 # YOUR CODE GOES HERE
 # returns one of 'shoot', 'charge', 'up', 'down'
 def compute(gameRound, enemyRow, myRow, radars, myAmmo, myLastMove):
-  if (gameRound%32 < 16):
+  if (gameRound%12 < 6):
     if (radars[myRow] == 'WARNING'):
       if (radars[(myRow+1)%5] != 'WARNING'):
         return 'down'
