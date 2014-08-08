@@ -63,13 +63,13 @@
   <p>The current round of the game. Each game lasts exactly 120 rounds (meaning that <code>compute</code>) will be called 120 times. The gameRound is 0-indexed (so the first round is 0).</p>
   
   <h2 id='enemyRow'><code>enemyRow <span class="type">int</span></code></h2>
-  <p>The row the enemy is currently occupying, at the beginning of the turn. The first row is 0, and the last row is 4.</p>
+  <p>The row the enemy is currently in. The first row is 0, and the last row is 4.</p>
   
   <h2 id='myRow'><code>myRow <span class="type">int</span></code></h2>
-  <p>The row you're in, at the beginning of the turn. The first row is 0, and the last row is 4.</p>
+  <p>The row you are currently in. The first row is 0, and the last row is 4.</p>
   
   <h2 id='radars'><code>radars <span class="type">list</span></code></h2>
-  <p>A Python list containing either <samp>SAFE</samp> or <samp>WARNING</samp> for each value. Each index pertains to a row, and will display <samp>SAFE</samp> if there are no enemy bullets coming at you, or <samp>WARNING</samp> if there are one or more enemy bullets coming at you.</p>
+  <p>A Python list containing either <samp>SAFE</samp> or <samp>WARNING</samp> for each value. Each index pertains to a row, and will display <samp>SAFE</samp> if there are no enemy bullets coming at you, or <samp>WARNING</samp> if there are one or more enemy bullets in that particular row.</p>
   
   <h2 id='myEnergy'><code>myEnergy <span class="type">int</span></code></h2>
   <p>The number of bullets you have. Don't spend it all in one place now!</p>
@@ -78,7 +78,7 @@
   <p>The layers of shield you currently have.</p>
   
   <h2 id='myLastMove'><code>myLastMove <span class="type">string</span></code></h2>
-  <p>A string indicating the move you took last turn, which is one of <samp>up</samp>, <samp>down</samp>, <samp>charge</samp>, <samp>shoot</samp>, or None (in the case of your first turn).</p>
+  <p>A string indicating the move you took last turn, which is one of <samp>up</samp>, <samp>down</samp>, <samp>charge</samp>, <samp>shoot</samp>, <samp>supershoot</samp>, <samp>shield</samp>, or None (in the case of your first turn).</p>
   
   <h1>More Questions?</h1>
   <h2>Email us!</h2>
