@@ -2,6 +2,7 @@
 
 // var Firebase = require('firebase');
 var authConfig = require('./authConfig');
+var autoIncrement = require('mongoose-auto-increment');
 // var root = new Firebase(authConfig.firebaseURL);
 // root.auth(authConfig.firebaseSecret);
 
@@ -17,6 +18,7 @@ var requestsSchema = mongoose.Schema({
   status: String,
   result: String,
 });
+requestsSchema.plugin(autoIncrement.plugin, {model: 'requests', field: 'id'});
 var requestsModel = mongoose.model('requests', requestsSchema);
 
 var usersSchema = mongoose.Schema({

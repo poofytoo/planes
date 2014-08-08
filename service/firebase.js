@@ -1,41 +1,16 @@
 /* Functions that interact with Firebase */
 
-var Firebase = require('firebase');
-var authConfig = require('./authConfig');
-var root = new Firebase(authConfig.firebaseURL);
-root.auth(authConfig.firebaseSecret);
-var http = require('http');
+var schemas = require('../gameserver/firebase');
+var requestsModel = schemas.requestsModel;
+var usersModel = schemas.usersModel;
+var gamesModel = schemas.gamesModel;
+var requestCounterModel = schemas.requestCounterModel;
 
-/*
- * Schema
- *
- * planes
- *  requests:
- *    1:
- *      id: 1
- *      user1:
- *      user2:
- *    ...
- *  users:
- *    1:
- *      id: 1
- *      username: Victor Hung
- *      elo: 1000
- *      botFile: "this is a python file as a string"
- *      blurb: "Imma a smart boy"
- *    ...
- *
- *  games:
- *    1:
- *      id: 1
- *      user1: Victor Hung
- *      user2: Felix Sun
- *      result: "user1 won"
- *      gameJson: {some json file}
- *
- *    ...
- */
- 
+// var Firebase = require('firebase');
+// var authConfig = require('./authConfig');
+// var root = new Firebase(authConfig.firebaseURL);
+// root.auth(authConfig.firebaseSecret);
+// var http = require('http');
  
 var ADMIN = {'Michael Xu': true, 
              'Victor Hung': true, 
@@ -91,8 +66,9 @@ function createUserFb(profile, callback) {
         'secret' : genSecret()
       };
 
-      root.child('users').child(id).set(user);
-      callback(false, user);
+      var userModel = new usersModel(user);
+      userModel.save();
+      callback(false, userModel);
     } else {
       callback(false, foundUser);
     }
@@ -100,6 +76,9 @@ function createUserFb(profile, callback) {
 }
 
 function createUser(username, pwHash, callback) {
+  
+
+  /*
   root.child('counters').child('userID').transaction(function(userID) {
     return userID + 1;
   }, function(err, committed, data) {
@@ -121,6 +100,7 @@ function createUser(username, pwHash, callback) {
     });
     callback(false);
   });
+  */
 };
 
 function getUser(username, callback) {

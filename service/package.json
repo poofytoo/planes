@@ -16,6 +16,8 @@
     "request": "*",
     "passport-facebook": "*",
     "serve-favicon": "*",
-    "nodemailer": "*"
+    "nodemailer": "*",
+    "mongoose": "*",
+    "mongoose-auto-increment": "*"
  }
 }
