@@ -325,12 +325,13 @@ h4 {
 .fb-share-box {
     position: absolute;
     top: 45px;
-    right: 30px;
+    right: 45px;
+    display: none;
     
   .fb-share-button {
-    padding: 5px 8px;
+    padding: 5px 12px 6px 10px;
     float: right;
     background-color: #fff;
-    border-radius: 3px;
+    border-bottom: 2px solid #bbb;
   }
 }

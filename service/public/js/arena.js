@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+  
   var FRAME_RATE = 48;
   var MS_FRAME = 1000/FRAME_RATE
 
@@ -45,6 +45,7 @@ $(document).ready(function(){
       } else {
         window.testJSON = data;
         setTimeout(function(){
+          $('.fb-share-box').fadeIn(200);
           // You know, for dramatic effect.
           $('.go-btn').fadeIn(200);
           $('.spinner').fadeOut();

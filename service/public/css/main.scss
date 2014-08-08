@@ -389,25 +389,31 @@ body {
   
   .match-id {
     color: #ddd;
+    display: none;
   }
   
+  .result {
+    float: right;
+    position: relative;
+    top: 3px;
+    margin-right: 10px;
+    color: #ccc;
+  }
   /* BUTTONS */
   
   .stats, .watched {
-    text-decoration: none;
-    font-size: 14px;
-    width: auto;
-    color: #fff;
-    background-color: #9d9d9d;
-    padding: 4px 10px;
-    border-bottom: 2px solid #888888;
+    background-color: $inactive-gray;
+    border-color: $inactive-gray-dark;
     float: right;
-    margin-right: 3px;
     
     &:hover {
-      cursor: pointer;
       background-color: #8e8e8e;
     }
+  }
+  
+  .watched {
+    width: 80px;
+    text-align: center;
   }
   
   .challenge-sent {
@@ -418,43 +424,28 @@ body {
   }
   
   .waiting {
-    text-decoration: none;
-    font-size: 14px;
-    color: #fff;
     background-color: #f5d000;
     border-bottom: 2px solid #debc00;
-    padding: 4px 10px;
     float: right;
-    margin-right: 3px;
     
     &:hover {
-      cursor: pointer;
       background-color: #efd754;
     }
   }
   
   .challenge {
-    font-size: 14px;
-    color: #fff;
     background-color: $red;
-    padding: 4px 10px;
     border-bottom: 2px solid $red-dark;
     float: right;
-    margin-right: 3px;
     
     &:hover {
-      cursor: pointer;
       background-color: #d11434;
     }
   }
   
   .share {
-    color: #fff;
     background-color: #3b5998;
-    font-size: 14px;
-    padding: 4px 10px;
     float: right;
-    margin-right: 3px;
     border-bottom: 2px solid #2a4273;
     
     &:hover {
@@ -464,17 +455,13 @@ body {
   }
   
   .view {
-    text-decoration: none;
-    color: #fff;
-    background-color: #14bd6b;
-    font-size: 14px;
-    padding: 4px 10px;
+    background-color: $green;
     float: right;
-    margin-right: 3px;
-    border-bottom: 2px solid #109957;
+    border-bottom: 2px solid $green-dark;
+    width: 80px;
+    text-align: center;
     
     &:hover {
-      cursor: pointer;
       background-color: #2cc668;
     }
   }
