@@ -125,11 +125,11 @@ exports.getLatestGamesForUser = function(userId, callback) {
           }
 
           if (request.result === "TIMEOUT" || request.result === "DRAW") {
-            resultObject['result'] = 'draw';
+            resultObject['result'] = 'tied';
           } else if (request.result === botQualifier) {
-            resultObject['result'] = 'win';
+            resultObject['result'] = 'won';
           } else if (request.result) {
-            resultObject['result'] = 'lose';
+            resultObject['result'] = 'lost';
           }
 
           relevantGames.push(resultObject);
