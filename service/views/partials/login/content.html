@@ -13,6 +13,7 @@
   <input type="text" placeholder="Enter Access Token, then hit Login">
   <a class="beta">Beta Login</a> 
 </div>
+<div class="login-error"></div>
 <div class="lower-container">
   <h1>What is Planes?</h1>
   <p>Planes is a silly little game that <em>puts your code to the test</em> against your friend's code! Challenge them in an epic duel of planes!</p>
@@ -38,10 +39,36 @@
 </div>
 
 <script type="text/javascript">
-  $(function() {
+  $(document).ready(function() {
+    var $access = $('.facebook').find('input')
+    var attemptLogin = function() {
+      if ($access.css('width') == '0px') {
+        $access
+          .show()
+          .animate({width: 200, padding: 9});
+        } else {
+          $.get('/checkpassword',{password: $access.val()}, function(data) {
+            console.log(data)
+            if (data != '/') {
+              window.location = data;
+            } else {
+              $access.addClass('err');
+              $('.login-error').text('oops - wrong access code! If you\'ve already joined the beta mailing list but haven\'t receive an access code yet, hang tight! We\'ll let you know! Email planes@mit.edu if you believe this is an error!')
+            }
+          })
+        
+      }
+    }
+    $(document).on('keydown', 'input', function(ev) {
+        if (ev.which === 13) {
+            attemptLogin();
+        }
+    });
+    
     $('.beta').on('click', function() {
-      $('.facebook').find('input').animate({width: 200, padding: 0});
-    })
+      attemptLogin();
+    });
+    
     $('a[href*=#]:not([href=#])').click(function() {
       if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
         var target = $(this.hash);
@@ -54,5 +81,6 @@
         }
       }
     });
+    
   });
 </script>
