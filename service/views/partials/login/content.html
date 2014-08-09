@@ -35,10 +35,13 @@
 </div>
 
 <script type="text/javascript">
+  var accessHidden = true;
+  
   $(document).ready(function() {
     var $access = $('.facebook').find('input')
     var attemptLogin = function() {
-      if ($access.css('width') == '0px') {
+      if (accessHidden) {
+        accessHidden = false;
         $access
           .show()
           .animate({width: 200, padding: 9});
