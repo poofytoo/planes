@@ -102,9 +102,9 @@ class Engine:
     return False
 
   def checkEndConditions(self):
+    shieldWasHit = [False, False]
     for bulletId in self.bullets:
       bullet = self.bullets[bulletId]
-      shieldWasHit = [False, False]
 
       botQualifiers = ["BOT2", "BOT1"]
       for i in range(2):
