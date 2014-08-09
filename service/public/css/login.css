@@ -73,6 +73,13 @@ a, a:visited, a:active, a:hover {
   font-size: 20px;
   color: #bbb; }
 
+.wait-list {
+  max-width: 500px;
+  padding: 0 20px;
+  margin: 0 auto 30px;
+  line-height: normal;
+  color: #999; }
+
 .banner {
   height: 200px;
   background-image: url("../assets/planes-home.png");
@@ -98,8 +105,14 @@ a, a:visited, a:active, a:hover {
       opacity: 0.9; }
 
 .facebook {
-  text-align: center;
-  opacity: 0.4; }
+  text-align: center; }
+  .facebook input {
+    padding: 11px;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    outline: none;
+    border: 1px solid #ddd;
+    width: 0; }
   .facebook a, .facebook a:visited, .facebook a:active {
     text-decoration: none;
     background-color: #3f588e;
@@ -113,7 +126,8 @@ a, a:visited, a:active, a:hover {
     background-position: 4px center;
     border-bottom: 3px solid #283f6e; }
     .facebook a:hover, .facebook a:visited:hover, .facebook a:active:hover {
-      opacity: 0.9; }
+      opacity: 0.9;
+      cursor: pointer; }
 
 .lower-container {
   background-color: #eceff1;

@@ -4,10 +4,14 @@
 <div class="banner">
 </div>
 <div class="mailing-list">
-  <a href="http://eepurl.com/0rreX">Sign up to be a BETA Tester</a>
+  <div class="wait-list">
+    <p>We're currently working out all the bugs to ensure the smoothest flight possible - sign up to be a beta tester if you'd like to help us test!</p>
+  </div>
+  <a href="http://eepurl.com/0rreX">Join Planes Beta Waiting List</a>
 </div>
 <div class="facebook">
-  <a>Login with Facebook</a>
+  <input type="text" placeholder="Enter Access Token, then hit Login">
+  <a class="beta">Beta Login</a> 
 </div>
 <div class="lower-container">
   <h1>What is Planes?</h1>
@@ -35,6 +39,9 @@
 
 <script type="text/javascript">
   $(function() {
+    $('.beta').on('click', function() {
+      $('.facebook').find('input').animate({width: 200, padding: 0});
+    })
     $('a[href*=#]:not([href=#])').click(function() {
       if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
         var target = $(this.hash);
