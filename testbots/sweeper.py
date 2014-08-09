@@ -18,7 +18,6 @@ import random
 # all else    costs 0 energy
 
 def compute(gameRound, enemyRow, myRow, radars, myEnergy, myShield, myLastMove):
-  r = random.random()
   # danger-detection
   if (radars[myRow] != 'SAFE'):
     if radars[(myRow+1)%5] == 'SAFE':
@@ -37,36 +36,40 @@ def compute(gameRound, enemyRow, myRow, radars, myEnergy, myShield, myLastMove):
           return 'charge'
         else:
           return 'up'
-        
-  # rando-action
-  if r < 0.1:
-    if radars[(myRow-1)%5] == 'SAFE':
-      return 'up'
-    else:
-      return 'charge'
-  elif r < 0.2:
-    if radars[(myRow+1)%5] == 'SAFE':
-      return 'down'
-    else:
-      return 'charge'
-  elif r < 0.5:
+          
+  if gameRound % 30 < 10:
     return 'charge'
-  elif r < 0.8 and myEnergy > 4:
-    return 'supershoot'
-  elif r < 0.9 and myEnergy > 2:
-    if myShield > 2:
-      if myEnergy > 4:
-        return supershoot
+  else:
+    if myLastMove == 'up' or myLastMove == 'down':
+      r = random.random()
+      if r < 0.4:
+        if myEnergy > 4:
+          return 'supershoot'
+        else:
+          if myEnergy > 0:
+            return 'shoot'
+          else: 
+            return 'charge'
       else:
-        return shoot
+        if myEnergy > 0:
+          return 'shoot'
+        else: 
+          return 'charge'
     else:
-      return 'shield'
-  elif myEnergy > 1:
-    return 'shoot'
-  else: 
-    return 'charge'
-
+      r = random.random()
+      if radars[(myRow-1)%5] == 'SAFE' or r < 0.5:
+        return 'up'
+      elif radars[(myRow+1)%5] == 'SAFE':
+        return 'down'
+      else:
+        return 'charge'
+      
   return 'charge'
+  # move
+  
+
+
+
 
 
 
