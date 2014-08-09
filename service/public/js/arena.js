@@ -90,6 +90,27 @@ $(document).ready(function(){
     testJSONCounter ++;
   }
   
+  var createShield = function(dir, planeLocation, t, canvas) {
+    for (i = -1; i < 2; i ++) {
+      MARGIN = 30;
+      $shield = $('<div></div>');
+      $shield.addClass('player-shield');
+      bgShift = (-i - 1) * 80
+      
+      var shieldCss = {'top':(80*((planeLocation + i + 5) % 5))};
+      shieldCss[dir] = (30 + t * 10) + 'px';
+      shieldCss['height'] = 80;
+      shieldCss['background-position'] = '0 ' + bgShift + 'px';
+      $shield.css(shieldCss);
+      
+      if (dir == 'right') {
+        $shield.addClass('flip');
+      }
+      
+      canvas.append($shield);
+    }
+  }
+    
   var render = function(frame, id) {
     if (!frame) {
       setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
@@ -122,9 +143,24 @@ $(document).ready(function(){
       roundNum = 'END'
     }
     $('.round-number').text(roundNum);
+    
+    // Create shield
+    $('.player-shield').remove();
+    if (frame.st1 > 0) {
+      for (var i = 0; i < frame.st1; i++) {
+        createShield('left', frame.p1, i, $('.playing-field'));
+      }
+    }
+    if (frame.st2 > 0) {
+      for (var i = 0; i < frame.st2; i++) {
+        createShield('right', frame.p2, i, $('.playing-field'));
+      }
+    }
+    
     // Set the Bullet Count
     $('.gb').text(frame.b1);
     $('.ob').text(frame.b2);
+    
     // Draw the Bullets
     $('.bul').remove(); 
     for (i in frame.bullets) {

@@ -341,7 +341,7 @@ body {
       margin: 0 20px; }
   .bot-item .challengerName, .bot-item .challengerBot {
     font-size: 16px;
-    max-width: 140px;
+    max-width: 120px;
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;

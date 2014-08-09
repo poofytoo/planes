@@ -133,7 +133,7 @@ p {
 
 .plane {
   background-image: url("../assets/planes.png");
-  background-size: 260px;
+  background-size: 340px;
   background-repeat: no-repeat;
   height: 40px;
   width: 50px;
@@ -152,7 +152,7 @@ p {
 
 .glow-overlay {
   background-image: url("../assets/planes.png");
-  background-size: 260px;
+  background-size: 340px;
   background-repeat: no-repeat;
   height: 40px;
   width: 50px;
@@ -204,7 +204,7 @@ p {
   top: 8px;
   right: 8px;
   background-image: url("../assets/planes.png");
-  background-size: 260px;
+  background-size: 340px;
   background-repeat: no-repeat; }
 
 .action-left {
@@ -226,6 +226,28 @@ p {
 
 .shoot, .dud {
   background-position: -220px 0; }
+
+.supershoot {
+  background-position: -260px 0; }
+
+.shield {
+  background-position: -300px 0; }
+
+.player-shield {
+  position: absolute;
+  width: 50px;
+  background-image: url("../assets/player-shield.png");
+  background-size: 50px;
+  opacity: 0.8; }
+  .player-shield.flip {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: fliph;
+    /*IE*/
+    filter: fliph;
+    /*IE*/ }
 
 .charge-gif {
   background-image: url("../assets/charge.gif");

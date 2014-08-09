@@ -18,6 +18,14 @@ a, a:visited, a:active, a:hover {
   color: #bbb;
 }
 
+.wait-list {
+  max-width: 500px;
+  padding: 0 20px;
+  margin: 0 auto 30px;
+  line-height: normal;
+  color: #999;
+}
+
 .banner {
   height: 200px;
   background-image: url('../assets/planes-home.png');
@@ -28,7 +36,7 @@ a, a:visited, a:active, a:hover {
 
 .mailing-list {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 
   a, a:visited, a:active {
     text-decoration: none;
@@ -48,11 +56,34 @@ a, a:visited, a:active, a:hover {
   }
 }
 
+.login-error {
+  max-width: 500px;
+  padding: 0 20px;
+  margin: 20px auto 30px;
+  line-height: normal;
+  text-align: center;
+  color: #8b0000;
+}
 .facebook {
   text-align: center;
-  opacity: 0.4;
-
+  
+  input {
+    padding: 9px 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    outline: none;
+    border: 1px solid #ddd;
+    width: 0;
+    margin: 0;
+    display: none;
+    
+    &.err {
+      border: 1px solid red;
+    }
+  }
+  
   a, a:visited, a:active {
+    display: inline-block;
     text-decoration: none;
     background-color: #3f588e;
     color: #fff;
@@ -67,6 +98,7 @@ a, a:visited, a:active, a:hover {
     
     &:hover {
       opacity: 0.9;
+      cursor: pointer;
     }
   }
 }
