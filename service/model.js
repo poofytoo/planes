@@ -17,6 +17,11 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+var condenseName = function(n) {
+  c = n.split(' ');
+  return c[0] + ' ' + c[(c.length-1)].charAt(0);
+}
+
 exec('mkdir -p uploads');
 
 function fsWriteFile(data, userId, botFileName, botName, botDesc, callback) {
@@ -143,6 +148,7 @@ exports.getLatestGamesForUser = function(userId, callback) {
       var returnObject = {}
       for (var i = 0; i < Math.min(relevantGames.length, 20); i++) {
         returnObject[i] = relevantGames[i];
+        returnObject[i].opponentName = condenseName(returnObject[i].opponentName);
       }
       callback(false, returnObject);
     });
@@ -169,7 +175,7 @@ exports.getTopBots = function(userId, callback) {
     for (var i = 0; i < userList.length; i++) {
       var user = userList[i];
       userResultObject[i] = {
-        user: user.username,
+        user: condenseName(user.username),
         userId: user.id,
         elo: user.elo,
         wins: user.wins,
