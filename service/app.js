@@ -88,6 +88,7 @@ app.get('/goodbye', routes.unsubscribe);
 app.get('/help', routes.help);
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email', 'user_friends']}));
+app.get('/checkpassword', routes.checkPassword);
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',
       failureRedirect: '/' }))
