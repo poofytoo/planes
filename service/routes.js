@@ -199,7 +199,7 @@ exports.isLoggedIn = function(req, res) {
 }
 
 exports.checkPassword = function(req, res) {
-  if (req.query.password === 'pl4nes') {
+  if (req.query.password === 'pl4nes' || req.query.password === 'PL4NES') {
     res.send('/auth/facebook');
   } else {
     res.send('/');
