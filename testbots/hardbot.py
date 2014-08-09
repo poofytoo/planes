@@ -40,22 +40,33 @@ def compute(gameRound, enemyRow, myRow, radars, myEnergy, myShield, myLastMove):
         
   # rando-action
   if r < 0.1:
-    return 'up'
+    if radars[(myRow-1)%5] == 'SAFE':
+      return 'up'
+    else:
+      return 'charge'
   elif r < 0.2:
-    return 'down'
+    if radars[(myRow+1)%5] == 'SAFE':
+      return 'down'
+    else:
+      return 'charge'
   elif r < 0.5:
     return 'charge'
   elif r < 0.8 and myEnergy > 4:
     return 'supershoot'
   elif r < 0.9 and myEnergy > 2:
-    return 'shield'
+    if myShield > 2:
+      if myEnergy > 4:
+        return supershoot
+      else:
+        return shoot
+    else:
+      return 'shield'
   elif myEnergy > 1:
     return 'shoot'
   else: 
     return 'charge'
 
-
-
+  return 'charge'
 
 
 
