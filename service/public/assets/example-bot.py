@@ -14,7 +14,7 @@ import random
 
 # shoot       costs 1 energy
 # supershoot  costs 5 energy
-# shield      costs 3 energy
+# shield      costs 8 energy
 # all else    costs 0 energy
 
 def compute(gameRound, enemyRow, myRow, radars, myEnergy, myShield, myLastMove):
