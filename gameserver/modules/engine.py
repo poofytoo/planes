@@ -13,7 +13,7 @@ class Engine:
   MAX_TIME_IN_SECONDS = 60
   MAX_FRAMES = MAX_TIME_IN_SECONDS * FRAMES_PER_SECOND
 
-  NUM_ROWS = 5
+  NUM_ROWS = 50
   NUM_COLS = 12
 
   X_FULL_WIDTH = 800
@@ -25,7 +25,7 @@ class Engine:
   DIRECTIONS = [1, -1]
 
   botMoves = [None, None]
-  botRows = [0, 4]
+  botRows = [0, 49]
   botAmmo = [0, 0]
   botCols = [0, NUM_COLS - 1]
   shotStatus = ['ok', 'ok']

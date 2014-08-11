@@ -1,5 +1,6 @@
 $(document).ready(function(){
   
+  const NUM_LINES = 50;
   var FRAME_RATE = 60;
   var MS_FRAME = 1000/FRAME_RATE
 
@@ -193,4 +194,9 @@ $(document).ready(function(){
       clearInterval(gameTimer);
     }
   })
+
+  $('.playing-field').css('height', NUM_LINES * 80);
+  for (var i = 0; i < NUM_LINES; i++) {
+    $('<div class="line"></div>').css('top', 80 * i + 'px').appendTo($('.playing-field'));
+  }
 });
