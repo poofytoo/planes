@@ -205,6 +205,7 @@ exports.toggleEmail = function(userId, state, callback) {
 }
 
 sendChallengeEmail = function(userId, userName, userEmail, otherName, matchId, userSecret) {
+  return
   var mailOptions = {
       from: 'The Planes Team <theplanesgame@gmail.com>', // sender address
       to: userEmail, // list of receivers

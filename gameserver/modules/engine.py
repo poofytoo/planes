@@ -168,8 +168,8 @@ class Engine:
   def getBotOutputs(self):
     bot1command = self.getBotCommand(self.bot1binary)
     bot2command = self.getBotCommand(self.bot2binary)
-    p1 = subprocess.Popen("sudo -u scrub timeout 1s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    p2 = subprocess.Popen("sudo -u scrub timeout 1s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    p1 = subprocess.Popen("sudo timeout 1s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    p2 = subprocess.Popen("sudo timeout 1s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
     input1 = self.getBotInput(0)
     input2 = self.getBotInput(1)
