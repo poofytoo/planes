@@ -25,7 +25,7 @@ class Engine:
   DIRECTIONS = [1, -1]
 
   SUPER_SHOT_COST = 5
-  SHIELD_COST = 3
+  SHIELD_COST = 8
 
   botMoves = [None, None]
   botRows = [0, 4]
