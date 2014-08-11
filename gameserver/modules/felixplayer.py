@@ -3,7 +3,7 @@ import random
 
 # YOUR CODE GOES HERE
 # returns one of 'shoot', 'charge', 'up', 'down'
-def compute(gameRound, enemyRow, myRow, radars, myAmmo, myLastMove):
+def compute(gameRound, enemyRows, myRow, radars, myAmmo, myLastMove):
   candidates = {'shoot': 1, 'charge': 1, 'up': 1, 'down': 1}
   if radars[myRow] == 'ALERT':
     candidates['shoot'] = 0
@@ -21,9 +21,9 @@ def wrapper():
   data = raw_input()
   js = json.loads(data)
   radars = []
-  for s in range(5):
+  for s in range(50):
     radars.append(js['radar' + str(s)])
-  output = compute(js['gameRound'], js['enemyRow'], js['myRow'], radars, js['ammo'], js['lastMove'])
+  output = compute(js['gameRound'], js['enemyRows'], js['myRow'], radars, js['ammo'], js['lastMove'])
   print output
 
 wrapper()

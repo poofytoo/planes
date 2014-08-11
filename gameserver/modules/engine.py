@@ -5,6 +5,9 @@ import subprocess
 import json
 import random
 
+def createBot(row, col):
+  return {'move': None, 'row': row, 'ammo': 0, 'col': col, 'shotStatus': 'ok'}
+
 class Engine:
   FRAMES_PER_SECOND = 48
   TURNS_PER_SECOND = 2
@@ -13,6 +16,7 @@ class Engine:
   MAX_TIME_IN_SECONDS = 60
   MAX_FRAMES = MAX_TIME_IN_SECONDS * FRAMES_PER_SECOND
 
+  NUM_PLANES = 2
   NUM_ROWS = 50
   NUM_COLS = 12
 
@@ -24,15 +28,8 @@ class Engine:
 
   DIRECTIONS = [1, -1]
 
-  botMoves = [None, None]
-  botRows = [0, 49]
-  botAmmo = [0, 0]
-  botCols = [0, NUM_COLS - 1]
-  shotStatus = ['ok', 'ok']
-
-  otherBot = [1, 0]
-
-  exploded = [False, False]
+  bots = [[createBot(random.randint(0, NUM_ROWS - 1), 0) for i in range(NUM_PLANES)],
+      [createBot(random.randint(0, NUM_ROWS - 1), NUM_COLS - 1) for i in range(NUM_PLANES)]]
 
   gameOver = ""
 
@@ -46,9 +43,6 @@ class Engine:
   frameList = []
 
   def __init__(self, gameId, bot1binary, bot2binary):
-    # Switch randomly to start
-    if random.random() < .5:
-      self.botRows = self.botRows[::-1]
     self.gameId = gameId
     self.bot1binary = bot1binary
     self.bot2binary = bot2binary
@@ -61,19 +55,19 @@ class Engine:
       self.bullets[self.bulletCounter] = (direction, row, self.NUM_COLS - 1, self.X_END)
     self.bulletCounter += 1
 
-  def handleMove(self, currentRow, currentAmmo, move, direction):
-    if move == "up":
-      currentRow = (currentRow - 1 + self.NUM_ROWS) % self.NUM_ROWS
-    elif move == "down":
-      currentRow = (currentRow + 1 + self.NUM_ROWS) % self.NUM_ROWS
-    elif move == "charge":
-      currentAmmo += 1
-    elif currentAmmo > 0:
-      currentAmmo -= 1
-      self.addBullet(currentRow, direction)
+  def handleMove(self, bot, direction):
+    if bot['move'] == "up":
+      bot['row'] = (bot['row'] - 1 + self.NUM_ROWS) % self.NUM_ROWS
+    elif bot['move'] == "down":
+      bot['row'] = (bot['row'] + 1 + self.NUM_ROWS) % self.NUM_ROWS
+    elif bot['move'] == "charge":
+      bot['ammo'] += 1
+    elif bot['ammo'] > 0:
+      bot['ammo'] -= 1
+      self.addBullet(bot['row'], direction)
     else:
-      return (currentRow, currentAmmo, "dud")
-    return (currentRow, currentAmmo, "ok")
+      return (bot['row'], bot['ammo'], "dud")
+    return (bot['row'], bot['ammo'], "ok")
 
   def animationTick(self):
     newBullets = {}
@@ -83,19 +77,25 @@ class Engine:
       xpos = bullet[3] + direction * self.X_STEP
       newBullets[bulletId] = (direction, row, column, xpos)
     self.bullets = newBullets
-    
+
   def checkEndConditions(self):
     for bulletId in self.bullets:
       bullet = self.bullets[bulletId]
-      # same row as a plane
-      if bullet[1] == self.botRows[0]:
-        if bullet[0] == -1 and bullet[2] == 0:
-          self.botRows[0] = 'EXPLODED'
-          self.gameOver = "BOT2"
-      if bullet[1] == self.botRows[1]:
-        if bullet[0] == 1 and bullet[2] == self.NUM_COLS - 1:
-          self.botRows[1] = 'EXPLODED'
-          self.gameOver = "BOT1"
+      # same row as a left plane
+      if bullet[0] == -1 and bullet[2] == 0:
+        for bot in self.bots[0]:
+          if bot['row'] == bullet:
+            bot['row'] = 'EXPLODED'
+      # same row as a right plane
+      if bullet[0] == 1 and bullet[2] == self.NUM_COLS - 1:
+        for bot in self.bots[1]:
+          if bot['row'] == bullet:
+            bot['row'] = 'EXPLODED'
+    # check if all bots on a side have been destroyed
+    if all([bot['row'] == 'EXPLODED' for bot in self.bots[0]]):
+      self.gameOver += 'BOT2'
+    if all([bot['row'] == 'EXPLODED' for bot in self.bots[1]]):
+      self.gameOver += 'BOT1'
     if self.frameCounter > self.MAX_FRAMES:
       self.gameOver = "TIMEOUT"
     if "BOT2" in self.gameOver and "BOT1" in self.gameOver:
@@ -122,8 +122,8 @@ class Engine:
 
     # Handle bot movement
     for i in range(2):
-      (self.botRows[i], self.botAmmo[i], self.shotStatus[i]) = self.handleMove(
-          self.botRows[i], self.botAmmo[i], self.botMoves[i], self.DIRECTIONS[i])
+      for bot in self.bots[i]:
+        self.handleMove(bot, self.DIRECTIONS[i])
 
   def getRadarStatus(self, botNum, row):
     status = "SAFE"
@@ -134,18 +134,22 @@ class Engine:
         status = "WARNING"
     return status
 
+  def getBotRows(self, botNum):
+    return [bot['row'] for bot in self.bots[botNum]]
+
   # Schema {
   # Inputs: (gameRound, enemyRow, myRow, radar (0-5) warning or alert, ammo, lastMove)
-  def getBotInput(self, botNum):
+  def getBotInput(self, bot):
     dataDump = {}
-    other = self.otherBot[botNum]
+    botNum = 0 if bot['col'] == 0 else 1
+    dataDump['myRow'] = bot['row']
+    dataDump['myRows'] = self.getBotRows(botNum)
+    dataDump['enemyRows'] = self.getBotRows(1 - botNum)
     dataDump['gameRound'] = self.roundCounter
-    dataDump['enemyRow'] = self.botRows[other]
-    dataDump['myRow'] = self.botRows[botNum]
     for row in range(self.NUM_ROWS):
       dataDump['radar' + str(row)] = self.getRadarStatus(botNum, row)
-    dataDump['ammo'] = self.botAmmo[botNum]
-    dataDump['lastMove'] = self.botMoves[botNum]
+    dataDump['ammo'] = bot['ammo']
+    dataDump['lastMove'] = bot['move']
     return json.dumps(dataDump)
 
   def getBotCommand(self, botBinary):
@@ -155,29 +159,30 @@ class Engine:
       return "python " + botBinary
     return "./" + botBinary
 
-  def parseMove(self, botNum, botOutput):
+  def parseMove(self, bot, botOutput):
     if "up" in botOutput:
-      self.botMoves[botNum] = "up"
+      bot['move'] = "up"
     elif "down" in botOutput:
-      self.botMoves[botNum] = "down"
+      bot['move'] = "down"
     elif "shoot" in botOutput:
-      self.botMoves[botNum] = "shoot"
+      bot['move'] = "shoot"
     else:
-      self.botMoves[botNum] = "charge"
+      bot['move'] = "charge"
 
   def getBotOutputs(self):
     bot1command = self.getBotCommand(self.bot1binary)
     bot2command = self.getBotCommand(self.bot2binary)
-    p1 = subprocess.Popen("sudo timeout 1s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    p2 = subprocess.Popen("sudo timeout 1s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
-    input1 = self.getBotInput(0)
-    input2 = self.getBotInput(1)
-    bot1output = p1.communicate(input=input1)[0]
-    bot2output = p2.communicate(input=input2)[0]
-
-    self.parseMove(0, bot1output)
-    self.parseMove(1, bot2output)
+    for bot in self.bots[0]:
+      p1 = subprocess.Popen("sudo timeout 1s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+      input1 = self.getBotInput(bot)
+      bot1output = p1.communicate(input=input1)[0]
+      self.parseMove(bot, bot1output)
+    for bot in self.bots[1]:
+      p2 = subprocess.Popen("sudo timeout 1s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+      input2 = self.getBotInput(bot)
+      bot2output = p2.communicate(input=input2)[0]
+      self.parseMove(bot, bot2output)
 
   def runGame(self):
     while not self.gameOver:
@@ -198,20 +203,14 @@ class Engine:
 
     frameObject['roundNumber'] = self.roundCounter
 
-    for bot in range(2):
-      botId = str(bot + 1)
+    for botNum in range(2):
+      botId = str(botNum + 1)
       # Plane rows
-      frameObject['p' + botId] = self.botRows[bot]
-      # Ammo counts
-      frameObject['b' + botId] = self.botAmmo[bot]
+      frameObject['p' + botId] = self.getBotRows(botNum)
+      # Plane counts
+      frameObject['b' + botId] = len(self.bots[botNum])
 
-      if isActionFrame:
-        frameObject['action' + botId] = self.botMoves[bot]
-        # If the shot wasn't successful, return DUD
-        if self.botMoves[bot] == 'shoot' and self.shotStatus[bot] == 'dud':
-          frameObject['action' + botId] = 'dud'
-      else:
-        frameObject['action' + botId] = 'NONE'
+      frameObject['action' + botId] = 'NONE'
 
     bulletList = []
     for bulletId in self.bullets:
