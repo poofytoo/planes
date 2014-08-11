@@ -171,15 +171,15 @@ exports.unsubscribe = function(req, res) {
   model.verifyUser(userId, userSecret, function(err) {
     if (err) {
       util.registerPageContent('error', 'contentHeaderBack')
-      res.render('error.html');
+      res.render('base.html');
     } else {
       model.toggleEmail(userId, 'off', function(err){
         if (err) {
           util.registerPageContent('error', 'contentHeaderBack')
-          res.render('error.html');
+          res.render('base.html');
         } else {
           util.registerPageContent('goodbye', 'contentHeaderBack');
-          res.render('goodbye.html');
+          res.render('base.html');
         }
       });
     }
