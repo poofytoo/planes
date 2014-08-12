@@ -76,7 +76,14 @@ function createUserFb(profile, callback) {
 }
 
 function createUser(username, pwHash, callback) {
-  
+  var user = new userModel({
+    'username': username,
+    'secret': pwHash,
+    'score': 0,
+    'userStatus': 'new',
+  });
+  user.save();
+  callback(false);
 
   /*
   root.child('counters').child('userID').transaction(function(userID) {
@@ -104,6 +111,8 @@ function createUser(username, pwHash, callback) {
 };
 
 function getUser(username, callback) {
+  userModel.findOne({'username': username}, callback);
+/*
   root.child('users').once('value', function(data) {
     var users = data.val();
     for (var userKey in users) {
@@ -115,9 +124,20 @@ function getUser(username, callback) {
     }
     callback(false, false);
   });
+*/
 };
 
 function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
+  userModel.findOne({'id': userId}, function(error, user) {
+    user.bot = {
+      botFileName: botFileName,
+      botName: botName,
+      botDesc: botDesc,
+      botCode: botCode
+    }
+    user.save();
+  });
+  /*
   root.child('users').child(userId).child('bot').set({
     botFileName: botFileName,
     botName: botName,
@@ -125,15 +145,23 @@ function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
     botCode: botCode
   });
   callback(false);
+  */
 };
 
 function getCurrentBot(userId, callback) {
+  userModel.findOne({'id': userId}, function(error, user) {
+    callback(user.bot, null);
+  });
+  /*
   root.child('users').child(userId).once('value', function(data) {
     callback(data.val(), null);
   })
+  */
 }
 
 function findUser(id, callback) {
+  userModel.findOne({'id': id}, callback);
+/*
   root.child('users').child(id).once('value', function(data) {
     if (data.val()) {
       callback(false, data.val());
@@ -142,9 +170,32 @@ function findUser(id, callback) {
       callback(true, null);
     }
   });
+*/
 };
 
-function fetchGame(userId, id, callback) {  
+function fetchGame(userId, id, callback) {
+  requestsModel.findOne({id: id}, function(error, request) {
+    if (!error) {
+      gamesModel.findOne({id: id}, function(gameError, game) {
+        if (!gameError) {
+            var gameObject = JSON.parse(game.gameJson);
+            gameObject['username1'] = request.username1;
+            gameObject['username2'] = request.username2;
+            callback(false, gameObject);
+
+            findUser(userId, function(error, user) {
+              user.watched[id] = 'seen';
+              user.save();
+            });
+        } else {
+          callback("processing", false);
+        }
+      });
+    } else {
+      callback("Game id not found.", false);
+    }
+  });
+/*
   root.child('requests').child(id).once('value', function(requestData) {
     if (requestData.val()) {
       root.child('games').child(id).once('value', function(data) {
@@ -168,6 +219,7 @@ function fetchGame(userId, id, callback) {
       callback("Game id not found.", false);
     }
   });
+*/
 };
 
 function fetchGamePublic(id, callback) {
@@ -175,21 +227,34 @@ function fetchGamePublic(id, callback) {
 }
 
 function getAllUsers(callback) {
+  userModel.find(function(error, users) {
+    callback(users);
+  });
+/*
   root.child('users').once('value', function(data) {
     callback(data.val());
   });
+*/
 }
 
 function getAllRequests(callback) {
+  requestsModel.find(function(error, requests) {
+    callback(requests);
+  });
+/*
   root.child('requests').once('value', function(data) {
     callback(data.val());
   });
+*/
 }
 
 function getAllGames(callback) {
-  root.child('games').once('value', function(data) {
-    callback(data.val());
+  gamesModel.find(function(error, games) {
+    callback(games);
   });
+  // root.child('games').once('value', function(data) {
+  //   callback(data.val());
+  // });
 }
 
 function makeRequest(challengerUsername, challengerId, otherId, callback) {
@@ -198,55 +263,64 @@ function makeRequest(challengerUsername, challengerId, otherId, callback) {
     return;
   }
   
-  root.child('requestCounter').transaction(function(counter) {
-    return counter + 1;
-  }, function(error, committed, snapshot) {
-    if (!error) {
-      var gameId = snapshot.val();
-      findUser(challengerId, function(error, user) {
-        if (error) {
-          callback(error, false);
-          return;
-        }
-        var now = new Date().getTime();
-        // ANTI-SPAM
-        if (now - user.lastRequestTime < 300) {
-          callback("Wait a minute before making another challenge.", false);
-          return;
-        }
-        findUser(otherId, function(error2, user2) {
-          if (error2) {
-            callback(error, false);
-            return;
-          }
-          root.child('requests').child(gameId).set({
-            id: gameId, 
-            user1: challengerId, 
-            username1: challengerUsername,
-            user2: otherId, 
-            username2: user2.username,
-            watched: {0:'seen'},
-            status: "open"
-          });
-          root.child('users').child(challengerId).child('lastRequestTime').set(new Date().getTime());
-          callback(false, gameId);
-        });
-      });
-    } else {
+  // root.child('requestCounter').transaction(function(counter) {
+  //   return counter + 1;
+  // }, function(error, committed, snapshot) {
+  //   if (!error) {
+  //     var gameId = snapshot.val();
+
+  findUser(challengerId, function(error, user) {
+    if (error) {
       callback(error, false);
+      return;
     }
+    var now = new Date().getTime();
+    // ANTI-SPAM
+    if (now - user.lastRequestTime < 300) {
+      callback("Wait a minute before making another challenge.", false);
+      return;
+    }
+    findUser(otherId, function(error2, user2) {
+      if (error2) {
+        callback(error, false);
+        return;
+      }
+      request = new requestsModel({
+        user1: challengerId, 
+        username1: challengerUsername,
+        user2: otherId, 
+        username2: user2.username,
+        watched: {0:'seen'},
+        status: "open"
+      });
+      request.save();
+      user.lastRequestTime = new Date().getTime();
+      user.save();
+      callback(false, request.id);
+    });
   });
 }
 
 function setEmailPreferences(userId, state, callback) {
+  usersModel.findOne({id: userId}, function(error, user) {
+    user.emails = state;
+    user.save();
+  });
+  /*
   root.child('users/' + userId + '/emails').set(state);
   callback(false);
+  */
 }
 
 function verifyUser(userId, userSecret, callback) {
+  usersModel.findOne({id: userId}, function(error, user) {
+    callback(userSecret !== user.secret);
+  });
+  /*
   root.child('users').child(userId).child('secret').once('value', function(data) {
     callback(userSecret !== data.val());
   })
+  */
 }
 
 exports.createUserFb = createUserFb;
