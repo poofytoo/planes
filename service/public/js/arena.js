@@ -1,6 +1,7 @@
 $(document).ready(function(){
   
-  const NUM_LINES = 50;
+  const NUM_LINES = 10;
+  const NUM_PLANES = 2;
   var FRAME_RATE = 60;
   var MS_FRAME = 1000/FRAME_RATE
 
@@ -87,6 +88,7 @@ $(document).ready(function(){
       $('.bul').remove();
       return
     }
+    /*
     if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
       clearInterval(gameTimer);
       $('.explode-left-v')[0].load();
@@ -103,10 +105,13 @@ $(document).ready(function(){
       setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
       return;
     }
+    */
     
     // Move the Planes
-    $('.p1').css({'top':(80*frame.p1)+20});
-    $('.p2').css({'top':(80*frame.p2)+20});
+    for (var i = 0; i < NUM_PLANES; i++) {
+      $('#bot1-' + i).css({'top':(80*frame.p1[i])+20});
+      $('#bot2-' + i).css({'top':(80*frame.p2[i])+20});
+    }
     // Set the Round Number
     var roundNum = Math.floor(id/24)
     if (roundNum >= 120) {
@@ -196,7 +201,11 @@ $(document).ready(function(){
   })
 
   $('.playing-field').css('height', NUM_LINES * 80);
-  for (var i = 0; i < NUM_LINES; i++) {
+  for (var i = 1; i < NUM_LINES; i++) {
     $('<div class="line"></div>').css('top', 80 * i + 'px').appendTo($('.playing-field'));
+  }
+  for (var i = 0; i < NUM_PLANES; i++) {
+    $('.playing-field').append('<div id="bot1-' + i + '" class="plane p1"></div>');
+    $('.playing-field').append('<div id="bot2-' + i + '" class="plane p2"></div>');
   }
 });

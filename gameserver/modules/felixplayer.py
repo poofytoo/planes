@@ -21,7 +21,7 @@ def wrapper():
   data = raw_input()
   js = json.loads(data)
   radars = []
-  for s in range(50):
+  for s in range(10):
     radars.append(js['radar' + str(s)])
   output = compute(js['gameRound'], js['enemyRows'], js['myRow'], radars, js['ammo'], js['lastMove'])
   print output

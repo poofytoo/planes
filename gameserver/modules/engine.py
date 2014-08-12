@@ -17,7 +17,7 @@ class Engine:
   MAX_FRAMES = MAX_TIME_IN_SECONDS * FRAMES_PER_SECOND
 
   NUM_PLANES = 2
-  NUM_ROWS = 50
+  NUM_ROWS = 10
   NUM_COLS = 12
 
   X_FULL_WIDTH = 800
@@ -84,17 +84,20 @@ class Engine:
       # same row as a left plane
       if bullet[0] == -1 and bullet[2] == 0:
         for bot in self.bots[0]:
-          if bot['row'] == bullet:
+          if bot['row'] == bullet[1]:
             bot['row'] = 'EXPLODED'
       # same row as a right plane
       if bullet[0] == 1 and bullet[2] == self.NUM_COLS - 1:
         for bot in self.bots[1]:
-          if bot['row'] == bullet:
+          if bot['row'] == bullet[1]:
             bot['row'] = 'EXPLODED'
+    # remove all exploded bots
+    self.bots[0] = filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[0])
+    self.bots[1] = filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[1])
     # check if all bots on a side have been destroyed
-    if all([bot['row'] == 'EXPLODED' for bot in self.bots[0]]):
+    if not self.bots[0]:
       self.gameOver += 'BOT2'
-    if all([bot['row'] == 'EXPLODED' for bot in self.bots[1]]):
+    if not self.bots[1]:
       self.gameOver += 'BOT1'
     if self.frameCounter > self.MAX_FRAMES:
       self.gameOver = "TIMEOUT"
