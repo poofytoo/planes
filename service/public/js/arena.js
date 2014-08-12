@@ -88,8 +88,7 @@ $(document).ready(function(){
       $('.bul').remove();
       return
     }
-    /*
-    if (frame.p1 == 'EXPLODED' || frame.p2 == 'EXPLODED') {
+    if (frame.p1.length === 0 || frame.p2.length === 0) {
       clearInterval(gameTimer);
       $('.explode-left-v')[0].load();
       $('.explode-left-v')[0].play();
@@ -97,7 +96,7 @@ $(document).ready(function(){
       $('.explode-right-v')[0].play();
       $('.bul').remove();
         
-      if (frame.p1 == 'EXPLODED') {
+      if (frame.p1.length === 0) {
         $('.winner-name').text($('.orange').text())
       } else {
         $('.winner-name').text($('.green').text())
@@ -105,12 +104,20 @@ $(document).ready(function(){
       setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
       return;
     }
-    */
     
     // Move the Planes
+    var occ1 = new Array();
+    var occ2 = new Array();
+    for (var i = 0; i < NUM_LINES; i++) {
+      occ1[i] = occ2[i] = 0;
+    }
     for (var i = 0; i < NUM_PLANES; i++) {
-      $('#bot1-' + i).css({'top':(80*frame.p1[i])+20});
-      $('#bot2-' + i).css({'top':(80*frame.p2[i])+20});
+      $('#bot1-' + i).toggle(i in frame.p1)
+      $('#bot2-' + i).toggle(i in frame.p2)
+      var shift1 = occ1[frame.p1[i]]++;
+      var shift2 = occ2[frame.p2[i]]++;
+      $('#bot1-' + i).css({'top':(80*frame.p1[i])+20,'margin-left':5*shift1});
+      $('#bot2-' + i).css({'top':(80*frame.p2[i])+20,'margin-right':5*shift2});
     }
     // Set the Round Number
     var roundNum = Math.floor(id/24)

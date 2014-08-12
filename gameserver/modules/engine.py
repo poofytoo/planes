@@ -27,6 +27,7 @@ class Engine:
   X_STEP = X_CUT_WIDTH / float(FRAMES_PER_TURN) / NUM_COLS
 
   DIRECTIONS = [1, -1]
+  MOVES = ["shoot", "charge", "up", "down"]
 
   bots = [[createBot(random.randint(0, NUM_ROWS - 1), 0) for i in range(NUM_PLANES)],
       [createBot(random.randint(0, NUM_ROWS - 1), NUM_COLS - 1) for i in range(NUM_PLANES)]]
@@ -163,14 +164,11 @@ class Engine:
     return "./" + botBinary
 
   def parseMove(self, bot, botOutput):
-    if "up" in botOutput:
-      bot['move'] = "up"
-    elif "down" in botOutput:
-      bot['move'] = "down"
-    elif "shoot" in botOutput:
-      bot['move'] = "shoot"
-    else:
-      bot['move'] = "charge"
+    for move in self.MOVES:
+      if move in botOutput:
+        bot['move'] = move
+        return
+    bot['move'] = "charge"
 
   def getBotOutputs(self):
     bot1command = self.getBotCommand(self.bot1binary)
@@ -201,6 +199,12 @@ class Engine:
 
     print self.writeToGameFile()
 
+  def getCommonAction(self, botNum):
+    actions = [bot['move'] for bot in self.bots[botNum]]
+    action_counts = [(actions.count(move), -i, move)
+        for (i, move) in enumerate(self.MOVES)]
+    return max(action_counts)[2] if actions else 'NONE'
+
   def dumpGameState(self, isActionFrame):
     frameObject = {}
 
@@ -213,7 +217,7 @@ class Engine:
       # Plane counts
       frameObject['b' + botId] = len(self.bots[botNum])
 
-      frameObject['action' + botId] = 'NONE'
+      frameObject['action' + botId] = self.getCommonAction(botNum)
 
     bulletList = []
     for bulletId in self.bullets:
