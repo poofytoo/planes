@@ -16,7 +16,7 @@ class Engine:
   MAX_TIME_IN_SECONDS = 60
   MAX_FRAMES = MAX_TIME_IN_SECONDS * FRAMES_PER_SECOND
 
-  NUM_PLANES = 2
+  NUM_PLANES = 4
   NUM_ROWS = 10
   NUM_COLS = 12
 
@@ -80,6 +80,16 @@ class Engine:
     self.bullets = newBullets
 
   def checkEndConditions(self):
+    # remove all exploded bots
+    self.bots[0] = filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[0])
+    self.bots[1] = filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[1])
+
+    # check if all bots on a side have been destroyed
+    if not self.bots[0]:
+      self.gameOver += 'BOT2'
+    if not self.bots[1]:
+      self.gameOver += 'BOT1'
+
     for bulletId in self.bullets:
       bullet = self.bullets[bulletId]
       # same row as a left plane
@@ -92,14 +102,7 @@ class Engine:
         for bot in self.bots[1]:
           if bot['row'] == bullet[1]:
             bot['row'] = 'EXPLODED'
-    # remove all exploded bots
-    self.bots[0] = filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[0])
-    self.bots[1] = filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[1])
-    # check if all bots on a side have been destroyed
-    if not self.bots[0]:
-      self.gameOver += 'BOT2'
-    if not self.bots[1]:
-      self.gameOver += 'BOT1'
+
     if self.frameCounter > self.MAX_FRAMES:
       self.gameOver = "TIMEOUT"
     if "BOT2" in self.gameOver and "BOT1" in self.gameOver:
@@ -127,7 +130,8 @@ class Engine:
     # Handle bot movement
     for i in range(2):
       for bot in self.bots[i]:
-        self.handleMove(bot, self.DIRECTIONS[i])
+        if bot['row'] != 'EXPLODED':
+          self.handleMove(bot, self.DIRECTIONS[i])
 
   def getRadarStatus(self, botNum, row):
     status = "SAFE"
@@ -175,11 +179,15 @@ class Engine:
     bot2command = self.getBotCommand(self.bot2binary)
 
     for bot in self.bots[0]:
+      if bot['row'] == 'EXPLODED':
+        continue
       p1 = subprocess.Popen("sudo timeout 1s " + bot1command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
       input1 = self.getBotInput(bot)
       bot1output = p1.communicate(input=input1)[0]
       self.parseMove(bot, bot1output)
     for bot in self.bots[1]:
+      if bot['row'] == 'EXPLODED':
+        continue
       p2 = subprocess.Popen("sudo timeout 1s " + bot2command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
       input2 = self.getBotInput(bot)
       bot2output = p2.communicate(input=input2)[0]
@@ -213,9 +221,11 @@ class Engine:
     for botNum in range(2):
       botId = str(botNum + 1)
       # Plane rows
-      frameObject['p' + botId] = self.getBotRows(botNum)
+      frameObject['p' + botId] = [
+          {'move': bot['move'], 'row': bot['row']} for bot in self.bots[botNum]]
       # Plane counts
-      frameObject['b' + botId] = len(self.bots[botNum])
+      frameObject['b' + botId] = len(
+          filter(lambda bot: bot['row'] != 'EXPLODED', self.bots[botNum]))
 
       frameObject['action' + botId] = self.getCommonAction(botNum)
 

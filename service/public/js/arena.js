@@ -1,9 +1,10 @@
 $(document).ready(function(){
   
   const NUM_LINES = 10;
-  const NUM_PLANES = 2;
+  const NUM_PLANES = 4;
   var FRAME_RATE = 60;
-  var MS_FRAME = 1000/FRAME_RATE
+  var MS_FRAME = 1000/FRAME_RATE;
+  var dirs = ['left','right'];
 
   var testJSONCounter = 0
     
@@ -88,7 +89,12 @@ $(document).ready(function(){
       $('.bul').remove();
       return
     }
-    if (frame.p1.length === 0 || frame.p2.length === 0) {
+
+    // Set the Plane Count
+    $('.gb').text(frame.b1);
+    $('.ob').text(frame.b2);
+
+    if (frame.b1 === 0 || frame.b2 === 0) {
       clearInterval(gameTimer);
       $('.explode-left-v')[0].load();
       $('.explode-left-v')[0].play();
@@ -96,7 +102,7 @@ $(document).ready(function(){
       $('.explode-right-v')[0].play();
       $('.bul').remove();
         
-      if (frame.p1.length === 0) {
+      if (frame.b1 === 0) {
         $('.winner-name').text($('.orange').text())
       } else {
         $('.winner-name').text($('.green').text())
@@ -106,28 +112,49 @@ $(document).ready(function(){
     }
     
     // Move the Planes
-    var occ1 = new Array();
-    var occ2 = new Array();
-    for (var i = 0; i < NUM_LINES; i++) {
-      occ1[i] = occ2[i] = 0;
+    for (j in dirs) {
+      i = parseInt(j)+1;
+      var dir = dirs[j];
+      var occ = new Array();
+      for (var k = 0; k < NUM_LINES; k++) {
+        occ[k] = 0;
+      }
+      for (var k = 0; k < NUM_PLANES; k++) {
+        // Check if plane is alive
+        $('#bot' + i + '-' + k).toggle(k in frame['p' + i]);
+        if (!(k in frame['p' + i])) {
+          continue;
+        }
+
+        // Get row # of plane (or EXPLODED)
+        var stat = frame['p' + i][k].row;
+        if (stat === 'EXPLODED') {
+          $('.dud-' + dir + '-v')[0].load();
+          $('.dud-' + dir + '-v')[0].play();
+        } else {
+          $('#bot' + i + '-' + k).css({'top': 80 * stat + 20, 'margin-left': 10 * occ[stat]++});
+        }
+
+        // Show plane charging
+        if (frame['p' + i][k].move === 'charge') {
+          var css = {'top': 80 * stat + 20};
+          css[dir] = '10px';
+          $('<div></div>')
+              .addClass('glow-overlay')
+              .addClass(dir + '-overlay')
+              .css(css)
+              .appendTo('.playing-field')
+              .fadeOut(100);
+        }
+      }
     }
-    for (var i = 0; i < NUM_PLANES; i++) {
-      $('#bot1-' + i).toggle(i in frame.p1)
-      $('#bot2-' + i).toggle(i in frame.p2)
-      var shift1 = occ1[frame.p1[i]]++;
-      var shift2 = occ2[frame.p2[i]]++;
-      $('#bot1-' + i).css({'top':(80*frame.p1[i])+20,'margin-left':5*shift1});
-      $('#bot2-' + i).css({'top':(80*frame.p2[i])+20,'margin-right':5*shift2});
-    }
+
     // Set the Round Number
     var roundNum = Math.floor(id/24)
     if (roundNum >= 120) {
       roundNum = 'END'
     }
     $('.round-number').text(roundNum);
-    // Set the Bullet Count
-    $('.gb').text(frame.b1);
-    $('.ob').text(frame.b2);
     // Draw the Bullets
     $('.bul').remove(); 
     for (i in frame.bullets) {
@@ -155,7 +182,6 @@ $(document).ready(function(){
         .delay(300)
         .fadeOut(50)
       
-      var dirs = ['left','right']
       for (j in dirs) {
         i = parseInt(j)+1;
         var dir = dirs[j];    
@@ -178,21 +204,8 @@ $(document).ready(function(){
         if (frame['action' + i] == 'charge') {
           $('.charge-'+dir+'-v')[0].load();
           $('.charge-'+dir+'-v')[0].play();
-          
-          var css = {'top':(80*frame['p' + i])+20}
-          css[dir] = '10px'
-          $a = $('<div></div>')
-              .addClass('glow-overlay')
-              .addClass(dir + '-overlay')
-              .css(css)
-              
-          $('.playing-field').append($a);
-          
-          
-          $a.fadeOut();
         }
       }
-      
     }
   }
   
