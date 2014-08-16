@@ -15,7 +15,7 @@ var UNKNOWN = ".txt"
 
 var checking = false;
 
-var REQUEST_TICK_TIME_MILLIS = 30000;
+var REQUEST_TICK_TIME_MILLIS = 15000;
 
 var queuedGameCounter = 0;
 var closedGameCounter = 0;
