@@ -2,7 +2,6 @@ var model = require('./model');
 var util = require('./util');
 var authConfig = require('./authConfig.js');
 
-
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
       req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || 
@@ -23,13 +22,13 @@ exports.findUser = model.findUser;
 exports.root = function(req, res) {
   if (req.user) {
     var userId = req.user.id;
-    util.registerPageContent('index', 'contentHeader')
+    util.registerContent('index')
     model.getBotStats(userId, function(data, err) {
-      res.render('base.html', {user: req.user.username, bot: data});
+      res.render('base.html', {user: req.user.username, bot: data, pageInfo: util.getPageInfo('index')});
     })
   } else {
-    util.registerPageContent('login', 'contentHeader')
-    res.render("base.html");
+    util.registerContent('login')
+    res.render("base.html", {pageInfo: util.getPageInfo('login')});
   }
 }
 
@@ -39,8 +38,8 @@ exports.upload = function(req, res) {
     if (err) {
       var err = err;
       model.getBotStats(userId, function(data, err2) {
-        util.registerPageContent('index', 'contentHeader')
-        res.render('base.html', {message: "An error occurred: " + err, user: req.user.username, bot: data});
+        util.registerContent('index')
+        res.render('base.html', {message: "An error occurred: " + err, user: req.user.username, bot: data, pageInfo: util.getPageInfo('index')});
       });
     } else {
       res.redirect('/');
@@ -103,8 +102,8 @@ exports.makeRequest = function(req, res) {
 
 exports.viewer = function(req, res) {
   if (req.user) {
-    util.registerPageContent('index', 'contentHeader')
-    res.render('base.html', {user: req.user.username});
+    util.registerContent('index')
+    res.render('base.html', {user: req.user.username, pageInfo: util.getPageInfo('index')});
   } else {
     res.redirect('/');
   }
@@ -114,8 +113,8 @@ exports.login = function(req, res) {
   if (req.user) {
     res.redirect('/');
   } else {
-    util.registerPageContent('login', 'contentHeader')
-    res.render('base.html');
+    util.registerContent('login')
+    res.render('base.html', {pageInfo: util.getPageInfo('login')});
   }
 };
 
@@ -138,20 +137,22 @@ exports.getFirebase = function(req, res) {
 exports.arena = function(req, res) {
   // incoming as http://localhost:8080/arena?gameId
   var gameId = Object.keys(req.query)[0];
-  util.registerPageContent('arena', 'arena/header')
+  util.registerContent('arena')
   if (gameId) {
     model.fetchGamePublic(gameId, function(err, data) {
-      res.render('base.html', {user1: data.username1, user2: data.username2, id: gameId});
+      var description = "An epic duel of PLANES between " + data.username1 + " and " + data.username2
+      res.render('base.html', {id: gameId, pageInfo: util.getPageInfo('arena', description)});
     });
   } else {
-    res.render('base.html', {user1: 'no one', user2: 'no one', id: ''});
+    description = "An epic duel of PLANES between no one and no one"
+    res.render('base.html', {id: '', pageInfo: util.getPageInfo('arena', description)});
   }
 }
 
 exports.help = function(req, res) {
   // incoming as http://localhost:8080/help
-  util.registerPageContent('help', 'contentHeaderBack')
-  res.render('base.html');
+  util.registerContent('help')
+  res.render('base.html', {pageInfo: util.getPageInfo('help')});
 }
 
 exports.setEmails = function(req, res) {
@@ -170,16 +171,16 @@ exports.unsubscribe = function(req, res) {
   userSecret = req.query.b;
   model.verifyUser(userId, userSecret, function(err) {
     if (err) {
-      util.registerPageContent('error', 'contentHeaderBack')
-      res.render('base.html');
+      util.registerContent('error')
+      res.render('base.html', {pageInfo: util.getPageInfo('error')});
     } else {
       model.toggleEmail(userId, 'off', function(err){
         if (err) {
-          util.registerPageContent('error', 'contentHeaderBack')
-          res.render('base.html');
+          util.registerContent('error')
+          res.render('base.html', {pageInfo: util.getPageInfo('error')});
         } else {
-          util.registerPageContent('goodbye', 'contentHeaderBack');
-          res.render('base.html');
+          util.registerContent('goodbye');
+          res.render('base.html', {pageInfo: util.getPageInfo('goodbye')});
         }
       });
     }

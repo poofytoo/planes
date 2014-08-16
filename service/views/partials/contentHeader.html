@@ -1,6 +1,38 @@
+{{#if pageInfo.isArena}}
+<!-- facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) return;
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=422733944533946&version=v2.0";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+{{/if}}
 <header>
   <a href='/'>
     <h1>Planes</h1>
     <h2>by <em>NEXT CODE</em></h2>
   </a>
+  {{#if pageInfo.isArena}}
+  <div class="fb-share-box">
+      <div class="fb-share-button" data-href="http://theplanesgame.com/arena?{{id}}"></div>
+  </div>
+  {{/if}}
+  {{#if pageInfo.back}}
+  <div class="back-box">
+    <a href="javascript:history.back()">
+      <i class="fa fa-arrow-left"></i>
+      <div class="back-text">
+        back
+      </div>
+    </a>
+    <script type="text/javascript">
+      if (document.referrer.indexOf('theplanesgame') < 0 && document.referrer.indexOf('localhost') < 0) {
+        $('.back-box').find('a').attr('href', 'http://theplanesgame.com');
+      }
+    </script>
+  </div>
+  {{/if}}
 </header>
