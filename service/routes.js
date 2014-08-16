@@ -24,7 +24,7 @@ exports.root = function(req, res) {
     var userId = req.user.id;
     util.registerContent('index')
     model.getBotStats(userId, function(data, err) {
-      res.render('base.html', {user: req.user.username, bot: data, pageInfo: util.getPageInfo('index')});
+      res.render('base.html', {user: util.condenseUsername(req.user.username), bot: data, pageInfo: util.getPageInfo('index')});
     })
   } else {
     util.registerContent('login')

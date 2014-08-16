@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+  const DEV_IDS = ['10154373802595697','10153044234554167']
   // Settings
   
   var settingsActivated = false;
@@ -87,26 +87,33 @@ $(document).ready(function() {
   // This code was written when I was very sleepy
   
   $.get('/getbots', function(data) {
+    var count = 1;
     var chtml = '';
     for (i in data) {
+
       var bot = data[i];
-      $botBox = $('.bot-item-template').clone();
-      $botBox.addClass('bot-item').removeClass('bot-item-template');
-      $botBox.find('.challengerBot').html(bot.botName);
-      $botBox.find('.statsBox').addClass('statsBox'+i);
-      $botBox.find('.num').text((parseInt(i)+1));
-      $botBox.find('.w').text(bot.wins);
-      $botBox.find('.l').text(bot.losses);
-      $botBox.find('.r').text(bot.elo);
-      $botBox.find('.challengerName').text(bot.user);
-      
-      $botBox.find('.stats').data('id', i);
-      $botBox.find('.challenge').data('id', bot.userId);
-      if (bot.user == currentUser) {
-        $botBox.find('.challenge').remove();
+
+      // make check to remove dev ids before displaying
+      if (DEV_IDS.indexOf(bot.userId) == -1) {
+        $botBox = $('.bot-item-template').clone();
+        $botBox.addClass('bot-item').removeClass('bot-item-template');
+        $botBox.find('.challengerBot').html(bot.botName);
+        $botBox.find('.statsBox').addClass('statsBox'+i);
+        $botBox.find('.num').text((parseInt(count)));
+        $botBox.find('.w').text(bot.wins);
+        $botBox.find('.l').text(bot.losses);
+        $botBox.find('.r').text(bot.elo);
+        $botBox.find('.challengerName').text(bot.user);
+        
+        $botBox.find('.stats').data('id', i);
+        $botBox.find('.challenge').data('id', bot.userId);
+        if (bot.user == currentUser) {
+          $botBox.find('.challenge').remove();
+        }
+        
+        $('.top-challengers').append($botBox);
+        count ++;
       }
-      
-      $('.top-challengers').append($botBox);
     }
   });
   
@@ -133,6 +140,7 @@ $(document).ready(function() {
       $('.match-list').html('');
       
       for (i in data) {
+
         var bot = data[i];
         $botBox = $('.match-item-template').clone();
         $botBox.addClass('bot-item').removeClass('match-item-template');
@@ -149,6 +157,7 @@ $(document).ready(function() {
           $botBox.find('.view').removeClass('view').addClass('waiting');
         }
         count ++;
+
         if (count == 4) {
           var showMatchesInitially;
           if (matchesOpen) showMatchesInitially = 'show-matches';
@@ -162,6 +171,9 @@ $(document).ready(function() {
         html += '<div class="show-more-matches">show more matches</div>';
       }
       $('.match-list').html(html);
+      if (count < 2) {
+        $('.protip').slideDown(200);
+      }
     })
   }
 
@@ -198,7 +210,6 @@ $(document).ready(function() {
 
   var getGlobalGames = function() {
     $.get('/getglobalgames', function(data) {
-        console.log(data)
       var count = 0;
       var html = '';
       $('.global-list').html('');

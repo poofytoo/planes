@@ -76,6 +76,16 @@ body {
   color: #fff;
   padding: 10px;
   border-bottom: 3px solid #bd0e2b;
+
+  em {
+      font-weight: 400;
+  }
+  &.protip {
+    display: none;
+    color: #000;
+    background-color: $yellow;
+    border-color:  $yellow-dark;
+  }
 }
 
 .row, .row-later {
@@ -232,7 +242,7 @@ body {
   background-size: 200px;
   background-repeat: no-repeat;
   background-position: center 90px;
-  height: 230px;
+  height: 250px;
 
   &.no-background {
     background: none;
