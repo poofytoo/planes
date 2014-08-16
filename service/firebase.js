@@ -50,7 +50,7 @@ function createUserFb(profile, callback) {
   }
   findUser(id, function(notFound, foundUser) {
     var cleanUsername = sanitizeUsername(username);
-    if (notFound) {
+    if (foundUser == null) {
       var user = {
         'id' : id,
         'username' : cleanUsername,
@@ -65,8 +65,8 @@ function createUserFb(profile, callback) {
         'watched' : {0:0},
         'secret' : genSecret()
       };
-
       var userModel = new usersModel(user);
+      console.log(userModel);
       userModel.save();
       callback(false, userModel);
     } else {
@@ -76,7 +76,7 @@ function createUserFb(profile, callback) {
 }
 
 function createUser(username, pwHash, callback) {
-  var user = new userModel({
+  var user = new usersModel({
     'username': username,
     'secret': pwHash,
     'score': 0,
@@ -111,7 +111,7 @@ function createUser(username, pwHash, callback) {
 };
 
 function getUser(username, callback) {
-  userModel.findOne({'username': username}, callback);
+  usersModel.findOne({'username': username}, callback);
 /*
   root.child('users').once('value', function(data) {
     var users = data.val();
@@ -128,7 +128,7 @@ function getUser(username, callback) {
 };
 
 function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
-  userModel.findOne({'id': userId}, function(error, user) {
+  usersModel.findOne({'id': userId}, function(error, user) {
     user.bot = {
       botFileName: botFileName,
       botName: botName,
@@ -149,7 +149,7 @@ function createBot(userId, botFileName, botName, botDesc, botCode, callback) {
 };
 
 function getCurrentBot(userId, callback) {
-  userModel.findOne({'id': userId}, function(error, user) {
+  usersModel.findOne({'id': userId}, function(error, user) {
     callback(user.bot, null);
   });
   /*
@@ -160,7 +160,7 @@ function getCurrentBot(userId, callback) {
 }
 
 function findUser(id, callback) {
-  userModel.findOne({'id': id}, callback);
+  usersModel.findOne({'id': id}, callback);
 /*
   root.child('users').child(id).once('value', function(data) {
     if (data.val()) {
@@ -227,7 +227,7 @@ function fetchGamePublic(id, callback) {
 }
 
 function getAllUsers(callback) {
-  userModel.find(function(error, users) {
+  usersModel.find(function(error, users) {
     callback(users);
   });
 /*

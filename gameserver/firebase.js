@@ -5,7 +5,8 @@ var autoIncrement = require('mongoose-auto-increment');
 
 // http://mongoosejs.com/docs/index.html
 var mongoose = require('mongoose');
-mongoose.connect(authConfig.mongoURL);
+var db = mongoose.createConnection(authConfig.mongoURL);
+autoIncrement.initialize(db);
 var requestsSchema = mongoose.Schema({
   id: Number,
   user1: String,
@@ -16,7 +17,7 @@ var requestsSchema = mongoose.Schema({
   result: String,
 });
 requestsSchema.plugin(autoIncrement.plugin, {model: 'requests', field: 'id'});
-var requestsModel = mongoose.model('requests', requestsSchema);
+var requestsModel = db.model('requests', requestsSchema);
 
 var usersSchema = mongoose.Schema({
   id: Number,
@@ -34,11 +35,11 @@ var usersSchema = mongoose.Schema({
     botDesc: String,
     botFileName: String,
     botName: String,
-  }
+  },
   blurb: String,
   watched: mongoose.Schema.Types.Mixed,
 });
-var usersModel = mongoose.model('users', usersSchema);
+var usersModel = db.model('users', usersSchema);
 
 var gamesSchema = mongoose.Schema({
   gameId: Number,
@@ -49,7 +50,7 @@ var gamesSchema = mongoose.Schema({
   result: String,
   gameJson: mongoose.Schema.Types.Mixed,
 });
-var gamesModel = mongoose.model('games', gamesSchema);
+var gamesModel = db.model('games', gamesSchema);
 
 // Not used???
 function getUser(username, callback) {
@@ -144,3 +145,7 @@ exports.updateElo = updateElo;
 exports.addWin = addWin;
 exports.addLoss = addLoss;
 exports.addDraw = addDraw;
+
+exports.usersModel = usersModel;
+exports.gamesModel = gamesModel;
+exports.requestsModel = requestsModel;

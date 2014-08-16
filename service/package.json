@@ -12,7 +12,6 @@
     "hbs": "*",
     "passport": "*",
     "passport-local": "*",
-    "bcrypt": "*",
     "request": "*",
     "passport-facebook": "*",
     "serve-favicon": "*",
