@@ -70,6 +70,21 @@ exports.getLatestGamesForUser = function(req, res) {
   });
 }
 
+exports.getGlobalGames = function(req, res) {
+  var userId = '';
+  if (req.user) {
+    userId = req.user.id;
+  }
+
+  model.getGlobalGames(req.user.id, function(error, data) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send(data);
+    }
+  });
+}
+
 exports.getGame = function(req, res) {
   var id = 0;
   if (req.query && req.query.id) {

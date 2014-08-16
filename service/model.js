@@ -191,6 +191,57 @@ exports.getTopBots = function(userId, callback) {
   });
 }
 
+exports.getGlobalGames = function(userId, callback) {
+  firebase.getAllRequests(function(requests) {
+    firebase.findUser(userId, function(error, user) {
+      if (error) {
+        callback("User not found.", false);
+        return;
+      }
+      var recentGames = [];
+      for (var reqId in requests) {
+        var request = requests[reqId];
+
+        if (request.user1 === userId || request.user2 === userId || request.status !== 'closed') {
+          continue;
+        }
+
+
+        var resultObject = {
+          gameId : reqId,
+          username1 : condenseName(request.username1),
+          username2 : condenseName(request.username2)
+        };
+
+        if (user.watched && user.watched[reqId]) {
+          resultObject['status'] = 'watched';
+        } else {
+          resultObject['status'] = 'unwatched';
+        }
+
+        if (request.result === "TIMEOUT" || request.result === "DRAW") {
+          resultObject['result'] = 'tied';
+        } else if (request.result === 'BOT1') {
+          resultObject['result'] = resultObject.username1;
+        } else if (request.result) {
+          resultObject['result'] = resultObject.username2;
+        }
+
+        recentGames.push(resultObject);
+      }
+
+      recentGames.sort(function(a, b) {
+        return b.gameId - a.gameId;
+      });
+
+      var returnObject = {}
+      for (var i = 0; i < Math.min(recentGames.length, 20); i++) {
+        returnObject[i] = recentGames[i];
+      }
+      callback(false, returnObject);
+    });
+  });
+}
 
 exports.toggleEmail = function(userId, state, callback) {
   if (state == 'on') {

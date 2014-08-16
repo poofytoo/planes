@@ -78,6 +78,7 @@ app.get('/getbots', routes.getTopBots);
 app.get('/arena', routes.arena);
 app.get('/getgame', routes.getGame);
 app.get('/getgames', routes.getLatestGamesForUser);
+app.get('/getglobalgames', routes.getGlobalGames);
 app.post('/makerequest', routes.makeRequest);
 
 // emails
