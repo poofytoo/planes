@@ -11,7 +11,6 @@
     "bcrypt": "*",
     "request": "*",
     "serve-favicon": "*",
-    "socket.io": "*",
-    "zlib": "*"
+    "socket.io": "*"
   }
 }
