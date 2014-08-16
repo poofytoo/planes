@@ -3,6 +3,7 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 var path = require('path');
 var constants = require('./constants');
+var zlib = require('zlib');
 
 var VALID_FILES = ['.py'];
 var MAX_FILE_SIZE = 50000;
@@ -148,28 +149,36 @@ function handleOutput(output, userId1, userId2, gameId, callback) {
   gameObject['result'] = gameOutput.result;
   gameObject['user1'] = userId1;
   gameObject['user2'] = userId2;
-  gameObject['gameJson'] = output;
 
-  if (gameOutput.result.indexOf("BOT1") !== -1) {
-    updateRankings(userId1, userId2, 1, 0);
+  // Use gzip compression algorithm on game json
+  zlib.gzip(output, function(error, result) {
+    if (error) {
+      callback("Failure during gzip compression of game json.");
+      return;
+    }
+    gameObject['gameJson'] = result.toString('base64');
 
-    firebase.addWin(userId1);
-    firebase.addLoss(userId2);
-  } else if (gameOutput.result.indexOf("BOT2") !== -1) {
-    updateRankings(userId1, userId2, 0, 1);
+    if (gameOutput.result.indexOf("BOT1") !== -1) {
+      updateRankings(userId1, userId2, 1, 0);
 
-    firebase.addLoss(userId1);
-    firebase.addWin(userId2);
-  } else {
-    updateRankings(userId1, userId2, .5, .5);
+      firebase.addWin(userId1);
+      firebase.addLoss(userId2);
+    } else if (gameOutput.result.indexOf("BOT2") !== -1) {
+      updateRankings(userId1, userId2, 0, 1);
 
-    firebase.addDraw(userId1);
-    firebase.addDraw(userId2);
-  }
+      firebase.addLoss(userId1);
+      firebase.addWin(userId2);
+    } else {
+      updateRankings(userId1, userId2, .5, .5);
 
-  firebase.addGameObject(gameObject, gameId);
-  firebase.closeRequest(gameId, gameOutput.result);
-  callback(false);
+      firebase.addDraw(userId1);
+      firebase.addDraw(userId2);
+    }
+
+    firebase.addGameObject(gameObject, gameId);
+    firebase.closeRequest(gameId, gameOutput.result);
+    callback(false);
+  });
 }
 
 function processRequest(request) {

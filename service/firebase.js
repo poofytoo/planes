@@ -5,6 +5,7 @@ var authConfig = require('./authConfig');
 var root = new Firebase(authConfig.firebaseURL);
 root.auth(authConfig.firebaseSecret);
 var http = require('http');
+var zlib = require('zlib');
 
 /*
  * Schema
@@ -169,16 +170,24 @@ function fetchGame(userId, id, callback) {
     if (requestData.val()) {
       root.child('games').child(id).once('value', function(data) {
         if (data.val()) {
-          var gameObject = JSON.parse(data.val().gameJson);
-          gameObject['username1'] = requestData.val().username1;
-          gameObject['username2'] = requestData.val().username2;
-
-          callback(false, gameObject);
-
-          findUser(userId, function(error, user) {
-            if (!error) {
-              root.child('users').child(userId).child('watched').child(id).set('seen');
+          // Decompress gzipped game json
+          zlib.gunzip(new Buffer(data.val().gameJson, 'base64'), function(error, result) {
+            if (error) {
+              callback(error, false);
+              return;
             }
+
+            var gameObject = JSON.parse(result.toString('utf-8'));
+            gameObject['username1'] = requestData.val().username1;
+            gameObject['username2'] = requestData.val().username2;
+
+            callback(false, gameObject);
+
+            findUser(userId, function(error, user) {
+              if (!error) {
+                root.child('users').child(userId).child('watched').child(id).set('seen');
+              }
+            });
           });
         } else {
           callback("processing", false);
@@ -207,8 +216,33 @@ function getAllRequests(callback) {
 }
 
 function getAllGames(callback) {
+  console.log("SOMEONE IS GETTING ALL THE GAMES");
   root.child('games').once('value', function(data) {
     callback(data.val());
+  });
+}
+
+function compressGame(gameId) {
+  root.child('games').child(gameId).once('value', function(data) {
+    console.log("processing: " + gameId);
+    if (!data.val()) {
+      console.log("Game id: " + gameId + " does not exist.");
+      return;
+    }
+    var game = data.val();
+    try {
+      var testing = JSON.parse(game.gameJson);
+      zlib.gzip(game.gameJson, function(error, result) {
+        if (error) {
+          console.log("WHAT THE HECK MAN SHIT");
+          return;
+        }
+        console.log('Done gzipping : ' + gameId);
+        root.child('games').child(gameId).child('gameJson').set(result.toString('base64'));
+      });
+    } catch(error) {
+      console.log(gameId + " is already compressed seems like.");
+    }
   });
 }
 
