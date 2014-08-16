@@ -76,6 +76,16 @@ body {
   color: #fff;
   padding: 10px;
   border-bottom: 3px solid #bd0e2b;
+
+  em {
+      font-weight: 400;
+  }
+  &.protip {
+    display: none;
+    color: #000;
+    background-color: $yellow;
+    border-color:  $yellow-dark;
+  }
 }
 
 .row, .row-later {

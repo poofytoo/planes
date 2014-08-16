@@ -94,7 +94,6 @@ $(document).ready(function() {
       var bot = data[i];
 
       // make check to remove dev ids before displaying
-      console.log(DEV_IDS.indexOf(bot.userId == -1))
       if (DEV_IDS.indexOf(bot.userId) == -1) {
         $botBox = $('.bot-item-template').clone();
         $botBox.addClass('bot-item').removeClass('bot-item-template');
@@ -172,6 +171,9 @@ $(document).ready(function() {
         html += '<div class="show-more-matches">show more matches</div>';
       }
       $('.match-list').html(html);
+      if (count < 2) {
+        $('.protip').slideDown(200);
+      }
     })
   }
 
@@ -208,7 +210,6 @@ $(document).ready(function() {
 
   var getGlobalGames = function() {
     $.get('/getglobalgames', function(data) {
-        console.log(data)
       var count = 0;
       var html = '';
       $('.global-list').html('');

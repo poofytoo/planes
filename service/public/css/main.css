@@ -119,6 +119,13 @@ body {
   color: #fff;
   padding: 10px;
   border-bottom: 3px solid #bd0e2b; }
+  .status-msg em {
+    font-weight: 400; }
+  .status-msg.protip {
+    display: none;
+    color: #000;
+    background-color: #f2c200;
+    border-color: #e0b300; }
 
 .row, .row-later {
   overflow: auto; }
