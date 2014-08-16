@@ -1,6 +1,11 @@
 var fs = require('fs');
 var hbs = require('hbs');
 
+exports.condenseUsername = function(n) {
+  c = n.split(' ');
+  return c[0] + ' ' + c[(c.length-1)].charAt(0);
+}
+
 exports.registerContent = function (content) {
   var contentDir = __dirname + '/views/partials/' + content + '.html';
   var content = fs.readFileSync(contentDir, 'utf8');

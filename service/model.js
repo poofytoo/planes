@@ -88,6 +88,8 @@ exports.createBot = function(userId, botName, botDesc, botFile, callback) {
 exports.getBotStats = function(userId, callback) {
   // Compute Bot Stats. Code goes here
   firebase.getCurrentBot(userId, function(data) {
+    data.username = condenseName(data.username);
+    console.log(data.username);
     callback(data, false);
   });
 }
