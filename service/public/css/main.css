@@ -362,6 +362,8 @@ body {
     white-space: nowrap;
     line-height: normal;
     vertical-align: bottom; }
+  .bot-item .pairing .vs {
+    color: #aaa; }
   .bot-item .challengerName {
     font-weight: 500;
     max-width: 150px; }

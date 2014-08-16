@@ -136,7 +136,7 @@ $(document).ready(function() {
         var bot = data[i];
         $botBox = $('.match-item-template').clone();
         $botBox.addClass('bot-item').removeClass('match-item-template');
-        $botBox.find('.challengerBot').html(bot.opponentName + ' <span class="match-id">' + bot.gameId + '</span> ');
+        $botBox.find('.pairing').html(bot.opponentName + '<span class="vs"> vs you</span> <span class="match-id">' + bot.gameId + '</span> ');
         $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
         $botBox.find('.result').text(bot.result);
         
@@ -197,7 +197,8 @@ $(document).ready(function() {
   // Global Matches
 
   var getGlobalGames = function() {
-    $.get('/getgames', function(data) {
+    $.get('/getglobalgames', function(data) {
+        console.log(data)
       var count = 0;
       var html = '';
       $('.global-list').html('');
@@ -206,9 +207,8 @@ $(document).ready(function() {
         var bot = data[i];
         $botBox = $('.global-item-template').clone();
         $botBox.addClass('bot-item').removeClass('global-item-template');
-        $botBox.find('.challengerBot').html(bot.opponentName + ' <span class="match-id">' + bot.gameId + '</span> ');
+        $botBox.find('.pairing').html(bot.username1 +  ' <span class="vs">vs</span> ' + bot.username2 + '<span class="match-id">' + bot.gameId + '</span> ');
         $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
-        $botBox.find('.result').text(bot.result);
         
         if (bot.status == 'watched') {
           $botBox.find('.view').text('watch again');
