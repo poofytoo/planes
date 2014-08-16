@@ -18,55 +18,34 @@ import random
 # all else    costs 0 energy
 
 def compute(gameRound, enemyRow, myRow, radars, myEnergy, myShield, myLastMove):
-  r = random.random()
-  # danger-detection
-  if (radars[myRow] != 'SAFE'):
-    if radars[(myRow+1)%5] == 'SAFE':
-      return 'down'
-    elif radars[(myRow-1)%5] == 'SAFE':
-      return 'up'
-    else:
-    # oh god we're not safe anywhere
-      if myEnergy > 8 and myShield < 1:
-        return 'shield'
-      elif myShield > 0:
-        return 'up'
-      else:
-        k = random.random()
-        if k < 0.2:
-          return 'charge'
-        else:
-          return 'up'
-        
-  # rando-action
-  if r < 0.1:
-    if radars[(myRow-1)%5] == 'SAFE':
-      return 'up'
-    else:
-      return 'charge'
-  elif r < 0.2:
-    if radars[(myRow+1)%5] == 'SAFE':
-      return 'down'
-    else:
-      return 'charge'
-  elif r < 0.5:
-    return 'charge'
-  elif r < 0.8 and myEnergy > 4:
-    return 'supershoot'
-  elif r < 0.9 and myEnergy > 2:
-    if myShield > 2:
-      if myEnergy > 4:
-        return supershoot
-      else:
-        return shoot
-    else:
-      return 'shield'
-  elif myEnergy > 1:
-    return 'shoot'
-  else: 
+  # let's hope this works
+  if gameRound < 15:
     return 'charge'
 
-  return 'charge'
+  if gameRound < 22 or gameRound > 70:
+    if gameRound % 3 == 0:
+      return 'supershoot'
+    else:
+      return 'up'
+
+  if radars[myRow] == 'SAFE':
+    return 'charge'
+  elif radars[(myRow+1)%5] == 'SAFE':
+    return 'down'
+  elif radars[(myRow-1)%5] == 'SAFE':
+    return 'up'
+  else: 
+    # we aint safe anywhere!!!
+    if myEnergy > 7:
+      return 'shield'
+    else:
+      r = random.random()
+      if r < 0.3:
+        return 'up'
+      elif r < 0.6: 
+        return 'down'
+      else:
+        return 'charge'
 
 
 
