@@ -2,6 +2,7 @@ var firebase = require('./firebase');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var path = require('path');
+var constants = require('./constants');
 
 var VALID_FILES = ['.py'];
 var MAX_FILE_SIZE = 50000;
@@ -106,6 +107,11 @@ updateRating = function(kfactor, expected,actual,current) {
 }
 
 function updateRankings(userId1, userId2, user1Result, user2Result) {
+  // Don't update ELO against test bots
+  if (userId1 in constants.TEST_BOT_IDS || userId2 in constants.TEST_BOT_IDS) {
+    return;
+  }
+
   firebase.getElo(userId1, function(err, elo1) {
     if (err) {
       return;

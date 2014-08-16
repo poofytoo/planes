@@ -5,6 +5,7 @@ var exec = require('child_process').exec;
 var authConfig = require('./authConfig');
 var nodemailer = require('nodemailer');
 var emailTemplate = require('./emailTemplate');
+var constants = require('./constants');
 
 var VALID_FILES = ['.py'];
 var MAX_FILE_SIZE = 50000;
@@ -202,7 +203,8 @@ exports.getGlobalGames = function(userId, callback) {
       for (var reqId in requests) {
         var request = requests[reqId];
 
-        if (request.user1 === userId || request.user2 === userId || request.status !== 'closed') {
+        if (request.user1 === userId || request.user2 === userId || request.status !== 'closed'
+            || request.user1 in constants.TEST_BOT_IDS || request.user2 in constants.TEST_BOT_IDS) {
           continue;
         }
 
