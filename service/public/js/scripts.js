@@ -124,12 +124,12 @@ $(document).ready(function() {
   })
   
   // Get Played Games
-  
+  // This code was written when I'm really, really, really sleepy
+
   var getPlayedGames = function() {
     $.get('/getgames', function(data) {
-      console.log(data)
-      
-      var chtml = '';
+      var count = 0;
+      var html = '';
       $('.match-list').html('');
       
       for (i in data) {
@@ -148,14 +148,25 @@ $(document).ready(function() {
           $botBox.find('.view').text('loading...');
           $botBox.find('.view').removeClass('view').addClass('waiting');
         }
-        
-        $('.match-list').append($botBox);
+        count ++;
+        if (count == 4) {
+          var showMatchesInitially;
+          if (matchesOpen) showMatchesInitially = 'show-matches';
+          var tagOpen = '<div class="content-collapse '+showMatchesInitially+'">';
+          html += tagOpen;
+        }
+        html += $botBox.get(0).outerHTML;
       }
+      html += '</div>';
+      if (count > 3) {
+        html += '<div class="show-more-matches">show more matches</div>';
+      }
+      $('.match-list').html(html);
     })
   }
+
   getPlayedGames();
   window.setInterval(function(){
-    console.log(windowInFocus)
     if (windowInFocus) {
       getPlayedGames();
     }
@@ -163,7 +174,6 @@ $(document).ready(function() {
   
   var windowInFocus = true;
   $(window).blur(function(){
-    console.log('out of focus')
     windowInFocus = false;  
   });
   $(window).focus(function(){
@@ -171,6 +181,72 @@ $(document).ready(function() {
     windowInFocus = true;
   });
     
+  // Showing more matches
+
+  var matchesOpen = false;
+  $(document).on('click','.show-more-matches', function() {
+    matchesOpen = !matchesOpen;
+    if (!matchesOpen) {
+      $(this).text('show more matches');
+    } else {
+      $(this).text('show less matches');
+    }
+    $('.match-list').find('.content-collapse').slideToggle();
+  });
+
+  // Global Matches
+
+  var getGlobalGames = function() {
+    $.get('/getgames', function(data) {
+      var count = 0;
+      var html = '';
+      $('.global-list').html('');
+      
+      for (i in data) {
+        var bot = data[i];
+        $botBox = $('.global-item-template').clone();
+        $botBox.addClass('bot-item').removeClass('global-item-template');
+        $botBox.find('.challengerBot').html(bot.opponentName + ' <span class="match-id">' + bot.gameId + '</span> ');
+        $botBox.find('.view').attr('href', '/arena?' + bot.gameId);
+        $botBox.find('.result').text(bot.result);
+        
+        if (bot.status == 'watched') {
+          $botBox.find('.view').text('watch again');
+          $botBox.find('.view').removeClass('view').addClass('watched');
+        } else if (bot.status == 'waiting') {
+          $botBox.find('.view').removeAttr('href');
+          $botBox.find('.view').text('loading...');
+          $botBox.find('.view').removeClass('view').addClass('waiting');
+        }
+        count ++;
+        if (count == 6) {
+          var showMatchesInitially;
+          if (matchesOpen) showMatchesInitially = 'show-matches';
+          var tagOpen = '<div class="content-collapse '+showMatchesInitially+'">';
+          html += tagOpen;
+        }
+        html += $botBox.get(0).outerHTML;
+      }
+      html += '</div>';
+      if (count > 5) {
+        html += '<div class="show-more-global">show more matches</div>';
+      }
+      $('.global-list').html(html);
+    })
+  }
+  getGlobalGames();
+
+  var globalOpen = false;
+  $(document).on('click','.show-more-global', function() {
+    globalOpen = !globalOpen;
+    if (!globalOpen) {
+      $(this).text('show more matches');
+    } else {
+      $(this).text('show less matches');
+    }
+    $('.global-list').find('.content-collapse').slideToggle();
+  });
+
   // Challenger Stats Display 
   
   $(document).on('click','.stats', function() {

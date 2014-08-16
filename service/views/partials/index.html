@@ -83,23 +83,35 @@
   </div>
   
   <div class="row-later">
-    <div class="content-box split">
-      <h2>Top Players</h2>
-      <div class="top-challengers">
+    <div class="split">
+      <div class="content-box half-screen">
+        <h2>Top Players</h2>
+        <div class="top-challengers">
+        </div>
       </div>
     </div>
     {{#if bot.bot.botCode}}
-    <div class="content-box split">
-      <h2>Challenged Matches</h2>
-      <div class="match-list">
+    <div class="split">
+      <div class="content-box half-screen">
+        <h2>Your Challenged Matches</h2>
+        <div class="match-list">
+        </div>
+      </div>
+      <div class="content-box half-screen">
+        <h2>Global Matches</h2>
+        <div class="global-list">
+        </div>
       </div>
     </div>
     {{/if}}
     {{#unless bot.bot.botCode}}
-    <div class="content-box split">
-      <h2>Challenged Matches</h2>
-      <div class="match-list-empty">
-        The matches you play will appear here
+    <!-- Display if user is new! -->
+    <div class="split">
+      <div class="content-box half-screen">
+        <h2>Your Challenged Matches</h2>
+        <div class="match-list-empty">
+          The matches you play will appear here
+        </div>
       </div>
     </div>
     {{/unless}}
@@ -129,6 +141,16 @@
  
 <!-- match item templater -->
 <div class="match-item-template">
+  <div class="challengerBox">
+    <span class="challengerBot"></span>
+    <!--<span class="share button-sm">share</span>-->
+    <a class="view button-sm" href="#">view match</a>
+    <span class="result"></span>
+  </div>
+</div>
+
+<!-- match item templater -->
+<div class="global-item-template">
   <div class="challengerBox">
     <span class="challengerBot"></span>
     <!--<span class="share button-sm">share</span>-->

@@ -72,8 +72,9 @@ body {
   margin-left: 20px;
   padding: 20px;
   border: 1px solid #dde2e7;
-  float: left;
-  border-bottom: 3px solid #dde2e7; }
+  border-bottom: 3px solid #dde2e7;
+  clear: none;
+  margin-bottom: 20px; }
   .content-box h2 {
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
@@ -105,6 +106,9 @@ body {
       color: #0979e1; }
 
 .split {
+  float: left; }
+
+.half-screen {
   width: 408px; }
 
 .status-msg {
@@ -117,8 +121,7 @@ body {
   border-bottom: 3px solid #bd0e2b; }
 
 .row, .row-later {
-  overflow: auto;
-  margin-bottom: 20px; }
+  overflow: auto; }
 
 .row-greeting {
   border: 1px solid #dde2e7;
@@ -210,7 +213,8 @@ body {
         /* Opera, Chrome, and Safari */ }
 
 .current-user-stats {
-  width: 566px; }
+  width: 566px;
+  float: left; }
   .current-user-stats p {
     margin-bottom: 20px; }
   .current-user-stats ul li {
@@ -227,12 +231,13 @@ body {
       color: #333; }
 
 .upload-bot {
+  float: left;
   width: 250px;
   background-image: url("../assets/plane-large.png");
   background-size: 200px;
   background-repeat: no-repeat;
   background-position: center 90px;
-  height: 260px; }
+  height: 230px; }
   .upload-bot.no-background {
     background: none;
     background-color: #fff;
@@ -322,6 +327,16 @@ body {
 .match-list-empty {
   color: #ccc; }
 
+.show-more-matches, .show-more-global {
+  text-align: center;
+  color: #0979e1;
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.4; }
+  .show-more-matches:hover, .show-more-global:hover {
+    opacity: 1;
+    cursor: pointer; }
+
 .bot-item {
   margin-bottom: 2px;
   /* BUTTONS */ }
@@ -402,6 +417,11 @@ body {
     text-align: center; }
     .bot-item .view:hover {
       background-color: #2cc668; }
+
+.content-collapse {
+  display: none; }
+  .content-collapse.show-matches {
+    display: block; }
 
 .bot-item-template, .match-item-template {
   display: none; }
