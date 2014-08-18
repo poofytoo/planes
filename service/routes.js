@@ -4,13 +4,21 @@ var authConfig = require('./authConfig.js');
 
 exports.initialRouter = function(req, res, next) {
   if (req.url === '/login' || (req.url.lastIndexOf('/auth/facebook', 0) === 0) ||
-      req.url === '/loggedin' || req.url === '/' || req.url.indexOf('/getgame') === 0 || 
+      req.url === '/loggedin' || req.url === '/' || (req.url.indexOf('/getgame') === 0 && req.url.indexOf('/getgames') !== 0) ||
       req.url.indexOf('/arena') === 0 || req.url == '/help' ||req.url.indexOf('/goodbye') === 0 || req.url.indexOf('/checkpassword') === 0) {
     next();
-  } else if (req.user) {
+  // TODO: (Michael) clean this nasty up
+  } else if (req.user && (req.url.lastIndexOf('/checkbetatoken', 0) === 0 || req.url === '/logout' || req.url == '/upload')) {
+    // Let unverified users try / logout
+    next();
+  } else if (req.user && req.user.approved) {
+    // Always allow approved users
     console.log(req.user.username + " " + req.url);
     model.userList[req.user.username] = true;
     next();
+  } else if (req.user && !req.user.approved) {
+    // Block unapproved users
+    res.end();
   } else {
     res.redirect('/');
   }
@@ -33,19 +41,22 @@ exports.root = function(req, res) {
 }
 
 exports.upload = function(req, res) {
-  var userId = req.user.id;
-  model.createBot(userId, req.body.botName, req.body.botDesc, req.files.bot, function(err){
-    if (err) {
-      var err = err;
-      model.getBotStats(userId, function(data, err2) {
-        util.registerContent('index')
-        res.render('base.html', {message: "An error occurred: " + err, user: req.user.username, bot: data, pageInfo: util.getPageInfo('index')});
-      });
-    } else {
-      res.redirect('/');
-    }
-  });
-  
+  if (req.user && req.user.approved) {
+    var userId = req.user.id;
+    model.createBot(userId, req.body.botName, req.body.botDesc, req.files.bot, function(err){
+      if (err) {
+        var err = err;
+        model.getBotStats(userId, function(data, err2) {
+          util.registerContent('index')
+          res.render('base.html', {message: "An error occurred: " + err, user: req.user.username, bot: data, pageInfo: util.getPageInfo('index')});
+        });
+      } else {
+        res.redirect('/');
+      }
+    });
+  } else {
+    res.redirect('/');
+  }
 }
 
 
@@ -225,4 +236,19 @@ exports.checkPassword = function(req, res) {
 exports.testEmail = function(req, res) {
   model.sendChallengeEmail(12345, 'Victor Hung', 'victorhung92@gmail.com', 'Bob Challengero', 16, 'abcde');
   res.end();
+}
+
+exports.checkBetaToken = function(req, res) {
+  if (req.user) {
+    model.checkBetaToken(req.query.betatoken, req.user.id, function(error) {
+      if (!error) {
+        req.logout();
+        res.redirect('/auth/facebook');
+      } else {
+        res.redirect('/');
+      }
+    });
+  } else {
+    res.redirect('/');
+  }
 }
