@@ -19,6 +19,9 @@ var transporter = nodemailer.createTransport({
 });
 
 var condenseName = function(n) {
+  if (!n) {
+    return n;
+  }
   c = n.split(' ');
   return c[0] + ' ' + c[(c.length-1)].charAt(0);
 }
@@ -306,5 +309,6 @@ exports.userList = firebase.userList;
 exports.fetchGame = firebase.fetchGame;
 exports.fetchGamePublic = firebase.fetchGamePublic;
 exports.verifyUser = firebase.verifyUser;
+exports.checkBetaToken = firebase.checkBetaToken;
 
 exports.sendChallengeEmail = sendChallengeEmail;

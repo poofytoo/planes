@@ -303,6 +303,29 @@ function verifyUser(userId, userSecret, callback) {
   })
 }
 
+function checkBetaToken(betaToken, userId, callback) {
+  root.child('users').child(userId).once('value', function(userdata) {
+    if (!betaToken) {
+      console.log('Null beta token.');
+      callback('Null beta token.');
+      return;
+    }
+    var sanitizedBetaToken = sanitizeUsername(betaToken);
+    console.log('sanitized beta token: ' + sanitizedBetaToken);
+    root.child('betaTokens').child(sanitizedBetaToken).once('value', function(data) {
+      var tokenStatus = data.val();
+      if (tokenStatus === 'unused') {
+        root.child('users').child(userId).child('approved').set(true);
+        root.child('betaTokens').child(sanitizedBetaToken).set(userId);
+        callback(false);
+      } else {
+        callback('Incorrect beta token!');
+        console.log("Incorrect beta token!");
+      }
+    });
+  });
+}
+
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
@@ -320,3 +343,4 @@ exports.getAllRequests = getAllRequests;
 exports.getAllGames = getAllGames;
 exports.setEmailPreferences = setEmailPreferences;
 exports.verifyUser = verifyUser;
+exports.checkBetaToken = checkBetaToken;

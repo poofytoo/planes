@@ -125,11 +125,17 @@ $(document).ready(function(){
       playSnd('explode','right');
       $('.bul').remove();
         
-      if (frame.p1 == 'EXPLODED') {
-        $('.winner-name').text($('.orange').text())
+
+      if (window.testJSON.result == 'DRAW') {
+        $('h4').text('It\'s a TIE!');
       } else {
-        $('.winner-name').text($('.green').text())
+        if (frame.p1 == 'EXPLODED') {
+          $('.winner-name').text($('.orange').text())
+        } else {
+          $('.winner-name').text($('.green').text())
+        }
       }
+
       setTimeout(function(){$('.end-cover').fadeIn(500)}, 1000);
       return;
     }
@@ -230,8 +236,30 @@ $(document).ready(function(){
   }
     
   $(document).on('keypress', function(e) {
-    if (e.keyCode == 32) {
+    if (e.keyCode == 93) {
       clearInterval(gameTimer);
+        testJSONCounter = Math.floor((testJSONCounter + 24) / 24) * 24;
+        gameStep();
+    }
+    if (e.keyCode == 91) {
+      clearInterval(gameTimer);
+        testJSONCounter = Math.floor((testJSONCounter - 24) / 24) * 24;
+        gameStep();
+    }
+    if (e.keyCode == 102) {
+        clearInterval(gameTimer);
+        MS_FRAME = 1;
+        gameTimer = setInterval(gameStep, MS_FRAME);
+    }
+    if (e.keyCode == 32) {
+      console.log(gameTimer);
+      if (gameTimer) {
+        clearInterval(gameTimer);
+        gameTimer = '';
+      } else {
+        gameStep();
+        gameTimer = setInterval(gameStep, MS_FRAME);
+      }
     }
   })
 });

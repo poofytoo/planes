@@ -68,7 +68,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.root);
-app.post('/', routes.upload);
+app.post('/upload', routes.upload);
 app.get('/login', routes.login);
 
 app.get('/viewer', routes.viewer);
@@ -88,7 +88,10 @@ app.get('/goodbye', routes.unsubscribe);
 
 app.get('/help', routes.help);
 
+app.get('/checkbetatoken', routes.checkBetaToken);
+
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email', 'user_friends']}));
+
 app.get('/checkpassword', routes.checkPassword);
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',

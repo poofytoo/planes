@@ -59,10 +59,10 @@ def compute(gameRound, enemyRow, myRow, radars, myEnergy, myShield, myLastMove):
     return shoot()
   else:
     r = random.random()
-    if r < 0.2:
+    if r < 0.1:
       return 'charge'
     elif r < 0.8:
-      return 'down'
+      return 'up'
     else:
       return shoot()
     

@@ -171,9 +171,11 @@ $(document).ready(function() {
         html += '<div class="show-more-matches">show more matches</div>';
       }
       $('.match-list').html(html);
-      if (count < 2) {
+
+      if (count < 2 && hasPlane) {
         $('.protip').slideDown(200);
       }
+
     })
   }
 
