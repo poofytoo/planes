@@ -15,7 +15,7 @@ var UNKNOWN = ".txt"
 
 var checking = false;
 
-var REQUEST_TICK_TIME_MILLIS = 15000;
+var REQUEST_TICK_TIME_MILLIS = 5000;
 
 var queuedGameCounter = 0;
 var closedGameCounter = 0;
@@ -235,11 +235,16 @@ function checkRequests() {
     console.log("Waiting on " + (queuedGameCounter - closedGameCounter) + " games to finish.");
     return;
   }
+  var counter = 0;
   firebase.getRequests(function(error, requests) {
     if (!error) {
       for (var reqId in requests) {
         var request = requests[reqId];
+        if (counter > 3) {
+          return
+        }
         if (request.status && request.status === 'open') {
+          counter++;
           queuedGameCounter++;
           processRequest(request);
         }
